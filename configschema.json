@@ -1,0 +1,44 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema",
+	"type": "object",
+	"additionalProperties": false,
+
+	"properties": {
+		"port": {
+			"type": "number",
+			"description": "Port to listen for CSGO Game Integration, Make sure this is the same port as the CSGO GI config",
+			"default": 3000
+		},
+		"hlaeport": {
+			"type": "number",
+			"description": "Port to listen for HLAE game events",
+			"default": 31337
+		},
+		"gameSettings": {
+			"type": "object",
+			"description": "Various server setting information to properly display data",
+			"properties": {
+				"plantTime": {
+					"type": "number",
+					"description": "Time taken to plant bomb",
+					"default": 3
+				},
+				"bombTime": {
+					"type": "number",
+					"description": "Time taken to for bomb to explode",
+					"default": 40
+				},
+				"noKitTime": {
+					"type": "number",
+					"description": "Time taken to defuse without a kit",
+					"default": 10
+				},
+				"kitTime": {
+					"type": "number",
+					"description": "Time taken to defuse with a kit",
+					"default": 5
+				}
+			}
+		}
+	}
+}

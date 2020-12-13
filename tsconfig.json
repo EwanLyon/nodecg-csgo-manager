@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+
+		"target": "es2019",
+		"lib": ["esnext"],
+		"esModuleInterop": true,
+		"moduleResolution": "node",
+		"importHelpers": true,
+		"types": []
+	},
+	"exclude": [
+        "./node_modules"
+    ]
+}
