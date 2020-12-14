@@ -109,6 +109,8 @@ A method to download and place in NodeCG is being looked into.
 
 A bundle using this is in the works at the moment and will be out shortly.
 
+[Basic documentation](./docs/)
+
 <!-- ROADMAP -->
 ## Roadmap
 
