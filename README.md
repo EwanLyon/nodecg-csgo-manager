@@ -107,7 +107,9 @@ A method to download and place in NodeCG is being looked into.
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-A bundle using this is in the works at the moment and will be out shortly.
+Bundles using NodeCG-CSGO-Manager:
+
+* [Clubwho-CSGO-Graphics](https://github.com/EwanLyon/clubwho-csgo-graphics)
 
 [Basic documentation](./docs/)
 
