@@ -521,5 +521,8 @@ export const basicEnrichments: encrichmentTypes = {
 	},
 	'other_death': {
 		'attacker': useridEnrichment,
-	}
+	},
+	'weapon_fire': {
+		'userid': useridEnrichment,
+	},
 }

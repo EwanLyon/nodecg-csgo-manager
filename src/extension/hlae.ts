@@ -2,15 +2,21 @@ import * as nodecgApiContext from './util/nodecg-api-context';
 const nodecg = nodecgApiContext.get();
 import Websocket from 'ws';
 
+import { PlayerDeath } from '../types/hlae';
+import { Map } from '../types/csgo-gsi';
+
 import { BufferReader, GameEventUnserializer, basicEnrichments } from './util/hlae-serialization';
 
 // The local host may need to be changed to the host url like in the csgo thing
 const wss = new Websocket.Server({ port: 31337 });
 
-const hlaeActiveRep = nodecg.Replicant<Boolean>('hlaeActive', { defaultValue: false, persistent: false });
+const hlaeActiveRep = nodecg.Replicant<boolean>('hlaeActive', { defaultValue: false, persistent: false });
+const matchKillsRep = nodecg.Replicant<PlayerDeath[]>('matchKills', { defaultValue: [] });
+const mapRep = nodecg.Replicant<Map>('matchStats');
 
 wss.on('error', error => {
 	nodecg.log.error('HLAE Websocket error: ' + error);
+	hlaeActiveRep.value = false;
 });
 
 wss.on('close', () => {
@@ -21,11 +27,6 @@ wss.on('close', () => {
 wss.on('connection', (ws) => {
 	const gameEventUnserializer = new GameEventUnserializer(basicEnrichments);
 
-	ws.on('open', () => {
-		hlaeActiveRep.value = true;
-		nodecg.log.info('HLAE Websocket open');
-	});
-
 	ws.on('message', (data) => {
 		if (data instanceof Buffer) {
 			const bufferReader = new BufferReader(Buffer.from(data));
@@ -33,13 +34,13 @@ wss.on('connection', (ws) => {
 			try {
 				while (!bufferReader.eof()) {
 					const cmd = bufferReader.readCString();
-					console.log(cmd);
+					// console.log(cmd);
 
 					switch (cmd) {
 						case 'hello':
 							{
 								const version = bufferReader.readUInt32LE();
-								console.log('version = ' + version);
+								// console.log('version = ' + version);
 								if (2 != version) throw "Error: version mismatch";
 
 								ws.send(new Uint8Array(Buffer.from('transBegin\0', 'utf8')), { binary: true });
@@ -51,7 +52,7 @@ wss.on('connection', (ws) => {
 										const arrEnrich = basicEnrichments[eventName][keyName].enrichments;
 
 										for (let i = 0; i < arrEnrich.length; ++i) {
-											ws.send(new Uint8Array(Buffer.from('exec\0mirv_pgl events enrich eventProperty "' + arrEnrich[i] + '" "' + eventName + '" "' + keyName + '"\0', 'utf8')), { binary: true });
+											ws.send(new Uint8Array(Buffer.from(`exec\0mirv_pgl events enrich eventProperty "${arrEnrich[i]}" "${eventName}" "${keyName}"\0`, 'utf8')), { binary: true });
 										}
 									}
 								}
@@ -61,6 +62,9 @@ wss.on('connection', (ws) => {
 								ws.send(new Uint8Array(Buffer.from('exec\0mirv_pgl events useCache 1\0', 'utf8')), { binary: true });
 
 								ws.send(new Uint8Array(Buffer.from('transEnd\0', 'utf8')), { binary: true });
+
+								hlaeActiveRep.value = true;
+								nodecg.log.info('HLAE Websocket open');
 							}
 							break;
 						case 'dataStart':
@@ -98,7 +102,8 @@ wss.on('connection', (ws) => {
 						case 'gameEvent':
 							{
 								const gameEvent = gameEventUnserializer.unserialize(bufferReader);
-								console.log(JSON.stringify(gameEvent));
+								gameEventHandler(gameEvent);
+								// console.log(JSON.stringify(gameEvent));
 							}
 							break;
 						default:
@@ -111,6 +116,27 @@ wss.on('connection', (ws) => {
 			}
 		}
 	});
+});
+
+function gameEventHandler(rawGameEvent: any) {
+	const gameEvent = JSON.parse(JSON.stringify(rawGameEvent));
+	gameEvent.round = mapRep.value.round;
+
+	switch (gameEvent.name as string) {
+		case "player_death":
+			nodecg.sendMessage('hlae-playerDeath', gameEvent);
+			matchKillsRep.value.push(gameEvent);
+			break;
+		case "weapon_fire":
+			nodecg.sendMessage('hlae-weaponFire', gameEvent);
+			break;
+		default:
+			break;
+	}
+}
+
+nodecg.listenFor('resetMatchKills', () => {
+	matchKillsRep.value = [];
 });
 
 // Player death

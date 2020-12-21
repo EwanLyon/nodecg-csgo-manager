@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import React, { useEffect, useRef } from 'react';
 import { render } from 'react-dom';
+import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
 import { StyledToggleButton } from '../../atoms/toggle-button';
@@ -14,6 +15,19 @@ import { ThemeProvider } from '@material-ui/styles';
 // Interfaces
 import { bundleStatus as DummyBundle } from '../../../extension/dummyData';
 import { BundleStatus } from '../../../types/bundle-status';
+import { Button } from '@material-ui/core';
+
+const HlaeActive = styled.div`
+	width: 100%;
+	padding: 16px 0;
+	text-align: center;
+	text-transform: uppercase;
+	color: ${(props: ActiveProps) => props.active ? '#44a047' : '#e53835'};
+`;
+
+interface ActiveProps {
+	active?: boolean;
+}
 
 // Const beginningData = [
 // 	{ rate: 0 },
@@ -32,6 +46,7 @@ import { BundleStatus } from '../../../types/bundle-status';
 export const Server: React.FunctionComponent = () => {
 	const [bundleStatus] = useReplicant<BundleStatus>('bundleStatus', DummyBundle);
 	const [serverRateRep] = useReplicant<number>('serverRate', 0);
+	const [hlaeActiveRep] = useReplicant<boolean>('hlaeActive', false);
 	const serverBtn = useRef<StyledToggleButton>(null);
 	// Const [serverData, setServerData] = useState(beginningData);
 	// const [serverIter, setServerIter] = useState(0);
@@ -72,6 +87,14 @@ export const Server: React.FunctionComponent = () => {
 	// 	};
 	// }, [serverData, serverIter, serverRateRep]);
 
+	/* 
+		This button should only be used for dev
+		Match kills should be cleared at the end of a match or when a new one is started
+	*/
+	function resetMatchKills() {
+		nodecg.sendMessage('resetMatchKills');
+	}
+
 	return (
 		<ThemeProvider theme={theme}>
 			<StyledToggleButton
@@ -108,6 +131,10 @@ export const Server: React.FunctionComponent = () => {
 				<Tooltip />
 				<YAxis domain={[0, 60]} />
 			</AreaChart> */}
+			<HlaeActive active={hlaeActiveRep}>
+				HLAE is currently {hlaeActiveRep ? 'active': 'inactive'}
+			</HlaeActive>
+			<Button onClick={resetMatchKills} variant="contained">Reset Match Kills (Dev)</Button>
 		</ThemeProvider>
 	);
 };

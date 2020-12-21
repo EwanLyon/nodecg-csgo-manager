@@ -61,9 +61,8 @@ const serverRateRep = nodecg.Replicant<number>('serverRate', {
 	defaultValue: 0,
 	persistent: false
 });
-// @ts-ignore
-const mapPlayersRep = nodecg.Replicant<MapPlayerData>('mapPlayers', {
-	defaultValue: {},
+const mapPlayersRep = nodecg.Replicant<MapPlayerData[]>('mapPlayers', {
+	defaultValue: [],
 	persistent: false
 });
 
@@ -148,9 +147,14 @@ function handleData(srcData: string): void {
 			}
 		);
 
-		allPlayersRep.value = tempPlayersList.sort((a, b) => {
+		tempPlayersList.sort((a, b) => {
 			return a.observer_slot - b.observer_slot;
 		});
+
+		allPlayersRep.value = tempPlayersList;
+
+		// Map positions
+		mapPlayersRep.value = mapData(tempPlayersList, srcJSON.player.steamid);
 
 		// OBSERVING PLAYER
 		observingPlayerRep.value = srcJSON.player;
@@ -231,17 +235,22 @@ server.on('close', () => {
 // }, 1000);
 
 // Map data here as it is as I want to minimise the time it take for the data to be processed
-// function mapData(allPlayerData: CSGOOutputAllplayer[]): void {
-// 	const finalMapObj = {};
+function mapData(allPlayerData: CSGOOutputAllplayer[], observingId?: string) {
+	const finalMapObj: MapPlayerData[] = [];
 
-// 	allPlayerData.forEach(player => {
-// 		const playerObj: MapPlayerData[''] = {
-// 			position: player.position.split(', ').map(Number),
-// 			rotation: player.forward.split(', ').map(Number)
-// 		};
+	allPlayerData.forEach(player => {
+		const playerObj: MapPlayerData = {
+			steamId: player.steamId,
+			position: player.position.split(', ').map(Number),
+			rotation: player.forward.split(', ').map(Number),
+			ct: player.team === 'CT',
+			beingObserved: player.steamId === observingId,
+			observerSlot: player.observer_slot,
+			health: player.state.health,
+		};
 
-// 		finalMapObj[player.steamId] = playerObj;
-// 	});
+		finalMapObj.push(playerObj);
+	});
 
-// 	mapPlayersRep.value = finalMapObj;
-// }
+	return finalMapObj;
+}

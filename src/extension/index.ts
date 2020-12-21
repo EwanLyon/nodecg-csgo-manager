@@ -20,6 +20,7 @@ async function init(): Promise<void> {
 	require('./extraData');
 	require('./team-import-export');
 	require('./hlae');
+	require('./map-interp');
 }
 
 module.exports = (nodecg: NodeCG): void => {
