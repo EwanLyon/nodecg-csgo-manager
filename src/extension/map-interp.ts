@@ -20,61 +20,12 @@ const phaseRep = nodecg.Replicant<CSGOOutputPhaseCountdowns>('phase');
 // 10 array's for 10 players, in future maybe have this be dynamic
 const playerBuffer: MapPlayerData[][] = [[], [], [], [], [], [], [], [], [], []];
 
-// const INTERPOLATION_STEPS = 3;
-const NEW_INTERPOLATION_STEPS = 10;
-// let interpSteps = 0;
+const INTERPOLATION_STEPS = 10;
 
 let haveReset = false;
 
 setInterval(() => {
-	// console.log('test');
-	// const oldPos = interpMapPlayersRep.value;
 	const clonedMapPlayers = [...mapPlayersRep.value];
-	// if (interpSteps >= INTERPOLATION_STEPS) {
-	// 	// If interpolation has been completed, set players to final positions
-	// 	clonedMapPlayers.forEach((player) => {
-	// 		oldPos[player.steamId] = _.cloneDeep(player);
-	// 	});
-	// 	interpSteps = 0;
-	// 	interpMapPlayersRep.value = oldPos;
-	// 	return;
-	// }
-
-	// clonedMapPlayers.forEach((player) => {
-	// 	// See if player exists in list
-	// 	if (interpMapPlayersRep.value[player.steamId] === undefined) {
-	// 		oldPos[player.steamId] = _.cloneDeep(player);
-	// 		return;
-	// 	}
-
-	// 	// Check that the position and rotations are numbers
-	// 	if (isNaN(interpMapPlayersRep.value[player.steamId].position[0])) {
-	// 		oldPos[player.steamId].position = [0, 0, 0];
-	// 	}
-
-	// 	if (isNaN(interpMapPlayersRep.value[player.steamId].rotation[0])) {
-	// 		oldPos[player.steamId].rotation = [0, 0, 0];
-	// 	}
-
-	// 	// Position
-	// 	if (interpMapPlayersRep.value[player.steamId].position !== player.position) {
-	// 		const posArray = player.position;
-	// 		oldPos[player.steamId].position = posArray.map(
-	// 			(num, i) => (num - oldPos[player.steamId].position[i]) / 2 + oldPos[player.steamId].position[i],
-	// 		);
-	// 	}
-
-	// 	// Rotation
-	// 	if (interpMapPlayersRep.value[player.steamId].rotation !== player.rotation) {
-	// 		const rotationArray = player.rotation;
-	// 		oldPos[player.steamId].rotation = rotationArray.map(
-	// 			(num, i) => (num - oldPos[player.steamId].rotation[i]) / 2 + oldPos[player.steamId].rotation[i],
-	// 		);
-	// 	}
-	// });
-
-	// interpMapPlayersRep.value = oldPos;
-	// interpSteps++;
 
 	const newInterp: { [key: string]: MapPlayerData } = {};
 	playerBuffer.forEach((playersSet, i) => {
@@ -86,7 +37,7 @@ setInterval(() => {
 			haveReset = true;
 			playersSet = playersSet.slice(0, 1);
 		} else {
-			playersSet = playersSet.slice(0, NEW_INTERPOLATION_STEPS);
+			playersSet = playersSet.slice(0, INTERPOLATION_STEPS);
 		}
 
 		// This is way less code than averaging multiple arrays
@@ -105,13 +56,7 @@ setInterval(() => {
 
 	interpMapPlayersRep.value = newInterp;
 
-	// }, 45 / INTERPOLATION_STEPS);	// CSGO Msg rate 20Hz = 50ms, bit lower just in case
-
 	if (phaseRep.value.phase === 'live' && haveReset) {
 		haveReset = false;
 	}
 }, 20);
-
-// setInterval(() => {
-// 	console.log(playerBuffer);
-// }, 500);
