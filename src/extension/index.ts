@@ -1,6 +1,6 @@
 'use-strict';
 
-import { NodeCG } from '../../../../types/server';
+import { NodeCG } from 'nodecg/types/server';
 import * as nodecgApiContext from './util/nodecg-api-context';
 import { BundleStatus } from '../types/bundle-status';
 import { bundleStatus, gameSettings } from './dummyData';
