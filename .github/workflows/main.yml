@@ -29,20 +29,20 @@ jobs:
       - uses: actions/setup-node@v1
       # Runs a single command using the runners shell
       - name: Install dependencies
-      - run: npm install
+        run: npm install
         
       # Build the bundle
       - name: Build bundle
-      - run: npm run build --if-present
+        run: npm run build --if-present
 
       - name: Build Changelog
-      - id: github_release
+        id: github_release
         uses: mikepenz/release-changelog-builder-action@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Release
-      - id: create_release
+        id: create_release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
