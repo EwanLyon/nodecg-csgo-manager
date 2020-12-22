@@ -68,7 +68,7 @@ To get a local copy up and running follow these simple steps.
 
 ### Installation
 
-A method to download and place in NodeCG is being looked into.
+Download from [releases](https://github.com/EwanLyon/nodecg-csgo-manager/releases).
 
 #### Building
 
