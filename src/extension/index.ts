@@ -8,14 +8,16 @@ import { GameSettings } from '../types/game-settings';
 
 async function init(): Promise<void> {
 	const nodecg = nodecgApiContext.get();
+
+	// @ts-ignore
 	const bundleStatusRep = nodecg.Replicant<BundleStatus>('bundleStatus', {
 		defaultValue: bundleStatus
 	});
+	// @ts-ignore
 	const gameSettingsRep = nodecg.Replicant<GameSettings>('gameSettings', {
 		defaultValue: gameSettings
 	});
-	console.log(bundleStatusRep.value);
-	console.log(gameSettingsRep.value);
+
 	require('./server');
 	require('./extraData');
 	require('./team-import-export');
