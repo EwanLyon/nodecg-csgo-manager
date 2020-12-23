@@ -283,6 +283,10 @@ nodecg.listenFor('removeMap', mapName => {
 	}
 });
 
+nodecg.listenFor('reorderMaps', newOrder => {
+	mapDataRep.value = newOrder;
+});
+
 function sumGrenades(players: CSGOOutputAllplayer[]): TeamData['grenades'] {
 	const nades = {
 		he: 0,

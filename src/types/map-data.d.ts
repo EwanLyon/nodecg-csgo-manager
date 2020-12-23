@@ -1,9 +1,10 @@
 export interface ExtraMapData {
 	map: string;
-	team: '1' | '2' | 'Server';
+	team: string;
 	teamOneScore?: number;
 	teamTwoScore?: number;
 	ban: boolean;
+	side: string;
 }
 
 export interface MapPlayerData {
