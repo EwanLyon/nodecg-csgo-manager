@@ -1,4 +1,7 @@
 import * as nodecgApiContext from './util/nodecg-api-context';
+import * as SteamAPI from './util/steam-api';
+import _ from 'lodash';
+
 import { CSGOOutputAllplayer, CSGOOutputPhaseCountdowns, Map } from '../types/csgo-gsi';
 import { PlayerDataAll, TeamData } from '../types/extra-data';
 import { ExtraMapData } from '../types/map-data';
@@ -38,8 +41,6 @@ function currentTeamSide(round: number): boolean {
 
 // SETTING TEAMONE AND TEAMTWO PLAYERS
 function refreshTeamPlayers(): void {
-	nodecg.log.info(`Updating players list`);
-
 	const teamOneList: string[] = [];
 	const teamTwoList: string[] = [];
 	allPlayersRep.value.forEach(player => {
@@ -287,6 +288,62 @@ nodecg.listenFor('reorderMaps', newOrder => {
 	mapDataRep.value = newOrder;
 });
 
+// Steam Profile Pictures
+nodecg.listenFor('getAllSteamProfilePictures', () => {
+	getAllPlayersProfilePictures();
+});
+
+nodecg.listenFor('getAllProfileData', () => {
+	getAllProfileData();
+});
+
+function getAllPlayersProfilePictures(overwrite = false) {
+	const playerData = _.cloneDeep(playerDataRep.value);
+
+	const steamIds = Object.keys(playerData);
+
+	SteamAPI.getProfilePictures(steamIds).then(pfps => {
+		pfps.forEach((pfp) => {
+			// Default question mark PFP
+			if (pfp.pfp !== 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg') {
+				// Overwrite all player profile pictures else just do ones that dont have one
+				if (overwrite) {
+					playerData[pfp.id].image = pfp.pfp;
+				} else if (!playerData[pfp.id].image) {
+					playerData[pfp.id].image = pfp.pfp;
+				}
+			}
+		});
+	});
+
+	playerDataRep.value = playerData;
+}
+
+function getAllProfileData(overwrite = false) {
+	const playerData = _.cloneDeep(playerDataRep.value);
+
+	const steamIds = Object.keys(playerData);
+
+	SteamAPI.getProfileData(steamIds).then(pfps => {
+		pfps.forEach((profileData) => {
+			// Default question mark PFP
+			if (profileData.pfp !== 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg') {
+				// Overwrite all player profile pictures else just do ones that dont have one
+				if (overwrite) {
+					playerData[profileData.steamid].image = profileData.pfp;
+				} else if (!playerData[profileData.steamid].image) {
+					playerData[profileData.steamid].image = profileData.pfp;
+				}
+			}
+
+			playerData[profileData.steamid].name = profileData.realname;
+			playerData[profileData.steamid].country = Array.from(profileData.country || '').map(letterToLetterEmoji).join('');
+		});
+	});
+
+	playerDataRep.value = playerData;
+}
+
 function sumGrenades(players: CSGOOutputAllplayer[]): TeamData['grenades'] {
 	const nades = {
 		he: 0,
@@ -323,4 +380,8 @@ function sumGrenades(players: CSGOOutputAllplayer[]): TeamData['grenades'] {
 	});
 
 	return nades;
+}
+
+function letterToLetterEmoji(letter: string) {
+	return String.fromCodePoint(letter.toLowerCase().charCodeAt(0) + 127365);
 }

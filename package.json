@@ -1,6 +1,6 @@
 {
   "name": "nodecg-csgo-manager",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Layouts for CSGO spectating",
   "homepage": "",
   "author": {
@@ -111,6 +111,7 @@
     "gsap": "^3.5.1",
     "livesplit-core": "^0.10.2",
     "lodash": "^4.17.20",
+    "node-fetch": "^2.6.1",
     "nodecg": "^1.7.4",
     "parcel": "^1.12.4",
     "react": "^16.14.0",
@@ -128,6 +129,7 @@
   "devDependencies": {
     "@types/deep-equal": "^1.0.1",
     "@types/lodash": "^4.14.165",
+    "@types/node-fetch": "^2.5.7",
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-dom": "^16.9.10",
     "@types/styled-components": "^5.1.7",

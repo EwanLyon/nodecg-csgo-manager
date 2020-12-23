@@ -14,6 +14,10 @@
 			"description": "Port to listen for HLAE game events",
 			"default": 31337
 		},
+		"steamApiKey": {
+			"type": "string",
+			"description": "Steam API key used to get steam profile pictures (https://steamcommunity.com/dev/apikey)"
+		},
 		"gameSettings": {
 			"type": "object",
 			"description": "Various server setting information to properly display data",

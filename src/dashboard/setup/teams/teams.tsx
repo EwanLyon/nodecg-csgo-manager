@@ -232,9 +232,16 @@ export const Teams: React.FunctionComponent = () => {
 				<Button
 					variant="contained"
 					style={{ marginTop: 10 }}
-					onClick={(): void => setSwapTeamsRep(!swapTeamsRep)}
+					onClick={() => setSwapTeamsRep(!swapTeamsRep)}
 				>
 					Swap Teams
+				</Button>
+				<Button
+					variant="contained"
+					style={{ marginTop: 10 }}
+					onClick={() => nodecg.sendMessage('getAllProfileData')}
+				>
+					Download steam profiles
 				</Button>
 			</Grid>
 			<Grid
