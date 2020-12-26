@@ -40,12 +40,19 @@ setInterval(() => {
 			playersSet = playersSet.slice(0, INTERPOLATION_STEPS);
 		}
 
-		// This is way less code than averaging multiple arrays
-		const avgX = playersSet.reduce((a, b) => a + b.position[0], 0) / playersSet.length;
-		const avgY = playersSet.reduce((a, b) => a + b.position[1], 0) / playersSet.length;
-		const avgZ = playersSet.reduce((a, b) => a + b.position[2], 0) / playersSet.length;
-		const avgAngleX = playersSet.reduce((a, b) => a + b.rotation[0], 0) / playersSet.length;
-		const avgAngleY = playersSet.reduce((a, b) => a + b.rotation[1], 0) / playersSet.length;
+		// I don't like assigning values on a single line but I shall make an exception
+		let avgX, avgY, avgZ, avgAngleX, avgAngleY : number;
+		avgX = avgY = avgZ = avgAngleX = avgAngleY = 0;
+		try {
+			// This is way less code than averaging multiple arrays
+			avgX = playersSet.reduce((a, b) => a + b.position[0], 0) / playersSet.length;
+			avgY = playersSet.reduce((a, b) => a + b.position[1], 0) / playersSet.length;
+			avgZ = playersSet.reduce((a, b) => a + b.position[2], 0) / playersSet.length;
+			avgAngleX = playersSet.reduce((a, b) => a + b.rotation[0], 0) / playersSet.length;
+			avgAngleY = playersSet.reduce((a, b) => a + b.rotation[1], 0) / playersSet.length;
+		} catch (error) {
+			nodecg.log.warn('Failed to average map positions and angles: ' + error);
+		}
 
 		newInterp[clonedMapPlayers[i].steamId] = {
 			...clonedMapPlayers[i],
