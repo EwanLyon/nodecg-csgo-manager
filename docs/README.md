@@ -17,6 +17,7 @@ Data made from CSGO Manager
 * `teamOne`/`teamTwo` Information from processed to fill in custom team names, logos, team grenades, etc. (TeamOne is whoever is terrorist during the first half. This may/should be changed to be clearer.)
 * `playerData` Calculated information on specific player statistics, e.g. ADR, Name, Country
 * `mapInfo` Calculated information on the map. Currently containing map pick/veto information.
+* `swapTeams` Determines if the sides should be mirrored.
 * `interpMapPlayers` A smooth and slightly delayed version of player positions. Useful for the minimap
 * `teamPreset` List of preset team information
 * `assets:teamPreset` Asset location of team preset files loaded from the assets tab
