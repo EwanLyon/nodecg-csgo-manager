@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import React, { useState, ReactNode, useEffect } from 'react';
 import styled from 'styled-components';
+// @ts-ignore
 import Twemoji from 'react-twemoji';
 import { render } from 'react-dom';
 import { useReplicant } from 'use-nodecg';
@@ -342,7 +343,7 @@ export const TeamPresetCreator: React.FC = () => {
 					value={localCountry}
 				/> */}
 				<FormControl variant="filled" fullWidth>
-					<InputLabel id="countryLabel">Team</InputLabel>
+					<InputLabel id="countryLabel">Country</InputLabel>
 					<Select
 						labelId="countryLabel"
 						value={localCountry}
