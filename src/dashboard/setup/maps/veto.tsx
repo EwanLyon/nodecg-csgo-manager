@@ -161,11 +161,6 @@ const DashVeto: React.FC = () => {
 							onClick={() => setVetoType('Ban')}
 							variant={vetoType === 'Ban' ? 'default' : 'outlined'}
 						/>
-						<SpacedChip
-							label="Default?"
-							onClick={() => setVetoType('Default')}
-							variant={vetoType === 'Default' ? 'default' : 'outlined'}
-						/>
 					</Grid>
 					<Grid item xs={4}>
 						<FormControl variant="filled" fullWidth>
