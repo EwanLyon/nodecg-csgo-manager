@@ -83,7 +83,7 @@ export const DashVETOSingle: React.FC<Props> = (props: Props) => {
 	}
 
 	function removeVeto() {
-		nodecg.sendMessage('removeVetoMap', props.veto.map);
+		nodecg.sendMessage('removeMap', props.veto.map);
 	}
 
 	return (
