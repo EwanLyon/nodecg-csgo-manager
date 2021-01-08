@@ -17,8 +17,8 @@ interface NewGame {
 }
 
 nodecg.listenFor('addScheduleGame', (data: NewGame) => {
-	const teamAData = teamRep.value.teams.find(team => team.name === data.teamA);
-	const teamBData = teamRep.value.teams.find(team => team.name === data.teamB);
+	const teamAData = teamRep.value.teams[data.teamA];
+	const teamBData = teamRep.value.teams[data.teamB];
 
 	if (!teamAData) {
 		nodecg.log.error('Could not find team: ' + data.teamA);

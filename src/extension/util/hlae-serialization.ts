@@ -99,14 +99,14 @@ export class BufferReader {
 interface GameEvent {
 	name: string;
 	clientTime: number;
-	keys: { [keys: string]: { name: string, type: number } };
+	keys: Record<string, { name: string, type: number }>;
 }
 
 class GameEventDescription {
 	eventId: number;
 	eventName: string;
 	keys: { name: string, type: number }[] = [];
-	enrichments: { [key: string]: any } = {};
+	enrichments: Record<string, any> = {};
 
 	constructor(bufferReader: BufferReader) {
 		this.eventId = bufferReader.readInt32LE();
@@ -213,10 +213,10 @@ export class EntitynumEnrichment {
 }
 
 export class GameEventUnserializer {
-	enrichments: { [key: string]: any };
-	knownEvents: { [key: string]: any } = {};	// id -> description
+	enrichments: Record<string, any>;
+	knownEvents: Record<string, any> = {};	// id -> description
 
-	constructor(enrichments: { [key: string]: any }) {
+	constructor(enrichments: Record<string, any>) {
 		this.enrichments = enrichments;
 	}
 

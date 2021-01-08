@@ -1,7 +1,7 @@
 import * as nodecgApiContext from './util/nodecg-api-context';
 
 import { Schedule } from '../types/schedule';
-import { MatchScoresItem, MatchScores } from '../types/matchScores';
+import { MatchScoresItem, MatchScores } from '../types/match-scores';
 
 const nodecg = nodecgApiContext.get();
 const currentMatchRep = nodecg.Replicant<string>('currentMatch');

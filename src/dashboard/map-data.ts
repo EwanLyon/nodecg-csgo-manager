@@ -7,7 +7,7 @@ export interface MapRadarData {
 	heightCross?: number;
 }
 
-export const MapData: { [key: string]: MapRadarData } = {
+export const MapData: Record<string, MapRadarData> = {
 	de_dust2: {
 		xMin: -2476,
 		xMax: 2029.6,

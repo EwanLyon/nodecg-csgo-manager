@@ -63,9 +63,9 @@ const DashSchedule: React.FC = () => {
 	const [time, setTime] = useState('');
 	const [matchType, setMatchType] = useState('bo1');
 
-	const teamsList = teamPresetsRep.teams.map(team => {
+	const teamsList = Object.entries(teamPresetsRep.teams).map(([key, team]) => {
 		return (
-			<MenuItem key={team.name} value={team.name}>
+			<MenuItem key={key} value={team.name}>
 				<img
 					style={{
 						height: 50,
@@ -165,7 +165,7 @@ const DashSchedule: React.FC = () => {
 													<SingleMatch
 														handleProps={provided.dragHandleProps}
 														game={game}
-														current={currentMatchRep.toString() === game.id}
+														current={currentMatchRep === game.id}
 													/>
 												</div>
 											)}

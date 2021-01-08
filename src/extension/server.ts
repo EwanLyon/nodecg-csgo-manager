@@ -15,7 +15,7 @@ import {
 } from '../types/csgo-gsi';
 import * as DummyData from './dummyData';
 import { TeamData } from '../types/extra-data';
-import { MapPlayerData } from '../types/map-data';
+import { MapPlayerData } from '../types/map-player';
 
 const nodecg = nodecgApiContext.get();
 const bundleStatus = nodecg.Replicant<BundleStatus>('bundleStatus', {

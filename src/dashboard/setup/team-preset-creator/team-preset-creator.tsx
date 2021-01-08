@@ -81,9 +81,9 @@ export const TeamPresetCreator: React.FC = () => {
 	const [teamLoading, setTeamLoading] = useState(false);
 
 	// Already done teams
-	const teamPresetList = teamPresetsRep.teams.map((team) => {
+	const teamPresetList = Object.entries(teamPresetsRep.teams).map(([key, team]) => {
 		return (
-			<MenuItem key={team.alias} value={team.alias}>
+			<MenuItem key={key} value={team.alias}>
 				<img
 					style={{
 						height: 50,
@@ -99,9 +99,9 @@ export const TeamPresetCreator: React.FC = () => {
 	});
 
 	// Already done players
-	const playerPresetList = teamPresetsRep.players.map((player) => {
+	const playerPresetList = Object.entries(teamPresetsRep.players).map(([key, player]) => {
 		return (
-			<MenuItem key={player.steamId} value={player.steamId}>
+			<MenuItem key={key} value={player.steamId}>
 				<img
 					style={{
 						height: 50,
@@ -182,7 +182,7 @@ export const TeamPresetCreator: React.FC = () => {
 	// Fill in team blanks
 	useEffect(() => {
 		if (localTeamPresetAlias) {
-			const foundTeamPreset = teamPresetsRep.teams.find((team) => team.alias === localTeamPresetAlias);
+			const foundTeamPreset = teamPresetsRep.teams[localTeamName];
 			if (foundTeamPreset) {
 				setLocalTeamAlias(foundTeamPreset.alias);
 				setLocalTeamName(foundTeamPreset.name);
@@ -198,7 +198,7 @@ export const TeamPresetCreator: React.FC = () => {
 	// Fill in player blanks
 	useEffect(() => {
 		if (steamId) {
-			const foundPlayerPreset = teamPresetsRep.players.find((player) => player.steamId === steamId);
+			const foundPlayerPreset = teamPresetsRep.players[steamId];
 			if (foundPlayerPreset) {
 				setLocalName(foundPlayerPreset.realName || '');
 				setLocalPfp(foundPlayerPreset.profilePicture || '');

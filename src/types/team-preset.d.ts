@@ -13,6 +13,6 @@ interface Player {
 }
 
 export interface TeamsPreset {
-	teams: Team[];
-	players: Player[];
+	teams: Record<string, Team>;
+	players: Record<string, Player>;
 }

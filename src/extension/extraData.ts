@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { CSGOOutputAllplayer, CSGOOutputPhaseCountdowns, Map } from '../types/csgo-gsi';
 import { PlayerDataAll, TeamData } from '../types/extra-data';
-import { ExtraMapData } from '../types/map-data';
+import { MapInfo, MatchScores } from '../types/match-scores';
 import { ExtraData as DummyExtraData } from './dummyData';
 import { TeamsPreset } from '../types/team-preset';
 
@@ -19,11 +19,16 @@ const playerDataRep = nodecg.Replicant<PlayerDataAll>('playerData', {
 });
 const teamOneRep = nodecg.Replicant<TeamData>('teamOne');
 const teamTwoRep = nodecg.Replicant<TeamData>('teamTwo');
-const mapDataRep = nodecg.Replicant<ExtraMapData[]>('mapInfo', { defaultValue: [] });
 const teamPresetsRep = nodecg.Replicant<TeamsPreset>('teamPreset');
+const currentMatchRep = nodecg.Replicant<string>('currentMatch');
+const matchScoresRep = nodecg.Replicant<MatchScores>('matchScores');
 
 teamOneRep.value.players = [];
 teamTwoRep.value.players = [];
+
+function getCurrentMatch() {
+	return matchScoresRep.value.find(match => match.id === currentMatchRep.value);
+}
 
 // Returns true if teamOne should be T's
 function currentTeamSide(round: number): boolean {
@@ -47,9 +52,8 @@ function refreshTeamPlayers(): void {
 		// Check if player exists in extra player data
 		if (playerDataRep.value[player.steamId] === undefined) {
 			// If player didn't exists add them
-			const presetPlayer = teamPresetsRep.value.players.find(
-				playerPreset => playerPreset.steamId === player.steamId
-			);
+			const presetPlayer = teamPresetsRep.value.players[player.steamId];
+
 			if (presetPlayer) {
 				playerDataRep.value[player.steamId] = {
 					totalDamage: 0,
@@ -268,24 +272,27 @@ nodecg.listenFor('updatePlayerName', (data: { id: string; name: string }) => {
 });
 
 // MAP DATA
-nodecg.listenFor('addMap', (data: ExtraMapData) => {
-	if (mapDataRep.value.find(map => map.map === data.map)) {
+nodecg.listenFor('addMap', (data: MapInfo) => {
+	const currentMatch = getCurrentMatch();
+	if (currentMatch?.maps.find(map => map.map === data.map)) {
 		nodecg.log.warn(`${data.map} has already been added`);
 		return;
 	}
 
-	mapDataRep.value.push(data);
+	currentMatch?.maps.push(data);
 });
 
 nodecg.listenFor('removeMap', mapName => {
-	const mapIndex = mapDataRep.value.findIndex(map => map.map === mapName);
+	const currentMatch = getCurrentMatch();
+	const mapIndex = currentMatch?.maps.findIndex(map => map.map === mapName) || -1;
 	if (mapIndex > -1) {
-		mapDataRep.value.splice(mapIndex, 1);
+		currentMatch?.maps.splice(mapIndex, 1);
 	}
 });
 
 nodecg.listenFor('reorderMaps', newOrder => {
-	mapDataRep.value = newOrder;
+	const currentMatch = getCurrentMatch();
+	if (currentMatch) currentMatch.maps = newOrder;
 });
 
 // Steam Profile Pictures

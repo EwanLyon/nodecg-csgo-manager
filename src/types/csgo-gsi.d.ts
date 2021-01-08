@@ -6,7 +6,7 @@ export interface CSGOOutput {
 	map: Map;
 	round: Round;
 	player: CSGOOutputPlayer;
-	allplayers: { [key: string]: CSGOOutputAllplayer };
+	allplayers: Record<string, CSGOOutputAllplayer>;
 	phaseCountdowns: CSGOOutputPhaseCountdowns;
 	grenades: CSGOGrenadesAll;
 	bomb: CSGOOutputBomb;
@@ -20,7 +20,7 @@ export interface CSGOOutputAllplayer {
 	team: 'CT' | 'T';
 	state: StateClass;
 	match_stats: MatchStats;
-	weapons: { [key: string]: Weapon };
+	weapons: Record<string, Weapon>;
 	position: string;
 	forward: string;
 	clan?: string;
@@ -82,7 +82,7 @@ export interface CSGOOutputGrenade {
 	lifetime: string;
 	type: string;
 	effecttime?: string;
-	flames?: { [key: string]: string };
+	flames?:  Record<string, string>;
 }
 
 export interface CSGOGrenadesAll {
@@ -146,16 +146,16 @@ export interface CSGOOutputPlayer {
 
 export interface Previously {
 	player: PreviouslyPlayer;
-	allplayers: { [key: string]: PreviouslyAllplayer };
+	allplayers: Record<string, PreviouslyAllplayer>;
 	phase_countdowns: PreviouslyPhaseCountdowns;
-	grenades: { [key: string]: PreviouslyGrenade };
+	grenades: Record<string, PreviouslyGrenade>;
 	bomb: PreviouslyBomb;
 }
 
 export interface PreviouslyAllplayer {
 	position: string;
 	forward: string;
-	weapons?: { [key: string]: Weapon };
+	weapons?: Record<string, Weapon>;
 }
 
 export interface PreviouslyBomb {

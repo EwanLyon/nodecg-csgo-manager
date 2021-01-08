@@ -7,8 +7,6 @@ const nodecg = nodecgApiContext.get();
 import { TeamsPreset, Team, Player } from '../types/team-preset';
 import { PlayerDataAll } from '../types/extra-data';
 
-
-
 interface Asset {
 	base: string;
 	bundleName: string;
@@ -25,7 +23,7 @@ const teamPresetAssetsRep = nodecg.Replicant<Asset[]>('assets:teamPreset');
 
 nodecg.listenFor('exportTeams', () => {
 	nodecg.log.info('Exporting teams');
-	const mainPreset: TeamsPreset = { teams: [], players: [] };
+	const mainPreset: TeamsPreset = { teams: {}, players: {} };
 
 	const teamObjs = teamPresetsRep.value.teams;
 	const playerList = teamPresetsRep.value.players;
@@ -56,7 +54,7 @@ nodecg.listenFor('exportTeams', () => {
 
 function updateTeamPreset(newVal: Asset[]): void {
 	nodecg.log.info('Updating team presets');
-	const newTeamPresets: TeamsPreset = { teams: [], players: [] };
+	const newTeamPresets: TeamsPreset = { teams: {}, players: {} };
 
 	newVal.forEach(teamsFile => {
 		fs.readFile(`./${teamsFile.url}`, 'utf-8', (err, jsonString) => {
@@ -69,13 +67,13 @@ function updateTeamPreset(newVal: Asset[]): void {
 				const teamsJSON = JSON.parse(jsonString);
 				if (teamsJSON.teams) {
 					teamsJSON.teams.forEach((team: Team) => {
-						newTeamPresets.teams.push(team);
+						newTeamPresets.teams[team.name] = team;
 					});
 				}
 
 				if (teamsJSON.players) {
 					teamsJSON.players.forEach((player: Player) => {
-						newTeamPresets.players.push(player);
+						newTeamPresets.players[player.steamId] = player;
 					});
 				}
 			} catch (error) {
@@ -116,13 +114,8 @@ nodecg.listenFor('newTeam', (data: { name: string; alias: string; logo?: string 
 	// Clear undefined props
 	_.pickBy(teamObj, _.identity);
 
-	// See if editing team
-	const foundIndex = teamPresetsRep.value.teams.findIndex(team => team.alias === teamObj.alias);
-	if (foundIndex > 0) {
-		teamPresetsRep.value.teams.splice(foundIndex, 1);
-	}
+	teamPresetsRep.value.teams[teamObj.name] = teamObj;
 
-	teamPresetsRep.value.teams.push(teamObj);
 	nodecg.sendMessage('newTeamPlayerResponse');
 });
 
@@ -139,15 +132,8 @@ nodecg.listenFor(
 		// Clear undefined props
 		_.pickBy(playerObj, _.identity);
 
-		// See if editing player
-		const foundIndex = teamPresetsRep.value.players.findIndex(
-			player => player.steamId === playerObj.steamId
-		);
-		if (foundIndex > 0) {
-			teamPresetsRep.value.players.splice(foundIndex, 1);
-		}
-
-		teamPresetsRep.value.players.push(playerObj);
+		teamPresetsRep.value.players[playerObj.steamId] = playerObj;
+		
 		nodecg.sendMessage('newTeamPlayerResponse');
 	}
 );

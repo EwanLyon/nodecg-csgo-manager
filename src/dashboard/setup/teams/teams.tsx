@@ -17,7 +17,7 @@ import {
 	Button,
 	FormControlLabel,
 	Checkbox,
-	CheckboxProps
+	CheckboxProps,
 } from '@material-ui/core';
 import { ThemeProvider, makeStyles, withStyles } from '@material-ui/styles';
 
@@ -33,18 +33,18 @@ const useStyles = makeStyles({
 	input: {
 		textAlign: 'center',
 		fontSize: 23,
-		width: 324
-	}
+		width: 324,
+	},
 });
 
 const CheckBoxStyled = withStyles({
 	root: {
 		color: '#00BEBE',
 		'&$checked': {
-			color: '#00BEBE'
-		}
+			color: '#00BEBE',
+		},
 	},
-	checked: {}
+	checked: {},
 })((props: CheckboxProps) => <Checkbox color="default" {...props} />);
 
 const Divider = styled.div`
@@ -79,7 +79,7 @@ const DummyAsset: Asset = {
 	ext: '',
 	name: '',
 	sum: '',
-	url: ''
+	url: '',
 };
 
 // eslint-disable-next-line complexity
@@ -112,16 +112,16 @@ export const Teams: React.FunctionComponent = () => {
 		setTeamTwoName(teamTwoRep.name);
 	}, [teamTwoRep.name, teamTwoRep.teamURL]);
 
-	const teamPresetList = teamPresetsRep.teams.map(team => {
+	const teamPresetList = Object.entries(teamPresetsRep.teams).map(([key, team]) => {
 		return (
-			<MenuItem key={team.name} value={team.name}>
+			<MenuItem key={key} value={team.name}>
 				<img
 					style={{
 						height: 'auto',
 						width: 50,
 						objectFit: 'scale-down',
 						marginRight: 10,
-						maxHeight: 24
+						maxHeight: 24,
 					}}
 					src={team.logo}
 				/>
@@ -130,7 +130,7 @@ export const Teams: React.FunctionComponent = () => {
 		);
 	});
 
-	const teamLogoList = teamImagesRep.map(img => {
+	const teamLogoList = teamImagesRep.map((img) => {
 		return (
 			<MenuItem key={img.base} value={img.url}>
 				<img
@@ -138,7 +138,7 @@ export const Teams: React.FunctionComponent = () => {
 						height: 50,
 						width: 50,
 						objectFit: 'scale-down',
-						marginRight: 10
+						marginRight: 10,
 					}}
 					src={img.url}
 				/>
@@ -147,79 +147,54 @@ export const Teams: React.FunctionComponent = () => {
 		);
 	});
 
-	const teamOnePlayers = allPlayersRep.filter(player => {
+	const teamOnePlayers = allPlayersRep.filter((player) => {
 		return teamOneRep.players.includes(player.steamId);
 	});
 
-	const teamTwoPlayers = allPlayersRep.filter(player => {
+	const teamTwoPlayers = allPlayersRep.filter((player) => {
 		return teamTwoRep.players.includes(player.steamId);
 	});
 
 	useEffect(() => {
-		teamOnePlayers.forEach(player => {
-			if (
-				teamPresetsRep.players.find(playerPreset => playerPreset.steamId === player.steamId) &&
-				!playerDataRep[player.steamId]
-			) {
-				nodecg.sendMessage(
-					'pushNewPlayerData',
-					teamPresetsRep.players.find(playerPreset => playerPreset.steamId === player.steamId)
-				);
+		teamOnePlayers.forEach((player) => {
+			if (teamPresetsRep.players[player.steamId] && !playerDataRep[player.steamId]) {
+				nodecg.sendMessage('pushNewPlayerData', teamPresetsRep.players[player.steamId]);
 			}
 		});
-		teamTwoPlayers.forEach(player => {
-			if (
-				teamPresetsRep.players.find(playerPreset => playerPreset.steamId === player.steamId) &&
-				!playerDataRep[player.steamId]
-			) {
-				nodecg.sendMessage(
-					'pushNewPlayerData',
-					teamPresetsRep.players.find(playerPreset => playerPreset.steamId === player.steamId)
-				);
+
+		teamTwoPlayers.forEach((player) => {
+			if (teamPresetsRep.players[player.steamId] && !playerDataRep[player.steamId]) {
+				nodecg.sendMessage('pushNewPlayerData', teamPresetsRep.players[player.steamId]);
 			}
 		});
 	}, [playerDataRep, teamOnePlayers, teamPresetsRep, teamTwoPlayers]);
 
-	const teamOnePlayersMap = teamOnePlayers.map(player => {
-		return (
-			<PlayerBox extraPlayer={playerDataRep[player.steamId]} player={player} key={player.steamId} />
-		);
+	const teamOnePlayersMap = teamOnePlayers.map((player) => {
+		return <PlayerBox extraPlayer={playerDataRep[player.steamId]} player={player} key={player.steamId} />;
 	});
 
-	const teamTwoPlayersMap = teamTwoPlayers.map(player => {
-		return (
-			<PlayerBox extraPlayer={playerDataRep[player.steamId]} player={player} key={player.steamId} />
-		);
+	const teamTwoPlayersMap = teamTwoPlayers.map((player) => {
+		return <PlayerBox extraPlayer={playerDataRep[player.steamId]} player={player} key={player.steamId} />;
 	});
 
 	function updateT1(): void {
 		// Names
-		if (teamOneRep.name !== teamOneName)
-			nodecg.sendMessage('updateName', { name: teamOneName, teamTwo: false });
+		if (teamOneRep.name !== teamOneName) nodecg.sendMessage('updateName', { name: teamOneName, teamTwo: false });
 
 		// Logo
-		if (teamOneRep.teamURL !== teamOneURL)
-			nodecg.sendMessage('updateLogo', { url: teamOneURL, teamTwo: false });
+		if (teamOneRep.teamURL !== teamOneURL) nodecg.sendMessage('updateLogo', { url: teamOneURL, teamTwo: false });
 	}
 
 	function updateT2(): void {
 		// Names
-		if (teamTwoRep.name !== teamTwoName)
-			nodecg.sendMessage('updateName', { name: teamTwoName, teamTwo: true });
+		if (teamTwoRep.name !== teamTwoName) nodecg.sendMessage('updateName', { name: teamTwoName, teamTwo: true });
 		// Logo
-		if (teamTwoRep.teamURL !== teamTwoURL)
-			nodecg.sendMessage('updateLogo', { url: teamTwoURL, teamTwo: true });
+		if (teamTwoRep.teamURL !== teamTwoURL) nodecg.sendMessage('updateLogo', { url: teamTwoURL, teamTwo: true });
 	}
 
 	return (
 		<ThemeProvider theme={theme}>
-			<Grid
-				container
-				direction="column"
-				justify="center"
-				alignItems="center"
-				style={{ fontSize: 20 }}
-			>
+			<Grid container direction="column" justify="center" alignItems="center" style={{ fontSize: 20 }}>
 				<Grid item>
 					<span style={{ fontWeight: 'lighter' }}>Round </span>
 					<span>{matchRep.round}</span>
@@ -229,32 +204,22 @@ export const Teams: React.FunctionComponent = () => {
 					<span style={{ margin: '0 15px' }}>:</span>
 					<span>{teamTwoRep.score}</span>
 				</Grid>
-				<Button
-					variant="contained"
-					style={{ marginTop: 10 }}
-					onClick={() => setSwapTeamsRep(!swapTeamsRep)}
-				>
+				<Button variant="contained" style={{ marginTop: 10 }} onClick={() => setSwapTeamsRep(!swapTeamsRep)}>
 					Swap Teams
 				</Button>
 				<Button
 					variant="contained"
 					style={{ marginTop: 10 }}
-					onClick={() => nodecg.sendMessage('getAllProfileData')}
-				>
+					onClick={() => nodecg.sendMessage('getAllProfileData')}>
 					Download steam profiles
 				</Button>
 			</Grid>
-			<Grid
-				container
-				spacing={0}
-				direction={swapTeamsRep ? 'row-reverse' : 'row'}
-				style={{ padding: '15px 0' }}
-			>
+			<Grid container spacing={0} direction={swapTeamsRep ? 'row-reverse' : 'row'} style={{ padding: '15px 0' }}>
 				<Grid container item xs direction="column" justify="center" spacing={0}>
 					<Grid item xs>
 						<InputBase
 							classes={{
-								input: classes.input
+								input: classes.input,
 							}}
 							value={teamOneName}
 							disabled={teamOneDefault.name}
@@ -270,8 +235,7 @@ export const Teams: React.FunctionComponent = () => {
 									labelId="teamOneLogoLabel"
 									value={teamOneURL}
 									disabled={teamOneDefault.logo}
-									onChange={(e): void => setTeamOneURL(e.target.value as string)}
-								>
+									onChange={(e): void => setTeamOneURL(e.target.value as string)}>
 									{teamLogoList}
 								</Select>
 							</FormControl>
@@ -305,13 +269,12 @@ export const Teams: React.FunctionComponent = () => {
 								value={teamOneName}
 								onChange={(e): void => {
 									setTeamOneName(
-										teamPresetsRep.teams.find(team => team.name === e.target.value)?.name || ''
+										teamPresetsRep.teams[e.target.value as string]?.name || '',
 									);
 									setTeamOneURL(
-										teamPresetsRep.teams.find(team => team.name === e.target.value)?.logo || ''
+										teamPresetsRep.teams[e.target.value as string]?.logo || '',
 									);
-								}}
-							>
+								}}>
 								<MenuItem key={0} value={''}>
 									<em>No Team</em>
 								</MenuItem>
@@ -329,7 +292,7 @@ export const Teams: React.FunctionComponent = () => {
 				<Grid item xs>
 					<InputBase
 						classes={{
-							input: classes.input
+							input: classes.input,
 						}}
 						value={teamTwoName}
 						disabled={teamTwoDefault.name}
@@ -344,8 +307,7 @@ export const Teams: React.FunctionComponent = () => {
 									labelId="teamTwoLogoLabel"
 									value={teamTwoURL}
 									disabled={teamTwoDefault.logo}
-									onChange={(e): void => setTeamTwoURL(e.target.value as string)}
-								>
+									onChange={(e): void => setTeamTwoURL(e.target.value as string)}>
 									{teamLogoList}
 								</Select>
 							</FormControl>
@@ -379,13 +341,12 @@ export const Teams: React.FunctionComponent = () => {
 								value={teamTwoName}
 								onChange={(e): void => {
 									setTeamTwoName(
-										teamPresetsRep.teams.find(team => team.name === e.target.value)?.name || ''
+										teamPresetsRep.teams[e.target.value as string]?.name || '',
 									);
 									setTeamTwoURL(
-										teamPresetsRep.teams.find(team => team.name === e.target.value)?.logo || ''
+										teamPresetsRep.teams[e.target.value as string]?.logo || '',
 									);
-								}}
-							>
+								}}>
 								<MenuItem key={0} value={''}>
 									<em>No Team</em>
 								</MenuItem>

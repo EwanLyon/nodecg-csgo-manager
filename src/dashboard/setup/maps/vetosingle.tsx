@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../../theme';
 
-import { ExtraMapData } from '../../../types/map-data';
+import { MapInfo } from '../../../types/match-scores';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 
 import { Chip, Grid } from '@material-ui/core';
@@ -49,7 +49,7 @@ const Divider = styled.div`
 `;
 
 interface Props {
-	veto: ExtraMapData;
+	veto: MapInfo;
 	handleProps: DraggableProvidedDragHandleProps | undefined;
 	otherTeamName: string;
 }
@@ -91,7 +91,7 @@ export const DashVETOSingle: React.FC<Props> = (props: Props) => {
 			<Grid container direction="column">
 				<Grid item container alignItems="center" justify="space-between">
 					<GrabHandles handleProps={props.handleProps} />
-					<TeamName text={props.veto.team}></TeamName>
+					<TeamName text={props.veto.teamVeto}></TeamName>
 					<ChosenText>{props.veto.ban ? 'Ban' : 'Pick'}</ChosenText>
 					<MapText>{props.veto.map}</MapText>
 					<RedButtonExtra variant="contained" onClick={removeVeto}>‒</RedButtonExtra>

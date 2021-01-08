@@ -5,8 +5,7 @@ import styled from 'styled-components';
 import { theme } from '../../theme';
 
 import { Schedule } from '../../../types/schedule';
-import { ExtraMapData } from '../../../types/map-data';
-import { MatchScores, MatchScoresItem, Score } from '../../../types/matchScores';
+import { MapInfo, MatchScores, MatchScoresItem, Score } from '../../../types/match-scores';
 
 import { ThemeProvider } from '@material-ui/styles';
 import { Grid, Button, Chip } from '@material-ui/core';
@@ -61,13 +60,21 @@ const statusTypes = ['Soon', 'Playing', 'Half Time', 'Over Time', 'Final Score',
 const DashCurrentMatch: React.FC = () => {
 	const [scheduleRep] = useReplicant<Schedule>('schedule', []);
 	const [currentMatchRep] = useReplicant<string>('currentMatch', '');
-	const [vetoRep] = useReplicant<ExtraMapData[]>('mapInfo', []);
 	const [matchScoresRep] = useReplicant<MatchScores>('matchScores', []);
 	const [currentStatus, setCurrentStatus] = useState('Soon');
 
-	// Why I have to put .toString() after what should be a string is fucking beyond me
-	const currentMatchIndex = scheduleRep.findIndex(game => game.id === currentMatchRep.toString());
+	const currentMatchIndex = scheduleRep.findIndex(game => game.id === currentMatchRep);
 	const currentMatch = scheduleRep[currentMatchIndex];
+	
+	const matchScoresIndex = matchScoresRep.findIndex(match => match.id === currentMatchRep.toString());
+	// Select correct status chip
+	if (matchScoresIndex === -1) {
+		return <>Loading...</>;
+	}
+
+	if (matchScoresRep[matchScoresIndex].status !== currentStatus) {
+		setCurrentStatus(matchScoresRep[matchScoresIndex].status);
+	}
 
 	// -1: Error, 0: Start, 1: "Middle", 2: End, 3: Only game
 	let startOrEnd = 1;
@@ -81,13 +88,7 @@ const DashCurrentMatch: React.FC = () => {
 		startOrEnd = 2;
 	}
 
-	const pickedMaps = vetoRep.filter(veto => veto.matchId === currentMatchRep.toString() && !veto.ban);
-
-	const matchScoresIndex = matchScoresRep.findIndex(match => match.id === currentMatchRep.toString());
-	// Select correct status chip
-	if (matchScoresIndex !== -1 && matchScoresRep[matchScoresIndex].status !== currentStatus) {
-		setCurrentStatus(matchScoresRep[matchScoresIndex].status);
-	}
+	const pickedMaps = matchScoresRep[matchScoresIndex].maps.filter(map => !map.ban);
 
 	// Fill in score inputs
 	for (let i = 0; i < pickedMaps.length; i++) {
@@ -181,8 +182,8 @@ const DashCurrentMatch: React.FC = () => {
 		const allMaps: MatchScoresItem['maps'] = [];
 		for (let i = 0; i < pickedMaps.length; i++) {
 			const fakeScores: Score = { teamA: 0, teamB: 0 };
-			const singleMap: MatchScoresItem['maps'][0] = {
-				map: pickedMaps[i].map,
+			const singleMap: MapInfo = {
+				...pickedMaps[i],
 				firstHalf: fakeScores,
 				secondHalf: fakeScores,
 				complete: (document.getElementById(`${i}-Complete`) as HTMLInputElement).checked,
@@ -263,7 +264,7 @@ const DashCurrentMatch: React.FC = () => {
 				</Grid>
 
 				{pickedMaps.map((veto, index) => {
-					if (veto.matchId === currentMatchRep && !veto.ban) {
+					if (!veto.ban) {
 						return <DashMapScores key={index} mapNo={index} mapName={veto.map} />;
 					}
 

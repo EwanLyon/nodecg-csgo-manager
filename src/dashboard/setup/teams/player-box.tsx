@@ -11,8 +11,7 @@ import {
 	InputLabel,
 	Select,
 	TextField,
-	withStyles,
-	Theme,
+	IconButton
 } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Edit from '@material-ui/icons/Edit';
@@ -27,7 +26,6 @@ import { CSGOOutputAllplayer } from '../../../types/csgo-gsi';
 import { PlayerData } from '../../../types/extra-data';
 import { useReplicant } from 'use-nodecg';
 import { flagList } from '../../atoms/flag-list';
-import { lightBlue } from '@material-ui/core/colors';
 
 const boxHeight = 90;
 
@@ -35,7 +33,7 @@ const Container = styled(Grid)`
 	margin: 5px 0;
 	box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px,
 		rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
-	border-radius: 4px 0 0 4px;
+	border-radius: 4px;
 	overflow: hidden;
 `;
 
@@ -43,6 +41,7 @@ const DataBox = styled(Grid)`
 	background: #435370;
 	padding: 5px;
 	height: ${boxHeight}px;
+	position: relative;
 `;
 
 const ObservationSlot = styled.span`
@@ -79,19 +78,11 @@ const TwemojiMenuItem = styled(Twemoji)`
 	margin-right: 7px;
 `;
 
-const EditButton = withStyles((theme: Theme) => ({
-	root: {
-		minWidth: 10,
-		minHeight: boxHeight,
-		borderTopLeftRadius: 0,
-		borderBottomLeftRadius: 0,
-		color: theme.palette.getContrastText(lightBlue[600]),
-		backgroundColor: lightBlue[600],
-		'&:hover': {
-			backgroundColor: lightBlue[400],
-		},
-	},
-}))(Button);
+const EditButton = styled(IconButton)`
+	position: absolute;
+	top: 0;
+	right: 0;
+`;
 
 interface Props {
 	player: CSGOOutputAllplayer;
@@ -180,11 +171,11 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 				<Grid item>
 					<SteamID>{props.player.steamId}</SteamID>
 				</Grid>
-			</DataBox>
 
-			<EditButton size="small" onClick={(): void => setDialogOpen(true)}>
-				<Edit />
-			</EditButton>
+				<EditButton size="small" onClick={(): void => setDialogOpen(true)}>
+					<Edit />
+				</EditButton>
+			</DataBox>
 
 			{/* Profile Settings Dialog */}
 			<Dialog open={dialogOpen} onClose={(): void => setDialogOpen(false)} fullWidth>

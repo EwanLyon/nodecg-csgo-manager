@@ -12,7 +12,6 @@ import {
 import { GameSettings } from '../types/game-settings';
 import { BundleStatus } from '../types/bundle-status';
 import { PlayerDataAll, TeamData as ITeamData } from '../types/extra-data';
-import { Producer } from '../types/producer';
 import { TeamsPreset } from '../types/team-preset';
 
 export const match: Map = {
@@ -167,11 +166,6 @@ export const TeamDataTwo: ITeamData = {
 	teamURL: '../shared/media/CT_Icon.png'
 };
 
-export const DummyProducer: Producer = {
-	teamEco: false,
-	teamNades: false
-};
-
 export const DummyGrenades: CSGOOutputGrenade = {
 	owner: '-1',
 	position: '0, 0, 0',
@@ -185,8 +179,8 @@ export const DummyGrenadesAll: CSGOGrenadesAll = {
 };
 
 export const DummyTeamsPreset: TeamsPreset = {
-	teams: [],
-	players: []
+	teams: {},
+	players: {}
 };
 
 export const game: CSGOOutput = {

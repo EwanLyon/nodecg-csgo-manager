@@ -2,10 +2,10 @@ import * as nodecgApiContext from './util/nodecg-api-context';
 import _ from 'lodash';
 const nodecg = nodecgApiContext.get();
 
-import { MapPlayerData } from '../types/map-data';
+import { MapPlayerData } from '../types/map-player';
 import { CSGOOutputPhaseCountdowns } from '../types/csgo-gsi';
 
-const interpMapPlayersRep = nodecg.Replicant<{ [key: string]: MapPlayerData }>('interpMapPlayers', {
+const interpMapPlayersRep = nodecg.Replicant<Record<string, MapPlayerData>>('interpMapPlayers', {
 	defaultValue: {},
 	persistent: false
 });
@@ -27,7 +27,7 @@ let haveReset = false;
 setInterval(() => {
 	const clonedMapPlayers = [...mapPlayersRep.value];
 
-	const newInterp: { [key: string]: MapPlayerData } = {};
+	const newInterp: Record<string, MapPlayerData> = {};
 	playerBuffer.forEach((playersSet, i) => {
 		if (clonedMapPlayers.length === 0) return;
 
