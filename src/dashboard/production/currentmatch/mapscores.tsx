@@ -4,10 +4,10 @@ import { theme } from '../../theme';
 
 import {
 	Grid,
-	ExpansionPanel,
+	Accordion,
 	TextField,
-	ExpansionPanelSummary,
-	ExpansionPanelDetails,
+	AccordionSummary,
+	AccordionDetails,
 	FormControlLabel,
 	Checkbox,
 } from '@material-ui/core';
@@ -19,11 +19,11 @@ interface Props {
 	mapName: string;
 }
 
-const ExpansionPanelStyled = styled(ExpansionPanel)`
+const AccordionStyled = styled(Accordion)`
 	background: #525f78;
 `;
 
-const ExpansionDetailsStyled = styled(ExpansionPanelDetails)`
+const ExpansionDetailsStyled = styled(AccordionDetails)`
 	background: #3c4a65;
 `;
 
@@ -58,13 +58,13 @@ export const DashMapScores: React.FC<Props> = (props: Props) => {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<ExpansionPanelStyled>
-				<ExpansionPanelSummary expandIcon={<ExpandMore />}>
+			<AccordionStyled>
+				<AccordionSummary expandIcon={<ExpandMore />}>
 					<div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
 						<span>{props.mapName}</span>
 						<span>{score}</span>
 					</div>
-				</ExpansionPanelSummary>
+				</AccordionSummary>
 				<ExpansionDetailsStyled>
 					<Grid container justify="center">
 						<Grid item container alignItems="center" justify="space-around" style={{ margin: '5px 0' }}>
@@ -94,7 +94,7 @@ export const DashMapScores: React.FC<Props> = (props: Props) => {
 						/>
 					</Grid>
 				</ExpansionDetailsStyled>
-			</ExpansionPanelStyled>
+			</AccordionStyled>
 		</ThemeProvider>
 	);
 };
