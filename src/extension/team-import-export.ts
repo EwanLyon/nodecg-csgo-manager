@@ -1,9 +1,13 @@
 import * as nodecgApiContext from './util/nodecg-api-context';
-import { PlayerDataAll } from '../types/extra-data';
-import { TeamsPreset, Team, Player } from '../types/team-preset';
 import fs from 'fs';
 import _ from 'lodash';
+import { HLTV } from 'hltv';
 const nodecg = nodecgApiContext.get();
+
+import { TeamsPreset, Team, Player } from '../types/team-preset';
+import { PlayerDataAll } from '../types/extra-data';
+
+
 
 interface Asset {
 	base: string;
@@ -119,6 +123,7 @@ nodecg.listenFor('newTeam', (data: { name: string; alias: string; logo?: string 
 	}
 
 	teamPresetsRep.value.teams.push(teamObj);
+	nodecg.sendMessage('newTeamPlayerResponse');
 });
 
 nodecg.listenFor(
@@ -143,5 +148,12 @@ nodecg.listenFor(
 		}
 
 		teamPresetsRep.value.players.push(playerObj);
+		nodecg.sendMessage('newTeamPlayerResponse');
 	}
 );
+
+nodecg.listenFor('getHLTVTeam', (id: number) => {
+	HLTV.getTeam({id}).then(res => {
+		nodecg.sendMessage('hltvTeamReturn', res);
+	});
+})

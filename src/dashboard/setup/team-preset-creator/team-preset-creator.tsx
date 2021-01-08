@@ -1,10 +1,11 @@
 /* eslint-disable no-undef */
-import React, { useState, ReactNode, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 // @ts-ignore
 import Twemoji from 'react-twemoji';
 import { render } from 'react-dom';
-import { useReplicant } from 'use-nodecg';
+import { useListenFor, useReplicant } from 'use-nodecg';
+
 import {
 	TextField,
 	Select,
@@ -12,15 +13,17 @@ import {
 	FormControl,
 	InputLabel,
 	Button,
-	Grid
+	Grid,
+	Snackbar,
+	CircularProgress,
 } from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
 import { ThemeProvider } from '@material-ui/styles';
 
 import { flagList } from '../../atoms/flag-list';
 import { theme } from '../../theme';
 import { TeamsPreset } from '../../../types/team-preset';
 import { DummyTeamsPreset } from '../../../extension/dummyData';
+import { FullTeam } from 'hltv/lib/models/FullTeam';
 
 const ControlsContainer = styled.div`
 	& > * {
@@ -49,7 +52,7 @@ const DummyAsset: Asset = {
 	ext: '',
 	name: '',
 	sum: '',
-	url: ''
+	url: '',
 };
 
 const TwemojiMenuItem = styled(Twemoji)`
@@ -71,9 +74,14 @@ export const TeamPresetCreator: React.FC = () => {
 	const [localTeamName, setLocalTeamName] = useState('');
 	const [localTeamAlias, setLocalTeamAlias] = useState('');
 	const [localTeamPresetAlias, setLocalTeamPresetAlias] = useState('');
+	const [localHLTV, setLocalHLTV] = useState('');
+	const [hltvLogo, setHLTVLogo] = useState('');
+	const [snackbarOpen, setSnackbarOpen] = useState(false);
+	const [snackbarMsg, setSnackbarMsg] = useState('Error: Snackbar message not set');
+	const [teamLoading, setTeamLoading] = useState(false);
 
 	// Already done teams
-	const teamPresetList = teamPresetsRep.teams.map(team => {
+	const teamPresetList = teamPresetsRep.teams.map((team) => {
 		return (
 			<MenuItem key={team.alias} value={team.alias}>
 				<img
@@ -81,7 +89,7 @@ export const TeamPresetCreator: React.FC = () => {
 						height: 50,
 						width: 50,
 						objectFit: 'scale-down',
-						marginRight: 10
+						marginRight: 10,
 					}}
 					src={team.logo}
 				/>
@@ -91,7 +99,7 @@ export const TeamPresetCreator: React.FC = () => {
 	});
 
 	// Already done players
-	const playerPresetList = teamPresetsRep.players.map(player => {
+	const playerPresetList = teamPresetsRep.players.map((player) => {
 		return (
 			<MenuItem key={player.steamId} value={player.steamId}>
 				<img
@@ -99,7 +107,7 @@ export const TeamPresetCreator: React.FC = () => {
 						height: 50,
 						width: 50,
 						objectFit: 'scale-down',
-						marginRight: 10
+						marginRight: 10,
 					}}
 					src={player.profilePicture}
 				/>
@@ -112,7 +120,7 @@ export const TeamPresetCreator: React.FC = () => {
 	});
 
 	// Team logos
-	const teamLogoList = teamImagesRep.map(img => {
+	const teamLogoList = teamImagesRep.map((img) => {
 		return (
 			<MenuItem key={img.base} value={img.url}>
 				<img
@@ -120,7 +128,7 @@ export const TeamPresetCreator: React.FC = () => {
 						height: 50,
 						width: 50,
 						objectFit: 'scale-down',
-						marginRight: 10
+						marginRight: 10,
 					}}
 					src={img.url}
 				/>
@@ -129,14 +137,28 @@ export const TeamPresetCreator: React.FC = () => {
 		);
 	});
 
+	if (hltvLogo) {
+		teamLogoList.push(
+			<MenuItem key={hltvLogo} value={hltvLogo}>
+				<img
+					style={{
+						height: 50,
+						width: 50,
+						objectFit: 'scale-down',
+						marginRight: 10,
+					}}
+					src={hltvLogo}
+				/>
+				<i>HLTV {localTeamName}</i>
+			</MenuItem>,
+		);
+	}
+
 	// Profile Pics
-	const profilePicsMap = profilePicturesRep.map(pfp => {
+	const profilePicsMap = profilePicturesRep.map((pfp) => {
 		return (
 			<MenuItem key={pfp.base} value={pfp.url}>
-				<img
-					style={{ height: 50, width: 'auto', objectFit: 'scale-down', marginRight: 10 }}
-					src={pfp.url}
-				/>
+				<img style={{ height: 50, width: 'auto', objectFit: 'scale-down', marginRight: 10 }} src={pfp.url} />
 				{pfp.name}
 			</MenuItem>
 		);
@@ -154,23 +176,17 @@ export const TeamPresetCreator: React.FC = () => {
 	flagListMap.push(
 		<MenuItem key={-1} value={''}>
 			<em>No Flag</em>
-		</MenuItem>
+		</MenuItem>,
 	);
 
 	// Fill in team blanks
 	useEffect(() => {
 		if (localTeamPresetAlias) {
-			const foundTeamPreset = teamPresetsRep.teams.find(
-				team => team.alias === localTeamPresetAlias
-			);
+			const foundTeamPreset = teamPresetsRep.teams.find((team) => team.alias === localTeamPresetAlias);
 			if (foundTeamPreset) {
 				setLocalTeamAlias(foundTeamPreset.alias);
 				setLocalTeamName(foundTeamPreset.name);
 				setLocalLogo(foundTeamPreset.logo || '');
-			} else {
-				setLocalTeamAlias('');
-				setLocalTeamName('');
-				setLocalLogo('');
 			}
 		} else {
 			setLocalTeamAlias('');
@@ -182,28 +198,25 @@ export const TeamPresetCreator: React.FC = () => {
 	// Fill in player blanks
 	useEffect(() => {
 		if (steamId) {
-			const foundPlayerPreset = teamPresetsRep.players.find(player => player.steamId === steamId);
+			const foundPlayerPreset = teamPresetsRep.players.find((player) => player.steamId === steamId);
 			if (foundPlayerPreset) {
 				setLocalName(foundPlayerPreset.realName || '');
 				setLocalPfp(foundPlayerPreset.profilePicture || '');
 				setLocalCountry(foundPlayerPreset.country || '');
-			} else {
-				setLocalName('');
-				setLocalPfp('');
-				setLocalCountry('');
 			}
 		} else {
-			setLocalTeamAlias('');
-			setLocalTeamName('');
-			setLocalLogo('');
+			setLocalName('');
+			setLocalPfp('');
+			setLocalCountry('');
 		}
 	}, [steamId, teamPresetsRep.players]);
 
 	// Updater functions
 	function AddTeam(): void {
-		console.log('Adding team: ' + localName);
+		console.log('Adding team: ' + localTeamName);
 		nodecg.sendMessage('newTeam', { name: localTeamName, alias: localTeamAlias, logo: localLogo });
 
+		setSnackbarMsg(`Added ${localName}`);
 		setLocalTeamAlias('');
 		setLocalTeamPresetAlias('');
 		setLocalTeamName('');
@@ -211,14 +224,15 @@ export const TeamPresetCreator: React.FC = () => {
 	}
 
 	function AddPlayer(): void {
-		console.log('Adding player: ' + localTeamName);
+		console.log('Adding player: ' + localName);
 		nodecg.sendMessage('newPlayer', {
 			name: localName,
 			steamId,
 			pfp: localPfp,
-			country: localCountry
+			country: localCountry,
 		});
 
+		setSnackbarMsg(`Added ${localName}`);
 		setLocalName('');
 		setSteamId('');
 		setLocalPfp('');
@@ -230,17 +244,65 @@ export const TeamPresetCreator: React.FC = () => {
 		nodecg.sendMessage('exportTeams');
 	}
 
+	function GetHLTVTeam() {
+		nodecg.sendMessage('getHLTVTeam', parseInt(localHLTV));
+		setTeamLoading(true);
+	}
+
+	useListenFor('hltvTeamReturn', (data: FullTeam) => {
+		setLocalTeamName(data.name);
+		setLocalLogo(data.logo);
+		setLocalTeamAlias(data.name);
+		setHLTVLogo(data.logo);
+		setTeamLoading(false);
+	});
+
+	useListenFor('newTeamPlayerResponse', (err?: string) => {
+		if (err) setSnackbarMsg(`Error: ${err}`);
+		setSnackbarOpen(true);
+	});
+
+	function closeSnackbar() {
+		setSnackbarOpen(false);
+	}
+
 	return (
 		<ThemeProvider theme={theme}>
 			<ControlsContainer>
 				<SectionTitle>Team</SectionTitle>
+				<div style={{ display: 'flex', alignItems: 'center' }}>
+					<TextField
+						required
+						label="HLTV ID"
+						value={localHLTV}
+						onChange={(e): void => setLocalHLTV(e.target.value as string)}
+					/>
+					<div style={{ position: 'relative', height: '100%' }}>
+						<Button variant="contained" disabled={isNaN(parseInt(localHLTV)) || teamLoading} onClick={GetHLTVTeam}>
+							Load
+						</Button>
+						{teamLoading && (
+							<div
+								style={{
+									position: 'absolute',
+									top: 0,
+									width: '100%',
+									height: '100%',
+									display: 'flex',
+									justifyContent: 'center',
+									alignItems: 'center',
+								}}>
+								<CircularProgress size={24} />
+							</div>
+						)}
+					</div>
+				</div>
 				<FormControl variant="filled" fullWidth>
 					<InputLabel id="teamPresetsLabel">Team</InputLabel>
 					<Select
 						labelId="teamPresetsLabel"
 						value={localTeamPresetAlias}
-						onChange={(e): void => setLocalTeamPresetAlias(e.target.value as string)}
-					>
+						onChange={(e): void => setLocalTeamPresetAlias(e.target.value as string)}>
 						<MenuItem key={-1} value={''}>
 							<em>Create new team</em>
 						</MenuItem>
@@ -259,8 +321,7 @@ export const TeamPresetCreator: React.FC = () => {
 					<Select
 						labelId="teamLabel"
 						value={localLogo}
-						onChange={(e): void => setLocalLogo(e.target.value as string)}
-					>
+						onChange={(e): void => setLocalLogo(e.target.value as string)}>
 						<MenuItem key={-1} value={''}>
 							<em>No Team Logo</em>
 						</MenuItem>
@@ -274,12 +335,7 @@ export const TeamPresetCreator: React.FC = () => {
 					onChange={(e): void => setLocalTeamAlias(e.target.value as string)}
 					fullWidth
 				/>
-				<Button
-					fullWidth
-					onClick={AddTeam}
-					variant="contained"
-					disabled={!localTeamName || !localTeamAlias}
-				>
+				<Button fullWidth onClick={AddTeam} variant="contained" disabled={!localTeamName || !localTeamAlias}>
 					Add Team
 				</Button>
 			</ControlsContainer>
@@ -291,8 +347,7 @@ export const TeamPresetCreator: React.FC = () => {
 					<Select
 						labelId="playerPresetsLabel"
 						value={steamId}
-						onChange={(e): void => setSteamId(e.target.value as string)}
-					>
+						onChange={(e): void => setSteamId(e.target.value as string)}>
 						<MenuItem key={-1} value={''}>
 							<em>Create new player</em>
 						</MenuItem>
@@ -317,38 +372,19 @@ export const TeamPresetCreator: React.FC = () => {
 					<Select
 						labelId="pfpLabel"
 						value={localPfp}
-						onChange={(e): void => setLocalPfp(e.target.value as string)}
-					>
+						onChange={(e): void => setLocalPfp(e.target.value as string)}>
 						<MenuItem key={-1} value={''}>
 							<em>No Profile Picture</em>
 						</MenuItem>
 						{profilePicsMap}
 					</Select>
 				</FormControl>
-				{/* <Autocomplete
-					options={flagList}
-					getOptionLabel={(option): string => option}
-					renderOption={(option: typeof flagList[0]): ReactNode => (
-						<React.Fragment>
-							<TwemojiMenuItem>{option.code}</TwemojiMenuItem> {option.name}
-						</React.Fragment>
-					)}
-					renderInput={(params: object): ReactNode => (
-						<TextField {...params} label="Country" variant="filled" fullWidth />
-					)}
-					onInputChange={(_e, v): void => {
-						console.log(v);
-						setLocalCountry(v);
-					}}
-					value={localCountry}
-				/> */}
 				<FormControl variant="filled" fullWidth>
 					<InputLabel id="countryLabel">Country</InputLabel>
 					<Select
 						labelId="countryLabel"
 						value={localCountry}
-						onChange={(e): void => setLocalCountry(e.target.value as string)}
-					>
+						onChange={(e): void => setLocalCountry(e.target.value as string)}>
 						{flagListMap}
 					</Select>
 				</FormControl>
@@ -360,6 +396,16 @@ export const TeamPresetCreator: React.FC = () => {
 			<Button fullWidth onClick={Save} variant="contained">
 				Save Players and Teams
 			</Button>
+			<Snackbar
+				anchorOrigin={{
+					vertical: 'bottom',
+					horizontal: 'right',
+				}}
+				open={snackbarOpen}
+				onClose={closeSnackbar}
+				autoHideDuration={1000}
+				message={snackbarMsg}
+			/>
 		</ThemeProvider>
 	);
 };
