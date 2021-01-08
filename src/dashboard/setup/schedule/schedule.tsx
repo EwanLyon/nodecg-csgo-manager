@@ -68,8 +68,8 @@ const DashSchedule: React.FC = () => {
 			<MenuItem key={key} value={team.name}>
 				<img
 					style={{
-						height: 50,
-						width: 50,
+						height: 20,
+						width: 20,
 						objectFit: 'scale-down',
 						marginRight: 10,
 					}}
@@ -79,6 +79,12 @@ const DashSchedule: React.FC = () => {
 			</MenuItem>
 		);
 	});
+
+	teamsList.unshift(
+		<MenuItem key={'empty'} value={''}>
+			Empty
+		</MenuItem>
+	);
 
 	function AddGame() {
 		nodecg.sendMessage('addScheduleGame', { teamA, teamB, time, matchType });
@@ -147,17 +153,19 @@ const DashSchedule: React.FC = () => {
 						onClick={() => setMatchType('bo5')}
 						variant={matchType === 'bo5' ? 'default' : 'outlined'}
 					/>
-					<GreenButtonExtra variant="contained" onClick={AddGame}>+</GreenButtonExtra>
+					<GreenButtonExtra variant="contained" onClick={AddGame}>
+						+
+					</GreenButtonExtra>
 				</Grid>
 				<Divider />
 				<DragDropContext onDragEnd={onDragEnd}>
 					<Droppable droppableId="schedule">
-						{provided => (
+						{(provided) => (
 							<div ref={provided.innerRef} {...provided.droppableProps} style={{ width: '100%' }}>
 								{scheduleRep.map((game, index) => {
 									return (
 										<Draggable key={game.id} draggableId={game.id} index={index}>
-											{provided => (
+											{(provided) => (
 												<div
 													ref={provided.innerRef}
 													{...provided.draggableProps}
