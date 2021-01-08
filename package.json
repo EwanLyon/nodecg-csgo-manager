@@ -45,10 +45,17 @@
         "workspace": "Setup"
       },
       {
-        "name": "mapscores",
-        "title": "Map Scores",
-        "width": 3,
-        "file": "map-scores.html",
+        "name": "schedule",
+        "title": "Schedule",
+        "width": 5,
+        "file": "schedule.html",
+        "workspace": "Setup"
+      },
+      {
+        "name": "currentmatch",
+        "title": "Current Match",
+        "width": 2,
+        "file": "currentmatch.html",
         "workspace": "Producer"
       }
     ],
@@ -92,7 +99,7 @@
     "watch:graphics": "trash graphics && parcel watch src/graphics/*.html --out-dir graphics --public-url ./",
     "watch:extension": "tsc -b ./src/extension/tsconfig.json --watch",
     "schema-types": "trash src/types/schemas && nodecg schema-types",
-    "start:solo": "node ../.. --bundlesEnabled=csgo-layouts",
+    "start:solo": "node ../.. --bundlesEnabled=nodecg-csgo-manager",
     "start": "node ../..",
     "lint": "eslint ./src/**/*.{ts,tsx}",
     "lint:fix": "eslint ./src/**/*.{ts,tsx} --fix"

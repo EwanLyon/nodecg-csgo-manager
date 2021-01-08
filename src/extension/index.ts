@@ -23,6 +23,8 @@ async function init(): Promise<void> {
 	require('./team-import-export');
 	require('./hlae');
 	require('./map-interp');
+	require('./schedule');
+	require('./currentmatch');
 }
 
 module.exports = (nodecg: NodeCG): void => {

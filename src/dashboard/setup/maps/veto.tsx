@@ -17,9 +17,8 @@ import {
 } from 'react-beautiful-dnd';
 import { ExtraMapData } from '../../../types/map-data';
 import { DashVETOSingle } from './vetosingle';
-import { TeamData as DummyTD } from '../../../extension/dummyData';
-import { TeamData } from '../../../types/extra-data';
 import { GreenButton } from '../../atoms/styled-ui';
+import { Schedule } from '../../../types/schedule';
 
 const GreenButtonExtra = styled(GreenButton)`
 	min-width: 44px;
@@ -34,6 +33,12 @@ const Divider = styled.div`
 	width: 100%;
 	background: #525f78;
 	margin: 8px 0;
+`;
+
+const SelectNoMaxHeight = styled(Select)`
+	& .MuiMenu-paper {
+		max-height: 100%;
+	}
 `;
 
 const mapNames = ['Dust2', 'Inferno', 'Mirage', 'Nuke', 'Overpass', 'Train', 'Vertigo'];
@@ -56,26 +61,24 @@ const getItemStyle = (draggableStyle: DraggingStyle | NotDraggingStyle | undefin
 });
 
 const DashVeto: React.FC = () => {
-	// const [currentMatchRep] = useReplicant<string>('currentMatch', '');
-	// const [scheduleRep] = useReplicant<Schedule>('schedule', []);
-	const [teamOneRep] = useReplicant<TeamData>('teamOne', DummyTD);
-	const [teamTwoRep] = useReplicant<TeamData>('teamTwo', DummyTD);
+	const [currentMatchRep] = useReplicant<string>('currentMatch', '');
+	const [scheduleRep] = useReplicant<Schedule>('schedule', []);
 	const [vetoRep] = useReplicant<ExtraMapData[]>('mapInfo', []);
 	const [teamSelected, setTeamSelected] = useState('');
 	const [mapSelected, setMapSelected] = useState('');
 	const [vetoType, setVetoType] = useState('Ban');
 
-	// const scheduleIndex = scheduleRep.findIndex(game => game.id === currentMatchRep.toString());
+	const scheduleIndex = scheduleRep.findIndex((game) => game.id === currentMatchRep.toString());
 
-	// if (scheduleIndex === -1) {
-	// 	console.log('VETO: Could not find scheduled match');
-	// 	return <>Could not find scheduled match to VETO (could probably do with a better ui tho)</>;
-	// }
+	if (scheduleIndex === -1) {
+		console.log('VETO: Could not find scheduled match');
+		return <>Could not find scheduled match to VETO (could probably do with a better ui tho)</>;
+	}
 
-	// const scheduleGame = scheduleRep[scheduleIndex];
+	const scheduleGame = scheduleRep[scheduleIndex];
 
-	const mapItems = mapNames.map(map => {
-		const mapAlreadySelected = vetoRep.find(veto => (veto.map === map));
+	const mapItems = mapNames.map((map) => {
+		const mapAlreadySelected = vetoRep.find((veto) => veto.map === map && veto.matchId === scheduleGame.id);
 		return (
 			<MenuItem key={map} value={map} disabled={Boolean(mapAlreadySelected)}>
 				{map}
@@ -95,13 +98,16 @@ const DashVeto: React.FC = () => {
 	}
 
 	function AddMap(): void {
-		// eslint-disable-next-line no-undef
+		setTeamSelected(teamSelected === scheduleGame.teamA.name ? scheduleGame.teamB.name : scheduleGame.teamA.name);
 		nodecg.sendMessage('addMap', {
 			map: mapSelected,
 			ban: vetoType === 'Ban',
-			team: teamSelected
+			team: teamSelected,
+			matchId: currentMatchRep,
 		} as ExtraMapData);
 	}
+
+	const canAddMap = teamSelected !== '' && mapSelected !== '';
 
 	return (
 		<ThemeProvider theme={theme}>
@@ -116,11 +122,11 @@ const DashVeto: React.FC = () => {
 					<Grid item xs={4}>
 						<FormControl variant="filled" fullWidth>
 							<InputLabel id="teamVeto">Team</InputLabel>
-							<Select
+							<SelectNoMaxHeight
 								labelId="teamVeto"
 								value={teamSelected}
 								onChange={(e): void => setTeamSelected(e.target.value as string)}>
-								<MenuItem key={teamOneRep.name} value={teamOneRep.name}>
+								<MenuItem key={scheduleGame.teamA.name} value={scheduleGame.teamA.name}>
 									<img
 										style={{
 											height: 20,
@@ -128,11 +134,11 @@ const DashVeto: React.FC = () => {
 											objectFit: 'scale-down',
 											marginRight: 10,
 										}}
-										src={teamOneRep.teamURL}
+										src={scheduleGame.teamA.logo}
 									/>
-									{teamOneRep.name}
+									{scheduleGame.teamA.name}
 								</MenuItem>
-								<MenuItem key={teamTwoRep.name} value={teamTwoRep.name}>
+								<MenuItem key={scheduleGame.teamB.name} value={scheduleGame.teamB.name}>
 									<img
 										style={{
 											height: 20,
@@ -140,14 +146,14 @@ const DashVeto: React.FC = () => {
 											objectFit: 'scale-down',
 											marginRight: 10,
 										}}
-										src={teamTwoRep.teamURL}
+										src={scheduleGame.teamB.logo}
 									/>
-									{teamTwoRep.name}
+									{scheduleGame.teamB.name}
 								</MenuItem>
 								<MenuItem key="Server" value="Server">
 									Server
 								</MenuItem>
-							</Select>
+							</SelectNoMaxHeight>
 						</FormControl>
 					</Grid>
 					<Grid item container direction="column" justify="center" style={{ width: 'fit-content' }}>
@@ -173,34 +179,40 @@ const DashVeto: React.FC = () => {
 							</Select>
 						</FormControl>
 					</Grid>
-					<GreenButtonExtra variant="contained" fullWidth onClick={AddMap}>+</GreenButtonExtra>
+					<GreenButtonExtra variant="contained" fullWidth onClick={AddMap} disabled={!canAddMap}>
+						+
+					</GreenButtonExtra>
 				</Grid>
 				<Divider />
 				<DragDropContext onDragEnd={onDragEnd}>
 					<Droppable droppableId="schedule">
-						{provided => (
+						{(provided) => (
 							<div ref={provided.innerRef} {...provided.droppableProps} style={{ width: '100%' }}>
 								{vetoRep.map((veto, index) => {
-									return (
-										<Draggable key={veto.map} draggableId={veto.map} index={index}>
-											{provided => (
-												<div
-													ref={provided.innerRef}
-													{...provided.draggableProps}
-													style={getItemStyle(provided.draggableProps.style)}>
-													<DashVETOSingle
-														veto={veto}
-														handleProps={provided.dragHandleProps}
-														otherTeamName={
-															veto.team === teamOneRep.name
-																? teamTwoRep.name
-																: teamOneRep.name
-														}
-													/>
-												</div>
-											)}
-										</Draggable>
-									);
+									if (veto.matchId === scheduleGame.id) {
+										return (
+											<Draggable key={veto.map} draggableId={veto.map} index={index}>
+												{(provided) => (
+													<div
+														ref={provided.innerRef}
+														{...provided.draggableProps}
+														style={getItemStyle(provided.draggableProps.style)}>
+														<DashVETOSingle
+															veto={veto}
+															handleProps={provided.dragHandleProps}
+															otherTeamName={
+																veto.team === scheduleGame.teamA.name
+																	? scheduleGame.teamB.name
+																	: scheduleGame.teamA.name
+															}
+														/>
+													</div>
+												)}
+											</Draggable>
+										);
+									}
+
+									return <></>;
 								})}
 								{provided.placeholder}
 							</div>

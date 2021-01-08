@@ -5,6 +5,7 @@ export interface ExtraMapData {
 	teamTwoScore?: number;
 	ban: boolean;
 	side: string;
+	matchId: string;
 }
 
 export interface MapPlayerData {
