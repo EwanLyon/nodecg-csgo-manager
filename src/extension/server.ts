@@ -30,7 +30,7 @@ const matchStatsRep = nodecg.Replicant<Map>('matchStats', {
 	persistent: false
 });
 const allPlayersRep = nodecg.Replicant<CSGOOutputAllplayer[]>('allPlayers', {
-	defaultValue: DummyData.player,
+	defaultValue: [],
 	persistent: false
 });
 const observingPlayerRep = nodecg.Replicant<CSGOOutputPlayer>('observingPlayer', {

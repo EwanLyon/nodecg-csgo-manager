@@ -92,7 +92,7 @@ export const Teams: React.FunctionComponent = () => {
 	const [teamTwoRep] = useReplicant<TeamData>('teamTwo', DummyData.TeamData);
 	const [allPlayersRep] = useReplicant<CSGOOutputAllplayer[]>('allPlayers', DummyData.player);
 	const [playerDataRep] = useReplicant<PlayerDataAll>('playerData', DummyData.ExtraData);
-	const [teamPresetsRep] = useReplicant<TeamsPreset>('teamPreset', DummyData.DummyTeamsPreset);
+	const [teamPresetsRep] = useReplicant<TeamsPreset>('teamPlayerPreset', DummyData.DummyTeamsPreset);
 
 	const [teamOneName, setTeamOneName] = useState('');
 	const [teamTwoName, setTeamTwoName] = useState('');

@@ -15,10 +15,14 @@ import {
 	NotDraggingStyle,
 	DropResult,
 } from 'react-beautiful-dnd';
-import { MatchScores, MapInfo } from '../../../types/match-scores';
+import { Matches, MapInfo, Match } from '../../../types/matches';
 import { DashVETOSingle } from './vetosingle';
 import { GreenButton } from '../../atoms/styled-ui';
-import { TeamsPreset } from '../../../types/team-preset';
+
+const NoMapError = styled.div`
+	padding: 8px;
+	text-align: center;
+`;
 
 const GreenButtonExtra = styled(GreenButton)`
 	min-width: 44px;
@@ -61,22 +65,19 @@ const getItemStyle = (draggableStyle: DraggingStyle | NotDraggingStyle | undefin
 });
 
 const DashVeto: React.FC = () => {
-	const [currentMatchRep] = useReplicant<string>('currentMatch', '');
-	const [matchScoresRep] = useReplicant<MatchScores>('matchScores', []);
-	const [teamsRep] = useReplicant<TeamsPreset>('teamPreset', { teams: {}, players: {} });
+	const [currentMatchRep] = useReplicant<Match | undefined>('currentMatch', undefined);
+	const [matchScoresRep] = useReplicant<Matches>('matches', []);
 	const [teamSelected, setTeamSelected] = useState('');
 	const [mapSelected, setMapSelected] = useState('');
 	const [vetoType, setVetoType] = useState('Ban');
 
-	const currentMatch = matchScoresRep.find((match) => match.id === currentMatchRep);
-
-	if (!currentMatch) {
-		console.log('VETO: Could not find current match scores.', currentMatch, matchScoresRep);
-		return <>Could not find scheduled match to VETO (could probably do with a better ui tho)</>;
+	if (!currentMatchRep) {
+		console.log('VETO: Could not find current match scores.', currentMatchRep);
+		return <NoMapError>No match selected</NoMapError>;
 	}
 
 	const mapItems = mapNames.map((map) => {
-		const mapAlreadySelected = currentMatch.maps.find((matchMaps) => matchMaps.map === map);
+		const mapAlreadySelected = currentMatchRep.maps.find((matchMaps) => matchMaps.map === map);
 		return (
 			<MenuItem key={map} value={map} disabled={Boolean(mapAlreadySelected)}>
 				{map}
@@ -96,8 +97,10 @@ const DashVeto: React.FC = () => {
 	}
 
 	function AddMap(): void {
-		if (!currentMatch) return;
-		setTeamSelected(teamSelected === currentMatch.teamA ? currentMatch.teamB : currentMatch.teamA);
+		if (!currentMatchRep) return;
+		setTeamSelected(
+			teamSelected === currentMatchRep.teamA.name ? currentMatchRep.teamB.name : currentMatchRep.teamA.name,
+		);
 		nodecg.sendMessage('addMap', {
 			map: mapSelected,
 			ban: vetoType === 'Ban',
@@ -109,7 +112,7 @@ const DashVeto: React.FC = () => {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<Grid container direction="column">
+			<Grid container direction="column" style={{ padding: '8px 0' }}>
 				<Grid
 					item
 					container
@@ -124,7 +127,7 @@ const DashVeto: React.FC = () => {
 								labelId="teamVeto"
 								value={teamSelected}
 								onChange={(e): void => setTeamSelected(e.target.value as string)}>
-								<MenuItem key={currentMatch.teamA} value={currentMatch.teamA}>
+								<MenuItem key={currentMatchRep.teamA.name} value={currentMatchRep.teamA.name}>
 									<img
 										style={{
 											height: 20,
@@ -132,11 +135,11 @@ const DashVeto: React.FC = () => {
 											objectFit: 'scale-down',
 											marginRight: 10,
 										}}
-										src={teamsRep.teams[currentMatch.teamA]?.logo}
+										src={currentMatchRep.teamA.logo}
 									/>
-									{currentMatch.teamA}
+									{currentMatchRep.teamA.name}
 								</MenuItem>
-								<MenuItem key={currentMatch.teamB} value={currentMatch.teamB}>
+								<MenuItem key={currentMatchRep.teamB.name} value={currentMatchRep.teamB.name}>
 									<img
 										style={{
 											height: 20,
@@ -144,9 +147,9 @@ const DashVeto: React.FC = () => {
 											objectFit: 'scale-down',
 											marginRight: 10,
 										}}
-										src={teamsRep.teams[currentMatch.teamB]?.logo}
+										src={currentMatchRep.teamB.logo}
 									/>
-									{currentMatch.teamB}
+									{currentMatchRep.teamB.name}
 								</MenuItem>
 								<MenuItem key="Server" value="Server">
 									Server
@@ -186,7 +189,7 @@ const DashVeto: React.FC = () => {
 					<Droppable droppableId="schedule">
 						{(provided) => (
 							<div ref={provided.innerRef} {...provided.droppableProps} style={{ width: '100%' }}>
-								{currentMatch.maps.map((map, index) => {
+								{currentMatchRep.maps.map((map, index) => {
 									return (
 										<Draggable key={map.map} draggableId={map.map} index={index}>
 											{(provided) => (
@@ -198,9 +201,9 @@ const DashVeto: React.FC = () => {
 														veto={map}
 														handleProps={provided.dragHandleProps}
 														otherTeamName={
-															map.teamVeto === currentMatch.teamA
-																? currentMatch.teamB
-																: currentMatch.teamA
+															map.teamVeto === currentMatchRep.teamA.name
+																? currentMatchRep.teamB.name
+																: currentMatchRep.teamA.name
 														}
 													/>
 												</div>

@@ -18,7 +18,7 @@ interface Asset {
 }
 
 const playerDataRep = nodecg.Replicant<PlayerDataAll>('playerData');
-const teamPresetsRep = nodecg.Replicant<TeamsPreset>('teamPreset');
+const teamPresetsRep = nodecg.Replicant<TeamsPreset>('teamPlayerPreset', { defaultValue: { teams: {}, players: {} } });
 const teamPresetAssetsRep = nodecg.Replicant<Asset[]>('assets:teamPreset');
 
 nodecg.listenFor('exportTeams', () => {
@@ -133,13 +133,13 @@ nodecg.listenFor(
 		_.pickBy(playerObj, _.identity);
 
 		teamPresetsRep.value.players[playerObj.steamId] = playerObj;
-		
+
 		nodecg.sendMessage('newTeamPlayerResponse');
 	}
 );
 
 nodecg.listenFor('getHLTVTeam', (id: number) => {
-	HLTV.getTeam({id}).then(res => {
+	HLTV.getTeam({ id }).then(res => {
 		nodecg.sendMessage('hltvTeamReturn', res);
 	});
 })

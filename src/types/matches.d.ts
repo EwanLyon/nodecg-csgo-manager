@@ -1,10 +1,22 @@
-export type MatchScores = MatchScoresItem[];
+import { Team } from './team-preset';
 
-export interface MatchScoresItem {
+export type Matches = Match[];
+
+// Used in creating new matches
+export interface NewMatch {
 	teamA: string;
 	teamB: string;
+	time: string;
+	matchType: string;
+}
+
+export interface Match {
+	teamA: Team;
+	teamB: Team;
 	maps: MapInfo[];
 	status: string;
+	time: string;
+	matchType: string;
 	id: string;
 }
 

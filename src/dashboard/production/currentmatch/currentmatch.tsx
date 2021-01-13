@@ -4,13 +4,16 @@ import { useReplicant } from 'use-nodecg';
 import styled from 'styled-components';
 import { theme } from '../../theme';
 
-import { Schedule } from '../../../types/schedule';
-import { MapInfo, MatchScores, MatchScoresItem, Score } from '../../../types/match-scores';
+import { MapInfo, Matches, Match, Score } from '../../../types/matches';
 
 import { ThemeProvider } from '@material-ui/styles';
 import { Grid, Button, Chip } from '@material-ui/core';
 import { ChevronLeft, ChevronRight } from '@material-ui/icons';
 import { DashMapScores } from './mapscores';
+
+const NoMapError = styled.div`
+	text-align: center;
+`;
 
 const Divider = styled.div`
 	height: 1px;
@@ -58,52 +61,39 @@ const TeamBox: React.FC<TeamBoxProps> = (props: TeamBoxProps) => {
 const statusTypes = ['Soon', 'Playing', 'Half Time', 'Over Time', 'Final Score', 'Technical Break'];
 
 const DashCurrentMatch: React.FC = () => {
-	const [scheduleRep] = useReplicant<Schedule>('schedule', []);
-	const [currentMatchRep] = useReplicant<string>('currentMatch', '');
-	const [matchScoresRep] = useReplicant<MatchScores>('matchScores', []);
+	const [currentMatchRep] = useReplicant<Match | undefined>('currentMatch', undefined);
+	const [matchesRep] = useReplicant<Matches>('matches', []);
 	const [currentStatus, setCurrentStatus] = useState('Soon');
 
-	const currentMatchIndex = scheduleRep.findIndex(game => game.id === currentMatchRep);
-	const currentMatch = scheduleRep[currentMatchIndex];
+	if (!currentMatchRep) {
+		return <NoMapError>No match selected</NoMapError>;
+	}
 	
-	const matchScoresIndex = matchScoresRep.findIndex(match => match.id === currentMatchRep.toString());
 	// Select correct status chip
-	if (matchScoresIndex === -1) {
-		return <>Loading...</>;
+	if (currentMatchRep.status !== currentStatus) {
+		setCurrentStatus(currentMatchRep.status);
 	}
 
-	if (matchScoresRep[matchScoresIndex].status !== currentStatus) {
-		setCurrentStatus(matchScoresRep[matchScoresIndex].status);
-	}
+	const currentMatchIndex = matchesRep.findIndex(match => match.id === currentMatchRep.id);
 
 	// -1: Error, 0: Start, 1: "Middle", 2: End, 3: Only game
 	let startOrEnd = 1;
 	if (currentMatchIndex === -1) {
 		startOrEnd = -1;
-	} else if (scheduleRep.length === 1) {
+	} else if (matchesRep.length === 1) {
 		startOrEnd = 3;
 	} else if (currentMatchIndex === 0) {
 		startOrEnd = 0;
-	} else if (currentMatchIndex === scheduleRep.length - 1) {
+	} else if (currentMatchIndex === matchesRep.length - 1) {
 		startOrEnd = 2;
 	}
 
-	const pickedMaps = matchScoresRep[matchScoresIndex].maps.filter(map => !map.ban);
+	const pickedMaps = currentMatchRep.maps.filter(map => !map.ban);
 
 	// Fill in score inputs
 	for (let i = 0; i < pickedMaps.length; i++) {
-		if (matchScoresRep.length === 0) {
-			break;
-		}
-
-		if (typeof matchScoresRep[matchScoresIndex] === undefined) {
-			// Made new match scores from dashboard... this shouldn't happen unless you're a dev
-			nodecg.sendMessage('createNewMatchScores', currentMatchRep);
-			break;
-		}
-
-		if (matchScoresRep[matchScoresIndex].maps[i]) {
-			const mapScores = matchScoresRep[matchScoresIndex].maps[i];
+		if (currentMatchRep.maps[i]) {
+			const mapScores = currentMatchRep.maps[i];
 
 			// In a try catch because if a map is introduced via veto then it will try
 			// and fill inputs that aren't created
@@ -179,7 +169,7 @@ const DashCurrentMatch: React.FC = () => {
 	}
 
 	function UpdateScore() {
-		const allMaps: MatchScoresItem['maps'] = [];
+		const allMaps: Match['maps'] = [];
 		for (let i = 0; i < pickedMaps.length; i++) {
 			const fakeScores: Score = { teamA: 0, teamB: 0 };
 			const singleMap: MapInfo = {
@@ -245,9 +235,9 @@ const DashCurrentMatch: React.FC = () => {
 				</Grid>
 				<Divider />
 				<Grid item container alignItems="center" justify="center">
-					<TeamBox name={currentMatch?.teamA.name} logo={currentMatch?.teamA.logo || ''} />
+					<TeamBox name={currentMatchRep?.teamA.name} logo={currentMatchRep?.teamA.logo || ''} />
 					<span style={{ margin: '0 10px' }}>VS</span>
-					<TeamBox name={currentMatch?.teamB.name} logo={currentMatch?.teamB.logo || ''} />
+					<TeamBox name={currentMatchRep?.teamB.name} logo={currentMatchRep?.teamB.logo || ''} />
 				</Grid>
 
 				<Grid item container justify="center" style={{ margin: '15px 0', padding: '0 8px' }}>

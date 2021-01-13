@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Schedule } from '../../../types/schedule';
+import { Match } from '../../../types/matches';
+import { Team } from '../../../types/team-preset';
 
 import { GrabHandles } from '../../atoms/grabhandle';
 import { RedButton } from '../../atoms/styled-ui';
@@ -49,12 +50,12 @@ const TeamName = styled(FitText)`
 
 interface Props {
 	handleProps: DraggableProvidedDragHandleProps | undefined;
-	game: Schedule[0];
+	match: Match;
 	current?: boolean;
 }
 
 interface TeamBoxProps {
-	team: Schedule[0]['teamA'];
+	team: Team;
 }
 
 interface ActiveProps {
@@ -72,20 +73,20 @@ const TeamBox: React.FC<TeamBoxProps> = (props: TeamBoxProps) => {
 
 export const SingleMatch: React.FC<Props> = (props: Props) => {
 	function RemoveGame() {
-		nodecg.sendMessage('removeScheduleGame', props.game.id);
+		nodecg.sendMessage('removeMatch', props.match.id);
 	}
 
 	return (
 		<SingleMatchContainer active={props.current}>
 			<GrabHandles handleProps={props.handleProps} />
 			<TeamsContainer>
-				<TeamBox team={props.game.teamA} />
+				<TeamBox team={props.match.teamA} />
 				<span style={{ margin: '0 5px', fontSize: 28 }}>VS</span>
-				<TeamBox team={props.game.teamB} />
+				<TeamBox team={props.match.teamB} />
 			</TeamsContainer>
-			<span style={{ margin: '0 10px', fontSize: 32 }}>{props.game.time}</span>
+			<span style={{ margin: '0 10px', fontSize: 32 }}>{props.match.time}</span>
 			<span style={{ margin: '0 10px', fontSize: 23, color: '#bbb', textTransform: 'capitalize' }}>
-				{props.game.matchType}
+				{props.match.matchType}
 			</span>
 			<RedButtonExtra variant="contained" size="small" onClick={RemoveGame}>
 				‒

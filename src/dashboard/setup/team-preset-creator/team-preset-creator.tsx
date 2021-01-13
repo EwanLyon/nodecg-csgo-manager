@@ -24,6 +24,7 @@ import { theme } from '../../theme';
 import { TeamsPreset } from '../../../types/team-preset';
 import { DummyTeamsPreset } from '../../../extension/dummyData';
 import { FullTeam } from 'hltv/lib/models/FullTeam';
+import { Asset } from '../../../types/nodecg';
 
 const ControlsContainer = styled.div`
 	& > * {
@@ -35,26 +36,6 @@ const SectionTitle = styled.span`
 	font-size: 20px;
 `;
 
-interface Asset {
-	base: string;
-	bundleName: string;
-	category: string;
-	ext: string;
-	name: string;
-	sum: string;
-	url: string;
-}
-
-const DummyAsset: Asset = {
-	base: '',
-	bundleName: 'csgo-layouts',
-	category: '',
-	ext: '',
-	name: '',
-	sum: '',
-	url: '',
-};
-
 const TwemojiMenuItem = styled(Twemoji)`
 	& > .emoji {
 		height: 50px;
@@ -63,9 +44,9 @@ const TwemojiMenuItem = styled(Twemoji)`
 `;
 
 export const TeamPresetCreator: React.FC = () => {
-	const [profilePicturesRep] = useReplicant<Asset[]>('assets:playerIcons', [DummyAsset]);
-	const [teamImagesRep] = useReplicant<Asset[]>('assets:teamimages', [DummyAsset]);
-	const [teamPresetsRep] = useReplicant<TeamsPreset>('teamPreset', DummyTeamsPreset);
+	const [profilePicturesRep] = useReplicant<Asset[]>('assets:playerIcons', []);
+	const [teamImagesRep] = useReplicant<Asset[]>('assets:teamimages', []);
+	const [teamPresetsRep] = useReplicant<TeamsPreset>('teamPlayerPreset', DummyTeamsPreset);
 	const [steamId, setSteamId] = useState('');
 	const [localName, setLocalName] = useState('');
 	const [localPfp, setLocalPfp] = useState('');
@@ -278,7 +259,10 @@ export const TeamPresetCreator: React.FC = () => {
 						onChange={(e): void => setLocalHLTV(e.target.value as string)}
 					/>
 					<div style={{ position: 'relative', height: '100%' }}>
-						<Button variant="contained" disabled={isNaN(parseInt(localHLTV)) || teamLoading} onClick={GetHLTVTeam}>
+						<Button
+							variant="contained"
+							disabled={isNaN(parseInt(localHLTV)) || teamLoading}
+							onClick={GetHLTVTeam}>
 							Load
 						</Button>
 						{teamLoading && (

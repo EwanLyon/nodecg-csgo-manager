@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { CSGOOutputAllplayer, CSGOOutputPhaseCountdowns, Map } from '../types/csgo-gsi';
 import { PlayerDataAll, TeamData } from '../types/extra-data';
-import { MapInfo, MatchScores } from '../types/match-scores';
+import { MapInfo, Matches } from '../types/matches';
 import { ExtraData as DummyExtraData } from './dummyData';
 import { TeamsPreset } from '../types/team-preset';
 
@@ -19,9 +19,9 @@ const playerDataRep = nodecg.Replicant<PlayerDataAll>('playerData', {
 });
 const teamOneRep = nodecg.Replicant<TeamData>('teamOne');
 const teamTwoRep = nodecg.Replicant<TeamData>('teamTwo');
-const teamPresetsRep = nodecg.Replicant<TeamsPreset>('teamPreset');
+const teamPresetsRep = nodecg.Replicant<TeamsPreset>('teamPlayerPreset');
 const currentMatchRep = nodecg.Replicant<string>('currentMatch');
-const matchScoresRep = nodecg.Replicant<MatchScores>('matchScores');
+const matchScoresRep = nodecg.Replicant<Matches>('matches');
 
 teamOneRep.value.players = [];
 teamTwoRep.value.players = [];

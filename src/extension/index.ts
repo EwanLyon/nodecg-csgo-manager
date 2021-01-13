@@ -19,12 +19,12 @@ async function init(): Promise<void> {
 	});
 
 	require('./server');
-	require('./extraData');
 	require('./team-import-export');
-	require('./hlae');
+	require('./matches');
+	require('./tournament');
 	require('./map-interp');
-	require('./schedule');
-	require('./currentmatch');
+	require('./hlae');
+	require('./extraData');
 }
 
 module.exports = (nodecg: NodeCG): void => {

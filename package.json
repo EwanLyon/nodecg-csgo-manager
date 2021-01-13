@@ -57,6 +57,12 @@
         "width": 2,
         "file": "currentmatch.html",
         "workspace": "Producer"
+      },
+      {
+        "name": "fixture",
+        "title": "Fixture",
+        "file": "fixture.html",
+        "fullbleed": true
       }
     ],
     "assetCategories": [
@@ -78,7 +84,19 @@
           "jpg",
           "jpeg",
           "gif",
-          "png"
+          "png",
+          "svg"
+        ]
+      },
+      {
+        "name": "tournamentLogos",
+        "title": "Tournament Logos",
+        "allowedTypes": [
+          "jpg",
+          "jpeg",
+          "gif",
+          "png",
+          "svg"
         ]
       },
       {
@@ -132,6 +150,7 @@
     "trash-cli": "^3.1.0",
     "typeface-roboto": "1.1.13",
     "use-nodecg": "^0.4.0",
+    "uuid": "^8.3.2",
     "ws": "^7.4.1"
   },
   "devDependencies": {
@@ -141,6 +160,7 @@
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-dom": "^16.9.10",
     "@types/styled-components": "^5.1.7",
+    "@types/uuid": "^8.3.0",
     "@typescript-eslint/eslint-plugin": "^4.11.0",
     "@typescript-eslint/parser": "^4.11.0",
     "eslint": "^7.16.0",

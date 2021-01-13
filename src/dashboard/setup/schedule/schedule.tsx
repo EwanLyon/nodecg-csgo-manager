@@ -6,7 +6,7 @@ import { useReplicant } from 'use-nodecg';
 
 import { TeamsPreset } from '../../../types/team-preset';
 import { DummyTeamsPreset } from '../../../extension/dummyData';
-import { Schedule } from '../../../types/schedule';
+import { Match, Matches, NewMatch } from '../../../types/matches';
 
 import { Grid, Select, MenuItem, FormControl, InputLabel, TextField, Chip } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
@@ -54,9 +54,10 @@ const getItemStyle = (draggableStyle: DraggingStyle | NotDraggingStyle | undefin
 });
 
 const DashSchedule: React.FC = () => {
-	const [teamPresetsRep] = useReplicant<TeamsPreset>('teamPreset', DummyTeamsPreset);
-	const [scheduleRep] = useReplicant<Schedule>('schedule', []);
-	const [currentMatchRep] = useReplicant<string>('currentMatch', '');
+	const [teamPresetsRep] = useReplicant<TeamsPreset>('teamPlayerPreset', DummyTeamsPreset);
+	const [matchesRep] = useReplicant<Matches>('matches', []);
+	console.log(matchesRep)
+	const [currentMatchRep] = useReplicant<Match | undefined>('currentMatch', undefined);
 
 	const [teamA, setTeamA] = useState('');
 	const [teamB, setTeamB] = useState('');
@@ -87,7 +88,7 @@ const DashSchedule: React.FC = () => {
 	);
 
 	function AddGame() {
-		nodecg.sendMessage('addScheduleGame', { teamA, teamB, time, matchType });
+		nodecg.sendMessage('createNewMatch', { teamA, teamB, time, matchType } as NewMatch);
 	}
 
 	function onDragEnd(result: DropResult) {
@@ -96,9 +97,9 @@ const DashSchedule: React.FC = () => {
 			return;
 		}
 
-		const items = reorder(scheduleRep, result.source.index, result.destination.index);
+		const items = reorder(matchesRep, result.source.index, result.destination.index);
 
-		nodecg.sendMessage('reorderSchedule', items);
+		nodecg.sendMessage('updateMatchOrder', items);
 	}
 
 	return (
@@ -162,9 +163,9 @@ const DashSchedule: React.FC = () => {
 					<Droppable droppableId="schedule">
 						{(provided) => (
 							<div ref={provided.innerRef} {...provided.droppableProps} style={{ width: '100%' }}>
-								{scheduleRep.map((game, index) => {
+								{matchesRep.map((match, index) => {
 									return (
-										<Draggable key={game.id} draggableId={game.id} index={index}>
+										<Draggable key={match.id} draggableId={match.id} index={index}>
 											{(provided) => (
 												<div
 													ref={provided.innerRef}
@@ -172,8 +173,8 @@ const DashSchedule: React.FC = () => {
 													style={getItemStyle(provided.draggableProps.style)}>
 													<SingleMatch
 														handleProps={provided.dragHandleProps}
-														game={game}
-														current={currentMatchRep === game.id}
+														match={match}
+														current={currentMatchRep?.id === match.id}
 													/>
 												</div>
 											)}
