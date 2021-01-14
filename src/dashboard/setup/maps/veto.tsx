@@ -105,6 +105,10 @@ const DashVeto: React.FC = () => {
 			map: mapSelected,
 			ban: vetoType === 'Ban',
 			teamVeto: teamSelected,
+			complete: false,
+			firstHalf: { teamA: 0, teamB: 0 },
+			secondHalf: { teamA: 0, teamB: 0 },
+			side: '',
 		} as MapInfo);
 	}
 

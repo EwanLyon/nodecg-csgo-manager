@@ -13,10 +13,7 @@ const nodecg = nodecgApiContext.get();
 const allPlayersRep = nodecg.Replicant<CSGOOutputAllplayer[]>('allPlayers');
 const phaseRep = nodecg.Replicant<CSGOOutputPhaseCountdowns>('phase');
 const matchRep = nodecg.Replicant<Map>('matchStats');
-const playerDataRep = nodecg.Replicant<PlayerDataAll>('playerData', {
-	defaultValue: DummyExtraData,
-	persistent: false
-});
+const playerDataRep = nodecg.Replicant<PlayerDataAll>('playerData');
 const teamOneRep = nodecg.Replicant<TeamData>('teamOne');
 const teamTwoRep = nodecg.Replicant<TeamData>('teamTwo');
 const teamPresetsRep = nodecg.Replicant<TeamsPreset>('teamPlayerPreset');
@@ -50,7 +47,7 @@ function refreshTeamPlayers(): void {
 	const teamTwoList: string[] = [];
 	allPlayersRep.value.forEach(player => {
 		// Check if player exists in extra player data
-		if (playerDataRep.value[player.steamId] === undefined) {
+		if (!playerDataRep.value[player.steamId]) {
 			// If player didn't exists add them
 			const presetPlayer = teamPresetsRep.value.players[player.steamId];
 

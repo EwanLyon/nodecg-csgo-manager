@@ -18,7 +18,7 @@ interface Asset {
 }
 
 const playerDataRep = nodecg.Replicant<PlayerDataAll>('playerData');
-const teamPresetsRep = nodecg.Replicant<TeamsPreset>('teamPlayerPreset', { defaultValue: { teams: {}, players: {} } });
+const teamPresetsRep = nodecg.Replicant<TeamsPreset>('teamPlayerPreset');
 const teamPresetAssetsRep = nodecg.Replicant<Asset[]>('assets:teamPreset');
 
 nodecg.listenFor('exportTeams', () => {

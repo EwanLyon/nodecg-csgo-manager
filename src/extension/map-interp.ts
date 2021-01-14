@@ -5,15 +5,9 @@ const nodecg = nodecgApiContext.get();
 import { MapPlayerData } from '../types/map-player';
 import { CSGOOutputPhaseCountdowns } from '../types/csgo-gsi';
 
-const interpMapPlayersRep = nodecg.Replicant<Record<string, MapPlayerData>>('interpMapPlayers', {
-	defaultValue: {},
-	persistent: false
-});
+const interpMapPlayersRep = nodecg.Replicant<Record<string, MapPlayerData>>('interpMapPlayers');
 
-const mapPlayersRep = nodecg.Replicant<MapPlayerData[]>('mapPlayers', {
-	defaultValue: [],
-	persistent: false
-});
+const mapPlayersRep = nodecg.Replicant<MapPlayerData[]>('mapPlayers');
 
 const phaseRep = nodecg.Replicant<CSGOOutputPhaseCountdowns>('phase');
 
@@ -53,6 +47,8 @@ setInterval(() => {
 		} catch (error) {
 			nodecg.log.warn('Failed to average map positions and angles: ' + error);
 		}
+
+		if (!clonedMapPlayers[i]) return;
 
 		newInterp[clonedMapPlayers[i].steamId] = {
 			...clonedMapPlayers[i],

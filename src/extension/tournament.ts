@@ -6,8 +6,8 @@ import { Tournaments, TournamentSetup, Tournament, Fixtures, SingleElimination, 
 
 const nodecg = nodecgApiContext.get();
 
-const tournamentsRep = nodecg.Replicant<Tournaments>('tournaments', { defaultValue: {} });
-const currentTournamentRep = nodecg.Replicant<string>('currentTournament', { defaultValue: '' });
+const tournamentsRep = nodecg.Replicant<Tournaments>('tournaments');
+const currentTournamentRep = nodecg.Replicant<string>('currentTournament');
 
 nodecg.listenFor('newTournament', (data: TournamentSetup) => {
 	if (!isFixtureType(data.fixtureType)) {

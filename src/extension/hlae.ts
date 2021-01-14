@@ -10,8 +10,8 @@ import { BufferReader, GameEventUnserializer, basicEnrichments } from './util/hl
 // The local host may need to be changed to the host url like in the csgo thing
 const wss = new Websocket.Server({ port: 31337 });
 
-const hlaeActiveRep = nodecg.Replicant<boolean>('hlaeActive', { defaultValue: false, persistent: false });
-const matchKillsRep = nodecg.Replicant<PlayerDeath[]>('matchKills', { defaultValue: [] });
+const hlaeActiveRep = nodecg.Replicant<boolean>('hlaeActive');
+const matchKillsRep = nodecg.Replicant<PlayerDeath[]>('matchKills');
 const mapRep = nodecg.Replicant<Map>('matchStats');
 
 wss.on('error', error => {

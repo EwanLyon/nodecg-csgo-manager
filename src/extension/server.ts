@@ -13,58 +13,22 @@ import {
 	CSGOGrenadesAll,
 	CSGOOutput
 } from '../types/csgo-gsi';
-import * as DummyData from './dummyData';
 import { TeamData } from '../types/extra-data';
 import { MapPlayerData } from '../types/map-player';
 
 const nodecg = nodecgApiContext.get();
-const bundleStatus = nodecg.Replicant<BundleStatus>('bundleStatus', {
-	persistent: false
-});
-const gameRep = nodecg.Replicant<CSGOOutput>('game', {
-	defaultValue: DummyData.game,
-	persistent: false
-});
-const matchStatsRep = nodecg.Replicant<Map>('matchStats', {
-	defaultValue: DummyData.match,
-	persistent: false
-});
-const allPlayersRep = nodecg.Replicant<CSGOOutputAllplayer[]>('allPlayers', {
-	defaultValue: [],
-	persistent: false
-});
-const observingPlayerRep = nodecg.Replicant<CSGOOutputPlayer>('observingPlayer', {
-	defaultValue: DummyData.observingPlayer,
-	persistent: false
-});
-const bombRep = nodecg.Replicant<CSGOOutputBomb>('bomb', {
-	defaultValue: DummyData.bomb,
-	persistent: false
-});
-const phaseRep = nodecg.Replicant<CSGOOutputPhaseCountdowns>('phase', {
-	defaultValue: DummyData.phase,
-	persistent: false
-});
-const teamOneRep = nodecg.Replicant<TeamData>('teamOne', {
-	defaultValue: DummyData.TeamData,
-	persistent: false
-});
-const teamTwoRep = nodecg.Replicant<TeamData>('teamTwo', {
-	defaultValue: DummyData.TeamDataTwo,
-	persistent: false
-});
-const mapGrenadesRep = nodecg.Replicant<CSGOGrenadesAll>('mapGrenades', {
-	defaultValue: DummyData.DummyGrenadesAll,
-	persistent: false
-});
-const serverRateRep = nodecg.Replicant<number>('serverRate', {
-	defaultValue: 0,
-	persistent: false
-});
-const mapPlayersRep = nodecg.Replicant<MapPlayerData[]>('mapPlayers', {
-	defaultValue: [],
-	persistent: false
-});
+const bundleStatus = nodecg.Replicant<BundleStatus>('bundleStatus');
+const gameRep = nodecg.Replicant<CSGOOutput>('game');
+const matchStatsRep = nodecg.Replicant<Map>('matchStats');
+const allPlayersRep = nodecg.Replicant<CSGOOutputAllplayer[]>('allPlayers');
+const observingPlayerRep = nodecg.Replicant<CSGOOutputPlayer>('observingPlayer');
+const bombRep = nodecg.Replicant<CSGOOutputBomb>('bomb');
+const phaseRep = nodecg.Replicant<CSGOOutputPhaseCountdowns>('phase');
+const teamOneRep = nodecg.Replicant<TeamData>('teamOne');
+const teamTwoRep = nodecg.Replicant<TeamData>('teamTwo');
+const mapGrenadesRep = nodecg.Replicant<CSGOGrenadesAll>('mapGrenades');
+const serverRateRep = nodecg.Replicant<number>('serverRate');
+const mapPlayersRep = nodecg.Replicant<MapPlayerData[]>('mapPlayers');
 
 let oldTime = 1;
 let rollingAverage: number[] = [];

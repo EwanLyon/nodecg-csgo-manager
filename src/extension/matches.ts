@@ -2,12 +2,12 @@ import * as nodecgApiContext from './util/nodecg-api-context';
 import { v4 as uuid } from 'uuid';
 import _ from 'lodash';
 
-import { Match, Matches, NewMatch } from '../types/matches';
+import { MapInfo, Match, Matches, NewMatch } from '../types/matches';
 import { TeamsPreset } from '../types/team-preset';
 
 const nodecg = nodecgApiContext.get();
 const currentMatchRep = nodecg.Replicant<Match | undefined>('currentMatch');
-const matchesRep = nodecg.Replicant<Matches>('matches', { defaultValue: [] });
+const matchesRep = nodecg.Replicant<Matches>('matches');
 const teamsRep = nodecg.Replicant<TeamsPreset>('teamPlayerPreset');
 
 // If no current match set then start at the very beginning, a very good place to start
@@ -103,6 +103,38 @@ nodecg.listenFor('removeMatch', (id: string) => {
 	}
 
 	matchesRep.value.splice(matchIndex, 1);
+});
+
+nodecg.listenFor('addMap', (data: MapInfo) => {
+	if (!currentMatchRep.value) return;
+
+	currentMatchRep.value.maps.push(data);
+
+	const currentMatchIndex = matchesRep.value.findIndex(match => match.id === currentMatchRep.value?.id);
+	matchesRep.value[currentMatchIndex].maps = _.cloneDeep(currentMatchRep.value.maps);
+});
+
+nodecg.listenFor('removeMap', (mapName: string) => {
+	if (!currentMatchRep.value) return;
+
+	const mapIndex = currentMatchRep.value.maps.findIndex(map => map.map === mapName);
+	
+	if (mapIndex === -1) return;
+
+	currentMatchRep.value.maps.splice(mapIndex, 1);
+
+	const currentMatchIndex = matchesRep.value.findIndex(match => match.id === currentMatchRep.value?.id);
+	matchesRep.value[currentMatchIndex].maps = _.cloneDeep(currentMatchRep.value.maps);
+});
+
+nodecg.listenFor('reorderMap', (data: MapInfo) => {
+	// if (!currentMatchRep.value) return;
+
+	// currentMatchRep.value.maps.push(data);
+
+	// const currentMatchIndex = matchesRep.value.findIndex(match => match.id === currentMatchRep.value?.id);
+	// matchesRep.value[currentMatchIndex].maps = currentMatchRep.value.maps;
+	console.log(data)
 });
 
 function getFirstMatch() {
