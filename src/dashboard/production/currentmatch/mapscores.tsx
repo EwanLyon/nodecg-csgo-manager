@@ -59,7 +59,7 @@ export const DashMapScores: React.FC<Props> = (props: Props) => {
 	return (
 		<ThemeProvider theme={theme}>
 			<AccordionStyled>
-				<AccordionSummary expandIcon={<ExpandMore />}>
+				<AccordionSummary expandIcon={<ExpandMore />} style={{ background: '#516077' }}>
 					<div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
 						<span>{props.mapName}</span>
 						<span>{score}</span>
@@ -68,13 +68,17 @@ export const DashMapScores: React.FC<Props> = (props: Props) => {
 				<ExpansionDetailsStyled>
 					<Grid container justify="center">
 						<Grid item container alignItems="center" justify="space-around" style={{ margin: '5px 0' }}>
-							<SegmentText>1<sup>st</sup> half</SegmentText>
+							<SegmentText>
+								1<sup>st</sup> half
+							</SegmentText>
 							<ScoreText type="number" id={`${props.mapNo}A1-Score`} variant="outlined" />
 							<VerticalDivider />
 							<ScoreText type="number" id={`${props.mapNo}B1-Score`} variant="outlined" />
 						</Grid>
 						<Grid item container alignItems="center" justify="space-around" style={{ margin: '5px 0' }}>
-							<SegmentText>2<sup>nd</sup> half</SegmentText>
+							<SegmentText>
+								2<sup>nd</sup> half
+							</SegmentText>
 							<ScoreText type="number" id={`${props.mapNo}A2-Score`} variant="outlined" />
 							<VerticalDivider />
 							<ScoreText type="number" id={`${props.mapNo}B2-Score`} variant="outlined" />
@@ -86,9 +90,7 @@ export const DashMapScores: React.FC<Props> = (props: Props) => {
 							<ScoreText type="number" id={`${props.mapNo}BOT-Score`} variant="outlined" />
 						</Grid>
 						<FormControlLabel
-							control={
-								<Checkbox id={`${props.mapNo}-Complete`} />
-							}
+							control={<Checkbox id={`${props.mapNo}-Complete`} />}
 							label="Complete"
 							labelPlacement="start"
 						/>

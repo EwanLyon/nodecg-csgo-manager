@@ -10,6 +10,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { Grid, Button, Chip } from '@material-ui/core';
 import { ChevronLeft, ChevronRight } from '@material-ui/icons';
 import { DashMapScores } from './mapscores';
+import { FitText } from '../../atoms/fit-text';
 
 const NoMapError = styled.div`
 	text-align: center;
@@ -35,9 +36,11 @@ const TeamImage = styled.img`
 	max-width: 55px;
 `;
 
-const TeamName = styled.span`
+const TeamName = styled(FitText)`
 	font-size: 18px;
 	font-weight: 600;
+	min-width: 107px;
+	max-width: 107px;
 `;
 
 const SpacedChip = styled(Chip)`
@@ -53,7 +56,7 @@ const TeamBox: React.FC<TeamBoxProps> = (props: TeamBoxProps) => {
 	return (
 		<TeamBoxContainer>
 			<TeamImage src={props.logo} />
-			<TeamName>{props.name}</TeamName>
+			<TeamName text={props.name} />
 		</TeamBoxContainer>
 	);
 };
