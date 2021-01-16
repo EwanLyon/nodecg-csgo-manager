@@ -15,7 +15,7 @@ import {
 	NotDraggingStyle,
 	DropResult,
 } from 'react-beautiful-dnd';
-import { Matches, MapInfo, Match } from '../../../types/matches';
+import { MapInfo, Match } from '../../../types/matches';
 import { DashVETOSingle } from './vetosingle';
 import { GreenButton } from '../../atoms/styled-ui';
 
@@ -66,7 +66,6 @@ const getItemStyle = (draggableStyle: DraggingStyle | NotDraggingStyle | undefin
 
 const DashVeto: React.FC = () => {
 	const [currentMatchRep] = useReplicant<Match | undefined>('currentMatch', undefined);
-	const [matchScoresRep] = useReplicant<Matches>('matches', []);
 	const [teamSelected, setTeamSelected] = useState('');
 	const [mapSelected, setMapSelected] = useState('');
 	const [vetoType, setVetoType] = useState('Ban');
@@ -87,11 +86,11 @@ const DashVeto: React.FC = () => {
 
 	function onDragEnd(result: DropResult) {
 		// Dropped outside the list
-		if (!result.destination) {
+		if (!result.destination || !currentMatchRep?.maps) {
 			return;
 		}
 
-		const items = reorder(matchScoresRep, result.source.index, result.destination.index);
+		const items = reorder(currentMatchRep?.maps, result.source.index, result.destination.index);
 
 		nodecg.sendMessage('reorderMaps', items);
 	}

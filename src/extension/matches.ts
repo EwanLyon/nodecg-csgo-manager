@@ -127,14 +127,26 @@ nodecg.listenFor('removeMap', (mapName: string) => {
 	matchesRep.value[currentMatchIndex].maps = _.cloneDeep(currentMatchRep.value.maps);
 });
 
-nodecg.listenFor('reorderMap', (data: MapInfo) => {
-	// if (!currentMatchRep.value) return;
+nodecg.listenFor('reorderMaps', (data: MapInfo[]) => {
+	if (!currentMatchRep.value) return;
 
-	// currentMatchRep.value.maps.push(data);
+	currentMatchRep.value.maps = data;
 
-	// const currentMatchIndex = matchesRep.value.findIndex(match => match.id === currentMatchRep.value?.id);
-	// matchesRep.value[currentMatchIndex].maps = currentMatchRep.value.maps;
-	console.log(data)
+	const currentMatchIndex = matchesRep.value.findIndex(match => match.id === currentMatchRep.value?.id);
+	matchesRep.value[currentMatchIndex].maps = _.cloneDeep(currentMatchRep.value.maps);
+});
+
+nodecg.listenFor('setVetoSide', (data: {mapName: string, side: string}) => {
+	if (!currentMatchRep.value) return;
+
+	const mapIndex = currentMatchRep.value.maps.findIndex(map => map.map === data.mapName);
+	
+	if (mapIndex === -1) return;
+
+	currentMatchRep.value.maps[mapIndex].side = data.side;
+
+	const currentMatchIndex = matchesRep.value.findIndex(match => match.id === currentMatchRep.value?.id);
+	matchesRep.value[currentMatchIndex].maps = _.cloneDeep(currentMatchRep.value.maps);
 });
 
 function getFirstMatch() {
