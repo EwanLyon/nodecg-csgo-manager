@@ -149,20 +149,8 @@ export const TeamData: ITeamData = {
 
 // For initialization in server.ts
 export const TeamDataTwo: ITeamData = {
-	equipmentValue: 10000,
-	totalMoney: 10000,
-	grenades: {
-		he: 0,
-		flash: 0,
-		smoke: 0,
-		fire: 0,
-		decoy: 0
-	},
-	players: ['-1'],
-	score: 0,
+	...TeamData,
 	name: 'Counter-Terrorists',
-	consecutiveRoundLosses: 0,
-	matchesWonThisSeries: 0,
 	teamURL: '../shared/media/CT_Icon.png'
 };
 
