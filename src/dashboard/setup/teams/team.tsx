@@ -50,7 +50,7 @@ export const Team: React.FC<Props> = (props: Props) => {
 				<TeamName>{props.team?.name || 'No Match Scheduled'}</TeamName>
 			</TeamTitle>
 			<br />
-			<Grid>{teamPlayers}</Grid>
+			<Grid style={{ width: 324 }}>{teamPlayers}</Grid>
 		</TeamContainer>
 	);
 };

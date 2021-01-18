@@ -1,19 +1,8 @@
-/* eslint-disable no-undef */
-import React, { useState, ReactNode } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 //@ts-ignore
 import Twemoji from 'react-twemoji';
-import {
-	Grid,
-	Button,
-	MenuItem,
-	FormControl,
-	InputLabel,
-	Select,
-	TextField,
-	IconButton
-} from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import { Grid, Button, MenuItem, FormControl, InputLabel, Select, TextField, IconButton } from '@material-ui/core';
 import Edit from '@material-ui/icons/Edit';
 
 // Dialog
@@ -30,6 +19,7 @@ import { flagList } from '../../atoms/flag-list';
 const boxHeight = 90;
 
 const Container = styled(Grid)`
+	width: 100%;
 	margin: 5px 0;
 	box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px,
 		rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
@@ -84,6 +74,12 @@ const EditButton = styled(IconButton)`
 	right: 0;
 `;
 
+const SpacedDialogContent = styled(DialogContent)`
+	& > * {
+		margin: 4px 0;
+	}
+`;
+
 interface Props {
 	player: CSGOOutputAllplayer;
 	extraPlayer: PlayerData;
@@ -125,6 +121,19 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 		);
 	});
 
+	const urlsOfPfps = profilePicturesRep.map((pfp) => pfp.url);
+	if (props.extraPlayer?.image && !urlsOfPfps.includes(props.extraPlayer.image)) {
+		profilePicsMap.push(
+			<MenuItem key={props.extraPlayer.image} value={props.extraPlayer.image}>
+				<img
+					style={{ height: 50, width: 'auto', objectFit: 'scale-down', marginRight: 10 }}
+					src={props.extraPlayer.image}
+				/>
+				<em>External Image</em>
+			</MenuItem>,
+		);
+	}
+
 	const flagListMap = flagList.map((flag, index) => {
 		return (
 			<MenuItem key={index} value={flag.code} style={{ display: 'flex', alignItems: 'center' }}>
@@ -156,6 +165,13 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 		}
 	};
 
+	function openDialog() {
+		setLocalName(props.extraPlayer?.name || '');
+		setLocalCountry(props.extraPlayer?.country || '');
+		setLocalPfp(props.extraPlayer?.image || '');
+		setDialogOpen(true);
+	}
+
 	return (
 		<Container container alignItems="center">
 			<PlayerImage src={props.extraPlayer?.image || '../shared/media/MissingProfileImage.png'} />
@@ -172,7 +188,7 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 					<SteamID>{props.player.steamId}</SteamID>
 				</Grid>
 
-				<EditButton size="small" onClick={(): void => setDialogOpen(true)}>
+				<EditButton size="small" onClick={openDialog}>
 					<Edit />
 				</EditButton>
 			</DataBox>
@@ -180,7 +196,7 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 			{/* Profile Settings Dialog */}
 			<Dialog open={dialogOpen} onClose={(): void => setDialogOpen(false)} fullWidth>
 				<DialogTitle>Editing {props.player.name}</DialogTitle>
-				<DialogContent>
+				<SpacedDialogContent>
 					<FormControl variant="filled" fullWidth>
 						<InputLabel id="pfpLabel">Profile Picture</InputLabel>
 						<Select
@@ -190,30 +206,25 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 							{profilePicsMap}
 						</Select>
 					</FormControl>
-					<Autocomplete
-						id="combo-box-demo"
-						options={flagList}
-						getOptionLabel={(option: typeof flagList[0]): string => option.code}
-						renderOption={(option: typeof flagList[0]): ReactNode => (
-							<React.Fragment>
-								<TwemojiMenuItem>{option.code}</TwemojiMenuItem> {option.name}
-							</React.Fragment>
-						)}
-						renderInput={(params: object): ReactNode => (
-							<TextField {...params} label="Country" variant="filled" fullWidth />
-						)}
-						onInputChange={(_e, v): void => {
-							setLocalCountry(v);
-						}}
-					/>
+					<br />
+					<FormControl variant="filled" fullWidth>
+						<InputLabel id="countryLabel">Country</InputLabel>
+						<Select
+							labelId="countryLabel"
+							value={localCountry}
+							onChange={(e): void => setLocalCountry(e.target.value as string)}>
+							{flagListMap}
+						</Select>
+					</FormControl>
+					<br />
 					<TextField
 						label="Name"
 						value={localName}
 						onChange={(e): void => setLocalName(e.target.value as string)}
 					/>
-				</DialogContent>
+				</SpacedDialogContent>
 				<DialogActions>
-					<Button onClick={(): void => setDialogOpen(false)}>Cancel</Button>
+					<Button onClick={() => setDialogOpen(false)}>Cancel</Button>
 					<Button onClick={handlePlayerUpdate}>Update</Button>
 				</DialogActions>
 			</Dialog>
