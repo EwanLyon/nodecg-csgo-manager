@@ -33,10 +33,14 @@ const Fixture: React.FC = () => {
 	const [currentTournamentRep] = useReplicant<string>('currentTournament', '');
 
 	useEffect(() => {
-		const mostRecentTournament = Object.keys(tournamentsRep)[Object.keys(tournamentsRep).length - 1];
+		if (currentTournamentRep) {
+			setSelectedTournament(currentTournamentRep);
+		} else {
+			const mostRecentTournament = Object.keys(tournamentsRep)[Object.keys(tournamentsRep).length - 1];
+			setSelectedTournament(mostRecentTournament);
+		}
 
-		setSelectedTournament(mostRecentTournament);
-	}, [tournamentsRep]);
+	}, [tournamentsRep, currentTournamentRep]);
 
 	function handleCreateOpen() {
 		setCreateTournamentDialog(true);

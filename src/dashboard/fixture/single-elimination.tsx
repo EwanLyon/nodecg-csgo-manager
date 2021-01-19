@@ -24,9 +24,14 @@ const AllMatches = styled.div`
 	gap: 64px;
 `;
 
-const Round = styled.div`
+const RoundAndBracket = styled.div`
+	display: flex;
+`;
+
+const Rounds = styled.div`
 	display: flex;
 	flex-direction: column;
+	justify-content: space-around;
 	gap: 16px;
 
 	&:nth-child(3n) {
@@ -37,13 +42,8 @@ const Round = styled.div`
 const BranchHolder = styled.div`
 	display: flex;
 	flex-direction: column;
-	height: 100%;
-	gap: 64px;
-	margin: 0 -64px;
-
-	&:nth-child(odd) {
-		gap: 124px;
-	}
+	margin-right: -64px;
+	justify-content: space-around;
 `;
 
 export const SingleElimination: React.FC<Props> = (props: Props) => {
@@ -57,12 +57,14 @@ export const SingleElimination: React.FC<Props> = (props: Props) => {
 		);
 	});
 
+	const eliminationHeight = 70 * props.data.matches[0].length;
+
 	const allElimMatches = (
-		<AllMatches>
+		<AllMatches style={{ height: eliminationHeight }}>
 			{props.data.matches.map((round, i) => {
 				return (
-					<>
-						<Round key={i}>
+					<RoundAndBracket key={i} style={{ height: eliminationHeight }}>
+						<Rounds style={{ height: eliminationHeight }}>
 							{round.map((matchId, k) => {
 								return (
 									<FixtureMatch
@@ -75,17 +77,19 @@ export const SingleElimination: React.FC<Props> = (props: Props) => {
 									/>
 								);
 							})}
-						</Round>
-						{i - 1 !== props.data.matches[i].length ? (
-							<BranchHolder key={i + 'b'}>
-								{_.times(round.length / 2, (j) => {
-									return <EliminationConnector key={j} differentGap={i % 2 !== 0} />;
-								})}
-							</BranchHolder>
-						) : (
-							<></>
-						)}
-					</>
+						</Rounds>
+						<BranchHolder key={i + 'b'} style={{ height: eliminationHeight }}>
+							{_.times(round.length / 2, (j) => {
+								return (
+									<EliminationConnector
+										key={j}
+										noOfPrevRounds={round.length}
+										elimHeight={eliminationHeight}
+									/>
+								);
+							})}
+						</BranchHolder>
+					</RoundAndBracket>
 				);
 			})}
 		</AllMatches>
@@ -110,7 +114,8 @@ const Trunk = styled.div`
 `;
 
 interface ElimConnectorProps {
-	differentGap?: boolean;
+	noOfPrevRounds: number;
+	elimHeight: number;
 }
 
 const EliminationConnector: React.FC<ElimConnectorProps> = (props: ElimConnectorProps) => {
@@ -118,7 +123,7 @@ const EliminationConnector: React.FC<ElimConnectorProps> = (props: ElimConnector
 		<div
 			style={{
 				display: 'flex',
-				height: props.differentGap ? 144 : 78,
+				height: props.elimHeight / 2 / Math.log2(props.noOfPrevRounds),
 			}}>
 			<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
 				<Branch />
