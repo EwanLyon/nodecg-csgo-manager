@@ -35,7 +35,7 @@ setInterval(() => {
 		}
 
 		// I don't like assigning values on a single line but I shall make an exception
-		let avgX, avgY, avgZ, avgAngleX, avgAngleY : number;
+		let avgX, avgY, avgZ, avgAngleX, avgAngleY: number;
 		avgX = avgY = avgZ = avgAngleX = avgAngleY = 0;
 		try {
 			// This is way less code than averaging multiple arrays
@@ -45,7 +45,8 @@ setInterval(() => {
 			avgAngleX = playersSet.reduce((a, b) => a + b.rotation[0], 0) / playersSet.length;
 			avgAngleY = playersSet.reduce((a, b) => a + b.rotation[1], 0) / playersSet.length;
 		} catch (error) {
-			nodecg.log.warn('Failed to average map positions and angles: ' + error);
+			// Pretty much resulted in just "warn: [nodecg-csgo-manager] Failed to average map positions and angles: TypeError: Cannot read property 'position' of undefined"
+			// nodecg.log.warn('Failed to average map positions and angles: ' + error);
 		}
 
 		if (!clonedMapPlayers[i]) return;
