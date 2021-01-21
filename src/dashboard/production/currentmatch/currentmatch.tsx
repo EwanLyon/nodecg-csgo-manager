@@ -82,7 +82,10 @@ const DashCurrentMatch: React.FC = () => {
 	// -1: Error, 0: Start, 1: "Middle", 2: End, 3: Only game
 	let startOrEnd = 1;
 	if (currentMatchIndex === -1) {
-		startOrEnd = -1;
+		if (matchesRep.length !== 0) {
+			nodecg.sendMessage('nextMatch');
+			startOrEnd = -1;
+		}
 	} else if (matchesRep.length === 1) {
 		startOrEnd = 3;
 	} else if (currentMatchIndex === 0) {
@@ -136,6 +139,8 @@ const DashCurrentMatch: React.FC = () => {
 					(document.getElementById(`${i}AOT-Score`) as HTMLInputElement).value = '';
 					(document.getElementById(`${i}BOT-Score`) as HTMLInputElement).value = '';
 				}
+
+				(document.getElementById(`${i}-Complete`) as HTMLInputElement).checked = mapScores.complete;
 			} catch (error) {
 				console.log(
 					'This error is from the current matches dashboard.\nIf it is complaining about .value being null then that is ok.\nIf not then that is not ok :). Err => ',
