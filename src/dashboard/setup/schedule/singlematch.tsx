@@ -65,13 +65,18 @@ interface ActiveProps {
 const TeamBox: React.FC<TeamBoxProps> = (props: TeamBoxProps) => {
 	return (
 		<TeamBoxContainer>
-			<TeamImage src={props.team.logo} />
+			<TeamImage src={props.team?.logo || ''} />
 			<TeamName text={props.team.name} />
 		</TeamBoxContainer>
 	);
 };
 
 export const SingleMatch: React.FC<Props> = (props: Props) => {
+	if (!props.match.teamA || !props.match.teamB) {
+		// Game somehow exists that doesnt have a team associated with it
+		RemoveGame();
+	}
+
 	function RemoveGame() {
 		nodecg.sendMessage('removeMatch', props.match.id);
 	}

@@ -154,7 +154,7 @@ const DashSchedule: React.FC = () => {
 						onClick={() => setMatchType('bo5')}
 						variant={matchType === 'bo5' ? 'default' : 'outlined'}
 					/>
-					<GreenButtonExtra variant="contained" onClick={AddGame}>
+					<GreenButtonExtra variant="contained" onClick={AddGame} disabled={!teamA || !teamB || !time}>
 						+
 					</GreenButtonExtra>
 				</Grid>
