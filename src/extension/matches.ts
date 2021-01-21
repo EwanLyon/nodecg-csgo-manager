@@ -10,6 +10,7 @@ const nodecg = nodecgApiContext.get();
 const currentMatchRep = nodecg.Replicant<Match | undefined>('currentMatch');
 const matchesRep = nodecg.Replicant<Matches>('matches');
 const teamsRep = nodecg.Replicant<TeamsPreset>('teamPlayerPreset');
+const round30Winner = nodecg.Replicant<string>('round30Winner');
 
 // If no current match set then start at the very beginning, a very good place to start
 if (!currentMatchRep.value) {
@@ -181,18 +182,6 @@ nodecg.listenFor('gameOver', (game: CSGOOutput) => {
 		return;
 	}
 
-	// Find related map
-	const mapIndex = currentMatchRep.value.maps.findIndex(map => map.map.toLowerCase() === game.map.name.substring(3));
-
-	if (mapIndex === -1) {
-		nodecg.log.warn(`Tried to save final data but could not find ${game.map.name} in the current matches.`);
-		// return;
-	}
-
-	if (currentMatchRep.value.maps[0].ban) {
-		nodecg.log.warn(`Match saving to has the map as a banned veto. Are you on the correct match? Saving anyway...`);
-	}
-
 	const roundWinsArray = Object.values(game.map.round_wins);
 
 	// First half data
@@ -209,16 +198,31 @@ nodecg.listenFor('gameOver', (game: CSGOOutput) => {
 		roundWinsArray[i].substring(0, 2) === 'ct' ? teamASecond++ : teamBSecond++;
 	}
 
+	if (round30Winner.value === '' && game.map.round >= 29) {
+		nodecg.log.warn('Round 30 was not recorded. Please correct the final scores in the nodecg dashboard.');
+	} else if (round30Winner.value !== '') {
+		round30Winner.value === 'CT' ? teamASecond++ : teamBSecond++;
+	}
+
 	// Overtime
-	console.log(game.map.team_t.score);
-	console.log(game.map.team_ct.score);
 	let teamAOT = (currentTeamSide(game.map.round) ? game.map.team_t : game.map.team_ct).score - (teamAFirst + teamASecond);
 	let teamBOT = (currentTeamSide(game.map.round) ? game.map.team_ct : game.map.team_t).score - (teamAFirst + teamASecond);
-	console.log(teamAOT);
-	console.log(teamBOT);
 
-	currentMatchRep.value.maps[0] = {
-		...currentMatchRep.value.maps[0],
+	// Find related map
+	const mapIndex = currentMatchRep.value.maps.findIndex(map => map.map.toLowerCase() === game.map.name.substring(3));
+
+	if (mapIndex === -1) {
+		nodecg.log.warn(`Tried to save final data but could not find ${game.map.name} in the current matches.`);
+		nodecg.log.warn(`Final Scores: \n${currentMatchRep.value.teamA.name}: ${teamAFirst} ${teamASecond} ${teamAOT} | ${(currentTeamSide(game.map.round) ? game.map.team_t : game.map.team_ct).score}\n${currentMatchRep.value.teamB.name}: ${teamBFirst} ${teamBSecond} ${teamBOT} | ${(currentTeamSide(game.map.round) ? game.map.team_ct : game.map.team_t).score}`)
+		return;
+	}
+
+	if (currentMatchRep.value.maps[mapIndex].ban) {
+		nodecg.log.warn(`Match saving to has the map as a banned veto. Are you on the correct match? Saving anyway...`);
+	}
+
+	currentMatchRep.value.maps[mapIndex] = {
+		...currentMatchRep.value.maps[mapIndex],
 		complete: true,
 		totalScore: {
 			teamA: teamOneData.score,

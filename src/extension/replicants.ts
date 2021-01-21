@@ -51,6 +51,7 @@ nodecg.Replicant<MapPlayerData[]>('mapPlayers', {
 
 nodecg.Replicant<Matches>('matches', { defaultValue: [] });
 nodecg.Replicant<Match | undefined>('currentMatch');
+nodecg.Replicant<string>('round30Winner', { defaultValue: '' });
 
 /* CSGO Data / Server */
 

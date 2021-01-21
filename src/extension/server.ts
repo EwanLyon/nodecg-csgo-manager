@@ -29,6 +29,7 @@ const teamTwoRep = nodecg.Replicant<TeamData>('teamTwo');
 const mapGrenadesRep = nodecg.Replicant<CSGOGrenadesAll>('mapGrenades');
 const serverRateRep = nodecg.Replicant<number>('serverRate');
 const mapPlayersRep = nodecg.Replicant<MapPlayerData[]>('mapPlayers');
+const round30Winner = nodecg.Replicant<string>('round30Winner');
 
 let oldTime = 1;
 let rollingAverage: number[] = [];
@@ -140,6 +141,10 @@ function handleData(srcData: string): void {
 
 		// All grenades
 		mapGrenadesRep.value = srcJSON.grenades;
+
+		if (srcJSON.map.round === 30 && srcJSON.round.win_team && round30Winner.value !== srcJSON.round.win_team) {
+			round30Winner.value = srcJSON.round.win_team;
+		}
 	}
 }
 
