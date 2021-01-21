@@ -68,10 +68,10 @@ export const Teams: React.FunctionComponent = () => {
 					<span>{teamTwoRep.score}</span>
 				</Grid>
 				<Button variant="contained" style={{ marginTop: 10 }} onClick={() => setSwapTeamsRep(!swapTeamsRep)}>
-					Swap Teams
+					Swap visual sides
 				</Button>
 				<Button variant="contained" style={{ marginTop: 10 }} onClick={() => nodecg.sendMessage('switchTeamAandB')}>
-					Swap players
+					Swap Team Name
 				</Button>
 				<Button
 					variant="contained"
