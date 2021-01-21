@@ -71,6 +71,8 @@ nodecg.listenFor('createNewMatch', (newMatch: NewMatch) => {
 });
 
 nodecg.listenFor('updateScore', (data: Match['maps']) => {
+	if (!currentMatchRep.value) return;
+
 	const matchIndex = matchesRep.value.findIndex(match => match.id === currentMatchRep.value?.id);
 
 	if (matchIndex === -1) {
@@ -78,10 +80,13 @@ nodecg.listenFor('updateScore', (data: Match['maps']) => {
 		return;
 	}
 
-	matchesRep.value[matchIndex].maps = data;
+	currentMatchRep.value.maps = data;
+	matchesRep.value[matchIndex].maps = _.cloneDeep(data);
 });
 
 nodecg.listenFor('updateStatus', (status: string) => {
+	if (!currentMatchRep.value) return;
+	
 	const matchIndex = matchesRep.value.findIndex(match => match.id === currentMatchRep.value?.id);
 
 	if (matchIndex === -1) {
@@ -89,7 +94,8 @@ nodecg.listenFor('updateStatus', (status: string) => {
 		return;
 	}
 
-	matchesRep.value[matchIndex].status = status;
+	currentMatchRep.value.status = status;
+	matchesRep.value[matchIndex].status = _.clone(status);
 });
 
 nodecg.listenFor('updateMatchOrder', (newOrder: Matches) => {
@@ -105,6 +111,10 @@ nodecg.listenFor('removeMatch', (id: string) => {
 	}
 
 	matchesRep.value.splice(matchIndex, 1);
+	
+	if (id === currentMatchRep.value?.id) {
+		currentMatchRep.value = getFirstMatch();
+	}
 });
 
 nodecg.listenFor('addMap', (data: MapInfo) => {
