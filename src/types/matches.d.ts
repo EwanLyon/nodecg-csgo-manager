@@ -30,8 +30,10 @@ export interface MapInfo {
 	teamVeto: string;
 	side: string;
 	ban: boolean;
+	totalScore: Score;
 	firstHalf: Score;
 	secondHalf: Score;
 	ot?: Score;
 	complete: boolean;
+	roundWins: string[];
 }

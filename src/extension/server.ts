@@ -41,7 +41,7 @@ function currentTeamSide(round: number): boolean {
 
 	if (round >= 30) {
 		// Overtime math
-		return Boolean(Math.floor((round - 30) / 3) % 2);
+		return Boolean(Math.floor((round - 27) / 6) % 2);
 	}
 
 	return false;
@@ -64,7 +64,8 @@ function calcFreq() {
 	serverRateRep.value = rollingAverage.reduce((a, b) => (a + b)) / rollingAverage.length;
 }
 
-// Here because no-use-before-define
+let sentFinishedMatch = false;
+
 function handleData(srcData: string): void {
 	// Convert steam id's displayed as numbers to string to solve rounding, bug in csgo gsi
 	const srcJSON = JSON.parse(srcData.replace(/:\s*(\d{10,})/g, ': "$1"'));
@@ -73,6 +74,14 @@ function handleData(srcData: string): void {
 	if (srcJSON.provider && srcJSON.player.activity !== 'menu') {
 		// serverRateRep.value = getFrequency(oldTime);
 		calcFreq();
+
+		// Update match once over
+		if (srcJSON.map.phase === 'gameover' && !sentFinishedMatch) {
+			nodecg.sendMessage('gameOver', srcJSON);
+			sentFinishedMatch = true;
+		} else if (srcJSON.map.phase !== 'gameover' && sentFinishedMatch) {
+			sentFinishedMatch = false;
+		}
 
 		// Push all data into one replicant...
 		gameRep.value = _.cloneDeep(srcJSON);

@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 import { MapInfo, Match, Matches, NewMatch } from '../types/matches';
 import { TeamsPreset } from '../types/team-preset';
+import { CSGOOutput } from '../types/csgo-gsi';
 
 const nodecg = nodecgApiContext.get();
 const currentMatchRep = nodecg.Replicant<Match | undefined>('currentMatch');
@@ -118,7 +119,7 @@ nodecg.listenFor('removeMap', (mapName: string) => {
 	if (!currentMatchRep.value) return;
 
 	const mapIndex = currentMatchRep.value.maps.findIndex(map => map.map === mapName);
-	
+
 	if (mapIndex === -1) return;
 
 	currentMatchRep.value.maps.splice(mapIndex, 1);
@@ -136,11 +137,11 @@ nodecg.listenFor('reorderMaps', (data: MapInfo[]) => {
 	matchesRep.value[currentMatchIndex].maps = _.cloneDeep(currentMatchRep.value.maps);
 });
 
-nodecg.listenFor('setVetoSide', (data: {mapName: string, side: string}) => {
+nodecg.listenFor('setVetoSide', (data: { mapName: string, side: string }) => {
 	if (!currentMatchRep.value) return;
 
 	const mapIndex = currentMatchRep.value.maps.findIndex(map => map.map === data.mapName);
-	
+
 	if (mapIndex === -1) return;
 
 	currentMatchRep.value.maps[mapIndex].side = data.side;
@@ -156,3 +157,99 @@ function getFirstMatch() {
 
 	return undefined;
 }
+
+// Returns true if teamOne should be T's
+function currentTeamSide(round: number): boolean {
+	if (round < 15) {
+		return true;
+	}
+
+	if (round >= 30) {
+		// Overtime math
+		return Boolean(Math.floor((round - 27) / 6) % 2);
+	}
+
+	return false;
+}
+
+nodecg.listenFor('gameOver', (game: CSGOOutput) => {
+	nodecg.log.info('Game over!');
+	const teamOneData = currentTeamSide(game.map.round) ? game.map.team_t : game.map.team_ct;
+	const teamTwoData = currentTeamSide(game.map.round) ? game.map.team_ct : game.map.team_t;
+
+	if (!currentMatchRep.value) {
+		return;
+	}
+
+	// Find related map
+	const mapIndex = currentMatchRep.value.maps.findIndex(map => map.map.toLowerCase() === game.map.name.substring(3));
+
+	if (mapIndex === -1) {
+		nodecg.log.warn(`Tried to save final data but could not find ${game.map.name} in the current matches.`);
+		// return;
+	}
+
+	if (currentMatchRep.value.maps[0].ban) {
+		nodecg.log.warn(`Match saving to has the map as a banned veto. Are you on the correct match? Saving anyway...`);
+	}
+
+	const roundWinsArray = Object.values(game.map.round_wins);
+
+	// First half data
+	let teamAFirst = 0;
+	let teamBFirst = 0;
+	for (let i = 0; i < Math.min(15, roundWinsArray.length); i++) {
+		roundWinsArray[i].substring(0, 2) === 'ct' ? teamBFirst++ : teamAFirst++;
+	}
+
+	// Second half data
+	let teamASecond = 0;
+	let teamBSecond = 0;
+	for (let i = 15; i < Math.min(30, roundWinsArray.length); i++) {
+		roundWinsArray[i].substring(0, 2) === 'ct' ? teamASecond++ : teamBSecond++;
+	}
+
+	// Overtime
+	console.log(game.map.team_t.score);
+	console.log(game.map.team_ct.score);
+	let teamAOT = (currentTeamSide(game.map.round) ? game.map.team_t : game.map.team_ct).score - (teamAFirst + teamASecond);
+	let teamBOT = (currentTeamSide(game.map.round) ? game.map.team_ct : game.map.team_t).score - (teamAFirst + teamASecond);
+	console.log(teamAOT);
+	console.log(teamBOT);
+
+	currentMatchRep.value.maps[0] = {
+		...currentMatchRep.value.maps[0],
+		complete: true,
+		totalScore: {
+			teamA: teamOneData.score,
+			teamB: teamTwoData.score
+		},
+		firstHalf: {
+			teamA: teamAFirst,
+			teamB: teamBFirst
+		},
+		secondHalf: {
+			teamA: teamASecond,
+			teamB: teamBSecond
+		},
+		ot: {
+			teamA: teamAOT,
+			teamB: teamBOT
+		},
+		roundWins: roundWinsArray
+	}
+
+	const currentMatchIndex = matchesRep.value.findIndex(match => match.id === currentMatchRep.value?.id);
+	matchesRep.value[currentMatchIndex] = _.cloneDeep(currentMatchRep.value);
+});
+
+nodecg.listenFor('switchTeamAandB', () => {
+	if (!currentMatchRep.value) return;
+
+	const teamATemp = _.cloneDeep(currentMatchRep.value?.teamA);
+	currentMatchRep.value.teamA = _.cloneDeep(currentMatchRep.value.teamB);
+	currentMatchRep.value.teamB = teamATemp;
+
+	const currentMatchIndex = matchesRep.value.findIndex(match => match.id === currentMatchRep.value?.id);
+	matchesRep.value[currentMatchIndex] = _.cloneDeep(currentMatchRep.value);
+});

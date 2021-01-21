@@ -70,6 +70,9 @@ export const Teams: React.FunctionComponent = () => {
 				<Button variant="contained" style={{ marginTop: 10 }} onClick={() => setSwapTeamsRep(!swapTeamsRep)}>
 					Swap Teams
 				</Button>
+				<Button variant="contained" style={{ marginTop: 10 }} onClick={() => nodecg.sendMessage('switchTeamAandB')}>
+					Swap players
+				</Button>
 				<Button
 					variant="contained"
 					style={{ marginTop: 10 }}

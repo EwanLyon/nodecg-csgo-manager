@@ -100,15 +100,20 @@ const DashVeto: React.FC = () => {
 		setTeamSelected(
 			teamSelected === currentMatchRep.teamA.name ? currentMatchRep.teamB.name : currentMatchRep.teamA.name,
 		);
-		nodecg.sendMessage('addMap', {
+
+		const newMapData: MapInfo = {
 			map: mapSelected,
 			ban: vetoType === 'Ban',
 			teamVeto: teamSelected,
 			complete: false,
+			roundWins: [],
+			totalScore: { teamA: 0, teamB: 0 },
 			firstHalf: { teamA: 0, teamB: 0 },
 			secondHalf: { teamA: 0, teamB: 0 },
 			side: '',
-		} as MapInfo);
+		};
+
+		nodecg.sendMessage('addMap', newMapData);
 	}
 
 	const canAddMap = teamSelected !== '' && mapSelected !== '';

@@ -35,7 +35,7 @@ function currentTeamSide(round: number): boolean {
 
 	if (round >= 30) {
 		// Overtime math
-		return Boolean(Math.floor((round - 30) / 3) % 2);
+		return Boolean(Math.floor((round - 27) / 6) % 2);
 	}
 
 	return false;
@@ -172,70 +172,6 @@ allPlayersRep.on('change', newVal => {
 
 	teamOneRep.value.grenades = teamOneNades;
 	teamTwoRep.value.grenades = teamTwoNades;
-});
-
-// Team Names
-nodecg.listenFor('updateName', (data: { name: string; teamTwo: boolean }) => {
-	if (data.teamTwo) {
-		teamTwoRep.value.name = data.name;
-	} else {
-		teamOneRep.value.name = data.name;
-	}
-});
-
-let namesSet = false;
-// eslint-disable-next-line complexity
-matchRep.on('change', (newVal, oldVal) => {
-	// Next half
-	if (newVal.round === 15 && oldVal?.round === 14) {
-		// const tLogo = teamImagesRep.value.find(img => img.name === 'T_Icon')?.url;
-		// const ctLogo = teamImagesRep.value.find(img => img.name === 'CT_Icon')?.url;
-		const tLogo = '../shared/media/T_Icon.png';
-		const ctLogo = '../shared/media/CT_Icon.png';
-
-		if (typeof tLogo === 'undefined' || typeof ctLogo === 'undefined') {
-			nodecg.log.error('T and/or CT Icon is missing');
-			return;
-		}
-
-		// If using T name
-		if (teamOneRep.value.name === 'Terrorists') {
-			teamOneRep.value.name = 'Counter-Terrorists';
-		}
-
-		// If using CT name
-		if (teamTwoRep.value.name === 'Counter-Terrorists') {
-			teamTwoRep.value.name = 'Terrorists';
-		}
-
-		// If using T logo
-		if (teamOneRep.value.teamURL === tLogo) {
-			teamOneRep.value.teamURL = ctLogo;
-		}
-
-		// If using CT logo
-		if (teamTwoRep.value.teamURL === ctLogo) {
-			teamTwoRep.value.teamURL = tLogo;
-		}
-	}
-
-	if (!namesSet && matchRep.round >= 0) {
-		namesSet = true;
-		const defaultTeamOneName = matchRep.round < 15 ? 'Terrorists' : 'Counter-Terrorists';
-		teamOneRep.value.name = defaultTeamOneName;
-
-		const defaultTeamTwoName = matchRep.round < 15 ? 'Counter-Terrorists' : 'Terrorists';
-		teamTwoRep.value.name = defaultTeamTwoName;
-	}
-});
-
-// Team Logos
-nodecg.listenFor('updateLogo', (data: { url: string; teamTwo: boolean }) => {
-	if (data.teamTwo) {
-		teamTwoRep.value.teamURL = data.url;
-	} else {
-		teamOneRep.value.teamURL = data.url;
-	}
 });
 
 // Player icon

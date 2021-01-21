@@ -86,7 +86,7 @@ nodecg.Replicant<TeamData>('teamOne', {
 	persistent: false
 });
 nodecg.Replicant<TeamData>('teamTwo', {
-	defaultValue: DummyData.TeamDataTwo,
+	defaultValue: DummyData.TeamData,
 	persistent: false
 });
 nodecg.Replicant<CSGOGrenadesAll>('mapGrenades', {

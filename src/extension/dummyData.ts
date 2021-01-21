@@ -141,17 +141,8 @@ export const TeamData: ITeamData = {
 	},
 	players: ['-1'],
 	score: 0,
-	name: 'Terrorists',
 	consecutiveRoundLosses: 0,
-	matchesWonThisSeries: 0,
-	teamURL: '../shared/media/T_Icon.png'
-};
-
-// For initialization in server.ts
-export const TeamDataTwo: ITeamData = {
-	...TeamData,
-	name: 'Counter-Terrorists',
-	teamURL: '../shared/media/CT_Icon.png'
+	matchesWonThisSeries: 0
 };
 
 export const DummyGrenades: CSGOOutputGrenade = {

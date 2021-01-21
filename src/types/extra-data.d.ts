@@ -15,8 +15,6 @@ export interface TeamData {
 	equipmentValue: number;
 	grenades: Grenades;
 	players: string[];
-	name: string;
-	teamURL: string;
 	score: number;
 	matchesWonThisSeries: number;
 	consecutiveRoundLosses: number;
