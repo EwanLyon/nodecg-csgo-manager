@@ -109,6 +109,7 @@ Download from [releases](https://github.com/EwanLyon/nodecg-csgo-manager/release
 
 Bundles using NodeCG-CSGO-Manager:
 
+* [Basic-CSGO-Graphics](https://github.com/EwanLyon/basic-csgo-graphics)
 * [Clubwho-CSGO-Graphics](https://github.com/EwanLyon/clubwho-csgo-graphics)
 
 [Basic documentation](./docs/)
