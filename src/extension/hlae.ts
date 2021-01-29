@@ -124,11 +124,11 @@ function gameEventHandler(rawGameEvent: any) {
 
 	switch (gameEvent.name as string) {
 		case "player_death":
-			nodecg.sendMessage('hlae-playerDeath', gameEvent);
+			nodecg.sendMessage('hlae:playerDeath', gameEvent);
 			matchKillsRep.value.push(gameEvent);
 			break;
 		case "weapon_fire":
-			nodecg.sendMessage('hlae-weaponFire', gameEvent);
+			nodecg.sendMessage('hlae:weaponFire', gameEvent);
 			break;
 		default:
 			break;
