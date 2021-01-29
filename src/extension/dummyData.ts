@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import {
 	Map,
-	CSGOOutputAllplayer,
-	CSGOOutputPlayer,
-	CSGOOutputBomb,
-	CSGOOutputPhaseCountdowns,
+	CSGOAllplayer,
+	CSGOPlayer,
+	CSGOBomb,
+	CSGOPhaseCountdowns,
 	CSGOOutputGrenade,
 	CSGOGrenadesAll,
-	CSGOOutput
+	CSGO
 } from '../types/csgo-gsi';
 import { GameSettings } from '../types/game-settings';
 import { BundleStatus } from '../types/bundle-status';
@@ -37,7 +37,7 @@ export const match: Map = {
 	round_wins: {}
 };
 
-export const player: CSGOOutputAllplayer[] = [
+export const player: CSGOAllplayer[] = [
 	{
 		steamId: '-1',
 		name: 'Username',
@@ -75,7 +75,7 @@ export const player: CSGOOutputAllplayer[] = [
 	}
 ];
 
-export const observingPlayer: CSGOOutputPlayer = {
+export const observingPlayer: CSGOPlayer = {
 	steamid: '-1',
 	clan: '',
 	name: 'PlayerName',
@@ -100,13 +100,13 @@ export const observingPlayer: CSGOOutputPlayer = {
 	forward: '0, 0, 0'
 };
 
-export const bomb: CSGOOutputBomb = {
+export const bomb: CSGOBomb = {
 	state: 'carried',
 	position: '0, 0, 0',
 	player: '-1'
 };
 
-export const phase: CSGOOutputPhaseCountdowns = {
+export const phase: CSGOPhaseCountdowns = {
 	phase: 'live',
 	phase_ends_in: '120'
 };
@@ -162,7 +162,7 @@ export const DummyTeamsPreset: TeamsPreset = {
 	players: {}
 };
 
-export const game: CSGOOutput = {
+export const game: CSGO = {
 	provider: {
 		name: "Counter-Strike: Global Offensive",
 		appid: 730,

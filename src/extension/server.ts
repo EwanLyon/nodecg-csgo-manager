@@ -6,24 +6,24 @@ import _ from 'lodash';
 import { BundleStatus } from '../types/bundle-status';
 import {
 	Map,
-	CSGOOutputAllplayer,
-	CSGOOutputPlayer,
-	CSGOOutputBomb,
-	CSGOOutputPhaseCountdowns,
+	CSGOAllplayer,
+	CSGOPlayer,
+	CSGOBomb,
+	CSGOPhaseCountdowns,
 	CSGOGrenadesAll,
-	CSGOOutput
+	CSGO
 } from '../types/csgo-gsi';
 import { TeamData } from '../types/extra-data';
 import { MapPlayerData } from '../types/map-player';
 
 const nodecg = nodecgApiContext.get();
 const bundleStatus = nodecg.Replicant<BundleStatus>('bundleStatus');
-const gameRep = nodecg.Replicant<CSGOOutput>('game');
+const gameRep = nodecg.Replicant<CSGO>('game');
 const matchStatsRep = nodecg.Replicant<Map>('matchStats');
-const allPlayersRep = nodecg.Replicant<CSGOOutputAllplayer[]>('allPlayers');
-const observingPlayerRep = nodecg.Replicant<CSGOOutputPlayer>('observingPlayer');
-const bombRep = nodecg.Replicant<CSGOOutputBomb>('bomb');
-const phaseRep = nodecg.Replicant<CSGOOutputPhaseCountdowns>('phase');
+const allPlayersRep = nodecg.Replicant<CSGOAllplayer[]>('allPlayers');
+const observingPlayerRep = nodecg.Replicant<CSGOPlayer>('observingPlayer');
+const bombRep = nodecg.Replicant<CSGOBomb>('bomb');
+const phaseRep = nodecg.Replicant<CSGOPhaseCountdowns>('phase');
 const teamOneRep = nodecg.Replicant<TeamData>('teamOne');
 const teamTwoRep = nodecg.Replicant<TeamData>('teamTwo');
 const mapGrenadesRep = nodecg.Replicant<CSGOGrenadesAll>('mapGrenades');
@@ -117,7 +117,7 @@ function handleData(srcData: string): void {
 					value.observer_slot = 10;
 				}
 
-				return value as CSGOOutputAllplayer;
+				return value as CSGOAllplayer;
 			}
 		);
 
@@ -213,7 +213,7 @@ server.on('close', () => {
 // }, 1000);
 
 // Map data here as it is as I want to minimise the time it take for the data to be processed
-function mapData(allPlayerData: CSGOOutputAllplayer[], observingId?: string) {
+function mapData(allPlayerData: CSGOAllplayer[], observingId?: string) {
 	const finalMapObj: MapPlayerData[] = [];
 
 	allPlayerData.forEach(player => {

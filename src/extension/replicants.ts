@@ -5,7 +5,7 @@ import { PlayerDeath } from '../types/hlae';
 import { MapPlayerData } from '../types/map-player';
 import { Match, Matches } from '../types/matches';
 import { BundleStatus } from '../types/bundle-status';
-import { CSGOOutput, CSGOOutputAllplayer, CSGOOutputPlayer, Map, CSGOOutputBomb, CSGOOutputPhaseCountdowns, CSGOGrenadesAll } from '../types/csgo-gsi';
+import { CSGO, CSGOAllplayer, CSGOPlayer, Map, CSGOBomb, CSGOPhaseCountdowns, CSGOGrenadesAll } from '../types/csgo-gsi';
 import * as DummyData from './dummyData';
 import { TeamsPreset } from '../types/team-preset';
 import { Tournaments } from '../types/tournament';
@@ -58,7 +58,7 @@ nodecg.Replicant<string>('round30Winner', { defaultValue: '' });
 nodecg.Replicant<BundleStatus>('bundleStatus', {
 	persistent: false
 });
-nodecg.Replicant<CSGOOutput>('game', {
+nodecg.Replicant<CSGO>('game', {
 	defaultValue: DummyData.game,
 	persistent: false
 });
@@ -66,19 +66,19 @@ nodecg.Replicant<Map>('matchStats', {
 	defaultValue: DummyData.match,
 	persistent: false
 });
-nodecg.Replicant<CSGOOutputAllplayer[]>('allPlayers', {
+nodecg.Replicant<CSGOAllplayer[]>('allPlayers', {
 	defaultValue: [],
 	persistent: false
 });
-nodecg.Replicant<CSGOOutputPlayer>('observingPlayer', {
+nodecg.Replicant<CSGOPlayer>('observingPlayer', {
 	defaultValue: DummyData.observingPlayer,
 	persistent: false
 });
-nodecg.Replicant<CSGOOutputBomb>('bomb', {
+nodecg.Replicant<CSGOBomb>('bomb', {
 	defaultValue: DummyData.bomb,
 	persistent: false
 });
-nodecg.Replicant<CSGOOutputPhaseCountdowns>('phase', {
+nodecg.Replicant<CSGOPhaseCountdowns>('phase', {
 	defaultValue: DummyData.phase,
 	persistent: false
 });

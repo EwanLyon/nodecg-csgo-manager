@@ -3,13 +3,13 @@ import _ from 'lodash';
 const nodecg = nodecgApiContext.get();
 
 import { MapPlayerData } from '../types/map-player';
-import { CSGOOutputPhaseCountdowns } from '../types/csgo-gsi';
+import { CSGOPhaseCountdowns } from '../types/csgo-gsi';
 
 const interpMapPlayersRep = nodecg.Replicant<Record<string, MapPlayerData>>('interpMapPlayers');
 
 const mapPlayersRep = nodecg.Replicant<MapPlayerData[]>('mapPlayers');
 
-const phaseRep = nodecg.Replicant<CSGOOutputPhaseCountdowns>('phase');
+const phaseRep = nodecg.Replicant<CSGOPhaseCountdowns>('phase');
 
 // 10 array's for 10 players, in future maybe have this be dynamic
 const playerBuffer: MapPlayerData[][] = [[], [], [], [], [], [], [], [], [], []];

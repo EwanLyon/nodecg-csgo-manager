@@ -11,7 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import { CSGOOutputAllplayer } from '../../../types/csgo-gsi';
+import { CSGOAllplayer } from '../../../types/csgo-gsi';
 import { PlayerData } from '../../../types/extra-data';
 import { useReplicant } from 'use-nodecg';
 import { flagList } from '../../atoms/flag-list';
@@ -81,7 +81,7 @@ const SpacedDialogContent = styled(DialogContent)`
 `;
 
 interface Props {
-	player: CSGOOutputAllplayer;
+	player: CSGOAllplayer;
 	extraPlayer: PlayerData;
 }
 

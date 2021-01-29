@@ -2,7 +2,7 @@ import * as nodecgApiContext from './util/nodecg-api-context';
 import * as SteamAPI from './util/steam-api';
 import _ from 'lodash';
 
-import { CSGOOutputAllplayer, CSGOOutputPhaseCountdowns, Map } from '../types/csgo-gsi';
+import { CSGOAllplayer, CSGOPhaseCountdowns, Map } from '../types/csgo-gsi';
 import { PlayerDataAll, TeamData } from '../types/extra-data';
 import { MapInfo, Matches } from '../types/matches';
 import { ExtraData as DummyExtraData } from './dummyData';
@@ -10,8 +10,8 @@ import { TeamsPreset } from '../types/team-preset';
 
 const nodecg = nodecgApiContext.get();
 
-const allPlayersRep = nodecg.Replicant<CSGOOutputAllplayer[]>('allPlayers');
-const phaseRep = nodecg.Replicant<CSGOOutputPhaseCountdowns>('phase');
+const allPlayersRep = nodecg.Replicant<CSGOAllplayer[]>('allPlayers');
+const phaseRep = nodecg.Replicant<CSGOPhaseCountdowns>('phase');
 const matchRep = nodecg.Replicant<Map>('matchStats');
 const playerDataRep = nodecg.Replicant<PlayerDataAll>('playerData');
 const teamOneRep = nodecg.Replicant<TeamData>('teamOne');
@@ -284,7 +284,7 @@ function getAllProfileData(overwrite = false) {
 	playerDataRep.value = playerData;
 }
 
-function sumGrenades(players: CSGOOutputAllplayer[]): TeamData['grenades'] {
+function sumGrenades(players: CSGOAllplayer[]): TeamData['grenades'] {
 	const nades = {
 		he: 0,
 		flash: 0,

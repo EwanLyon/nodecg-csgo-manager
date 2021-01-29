@@ -11,7 +11,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { Team } from './team';
 
 // Interfaces
-import { Map, CSGOOutputAllplayer } from '../../../types/csgo-gsi';
+import { Map, CSGOAllplayer } from '../../../types/csgo-gsi';
 import { TeamData, PlayerDataAll } from '../../../types/extra-data';
 import { TeamsPreset } from '../../../types/team-preset';
 import * as DummyData from '../../../extension/dummyData';
@@ -27,7 +27,7 @@ export const Teams: React.FunctionComponent = () => {
 	const [matchRep] = useReplicant<Map>('matchStats', DummyData.match);
 	const [teamOneRep] = useReplicant<TeamData>('teamOne', DummyData.TeamData);
 	const [teamTwoRep] = useReplicant<TeamData>('teamTwo', DummyData.TeamData);
-	const [allPlayersRep] = useReplicant<CSGOOutputAllplayer[]>('allPlayers', DummyData.player);
+	const [allPlayersRep] = useReplicant<CSGOAllplayer[]>('allPlayers', DummyData.player);
 	const [playerDataRep] = useReplicant<PlayerDataAll>('playerData', DummyData.ExtraData);
 	const [teamPresetsRep] = useReplicant<TeamsPreset>('teamPlayerPreset', DummyData.DummyTeamsPreset);
 	const [currentMatchRep] = useReplicant<Match | undefined>('currentMatch', undefined);

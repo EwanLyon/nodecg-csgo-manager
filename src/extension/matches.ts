@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import { MapInfo, Match, Matches, NewMatch } from '../types/matches';
 import { TeamsPreset } from '../types/team-preset';
-import { CSGOOutput } from '../types/csgo-gsi';
+import { CSGO } from '../types/csgo-gsi';
 
 const nodecg = nodecgApiContext.get();
 const currentMatchRep = nodecg.Replicant<Match | undefined>('currentMatch');
@@ -183,7 +183,7 @@ function currentTeamSide(round: number): boolean {
 	return false;
 }
 
-nodecg.listenFor('gameOver', (game: CSGOOutput) => {
+nodecg.listenFor('gameOver', (game: CSGO) => {
 	nodecg.log.info('Game over!');
 	const teamOneData = currentTeamSide(game.map.round) ? game.map.team_t : game.map.team_ct;
 	const teamTwoData = currentTeamSide(game.map.round) ? game.map.team_ct : game.map.team_t;

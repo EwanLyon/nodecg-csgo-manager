@@ -1,10 +1,10 @@
 import * as nodecgApiContext from './util/nodecg-api-context';
 const nodecg = nodecgApiContext.get();
 
-import { CSGOOutput } from '../types/csgo-gsi';
+import { CSGO } from '../types/csgo-gsi';
 
 // Sends messages based on game information
-const gameRep = nodecg.Replicant<CSGOOutput>('gameRep');
+const gameRep = nodecg.Replicant<CSGO>('gameRep');
 
 gameRep.on('change', (newVal, oldVal) => {
 	if (oldVal?.phaseCountdowns.phase !== newVal.phaseCountdowns.phase) {

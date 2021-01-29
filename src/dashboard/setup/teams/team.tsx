@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
-import { CSGOOutputAllplayer } from '../../../types/csgo-gsi';
+import { CSGOAllplayer } from '../../../types/csgo-gsi';
 import { Team as ITeam } from '../../../types/team-preset';
 
 import { Grid } from '@material-ui/core';
@@ -33,7 +33,7 @@ const TeamImage = styled.img`
 
 interface Props {
 	team: ITeam | undefined;
-	players: CSGOOutputAllplayer[];
+	players: CSGOAllplayer[];
 }
 
 export const Team: React.FC<Props> = (props: Props) => {
