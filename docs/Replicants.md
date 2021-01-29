@@ -112,48 +112,50 @@ _Types available in [./src/types/csgo-gsi.d.ts](../src/types/csgo-gsi.d.ts)_
 ### Example data
 
 ```JSON
-[{
-  "name": "Kyle",
-  "steamId": "76561197960265729",
-  "observer_slot": 10,
-  "team": "CT",
-  "state": {
-    "health": 100,
-    "armor": 100,
-    "helmet": true,
-    "flashed": 0,
-    "burning": 0,
-    "money": 550,
-    "round_kills": 0,
-    "round_killhs": 0,
-    "round_totaldmg": 0,
-    "equip_value": 3400
-  },
-  "match_stats": { "kills": 1, "assists": 1, "deaths": 4, "mvps": 0, "score": 3 },
-  "weapons": {
-    "weapon_0": { "name": "weapon_knife", "paintkit": "default", "type": "Knife", "state": "holstered" },
-    "weapon_1": {
-      "name": "weapon_deagle",
-      "paintkit": "default",
-      "type": "Pistol",
-      "ammo_clip": 7,
-      "ammo_clip_max": 7,
-      "ammo_reserve": 35,
-      "state": "holstered"
+[
+  {
+    "name": "Kyle",
+    "steamId": "76561197960265729",
+    "observer_slot": 10,
+    "team": "CT",
+    "state": {
+      "health": 100,
+      "armor": 100,
+      "helmet": true,
+      "flashed": 0,
+      "burning": 0,
+      "money": 550,
+      "round_kills": 0,
+      "round_killhs": 0,
+      "round_totaldmg": 0,
+      "equip_value": 3400
     },
-    "weapon_2": {
-      "name": "weapon_ssg08",
-      "paintkit": "default",
-  "type": "SniperRifle",
-      "ammo_clip": 10,
-      "ammo_clip_max": 10,
-      "ammo_reserve": 90,
-      "state": "active"
-    }
-  },
-  "position": "-362.59, 1605.67, -126.91",
-  "forward": "-0.60, 0.79, -0.10"
-}]
+    "match_stats": { "kills": 1, "assists": 1, "deaths": 4, "mvps": 0, "score": 3 },
+    "weapons": {
+      "weapon_0": { "name": "weapon_knife", "paintkit": "default", "type": "Knife", "state": "holstered" },
+      "weapon_1": {
+        "name": "weapon_deagle",
+        "paintkit": "default",
+        "type": "Pistol",
+        "ammo_clip": 7,
+        "ammo_clip_max": 7,
+        "ammo_reserve": 35,
+        "state": "holstered"
+      },
+      "weapon_2": {
+        "name": "weapon_ssg08",
+        "paintkit": "default",
+    "type": "SniperRifle",
+        "ammo_clip": 10,
+        "ammo_clip_max": 10,
+        "ammo_reserve": 90,
+        "state": "active"
+      }
+    },
+    "position": "-362.59, 1605.67, -126.91",
+    "forward": "-0.60, 0.79, -0.10"
+  }
+]
 ```
 
 Array of all players from the `allplayers` property. Made into an array with a new steamId property and if observer slot is 0 it is changed to 10.
@@ -566,46 +568,48 @@ _Types available in [./src/types/matches.d.ts](../src/types/matches.d.ts)_
 ```JSON
 {
   "id": "b80a717b-2f58-4d5b-87a1-9b802303e2f3",
-  "maps": [{
-    "map": "Dust2",
-    "ban": false,
-    "teamVeto": "Avangar",
-    "complete": true,
-    "roundWins": [],
-    "totalScore": {
-      "teamA": 0,
-      "teamB": 0
+  "maps": [
+      {
+      "map": "Dust2",
+      "ban": false,
+      "teamVeto": "Avangar",
+      "complete": true,
+      "roundWins": [],
+      "totalScore": {
+        "teamA": 0,
+        "teamB": 0
+      },
+      "firstHalf": {
+        "teamA": 10,
+        "teamB": 5
+      },
+      "secondHalf": {
+        "teamA": 6,
+        "teamB": 2
+      },
+      "side": "CT"
     },
-    "firstHalf": {
-      "teamA": 10,
-      "teamB": 5
-    },
-    "secondHalf": {
-      "teamA": 6,
-      "teamB": 2
-    },
-    "side": "CT"
-  },
-  {
-    "map": "Inferno",
-    "ban": false,
-    "teamVeto": "Astralis",
-    "complete": false,
-    "roundWins": [],
-    "totalScore": {
-      "teamA": 0,
-      "teamB": 0
-    },
-    "firstHalf": {
-      "teamA": 0,
-      "teamB": 0
-    },
-    "secondHalf": {
-      "teamA": 0,
-      "teamB": 0
-    },
-    "side": "T"
-  }],
+    {
+      "map": "Inferno",
+      "ban": false,
+      "teamVeto": "Astralis",
+      "complete": false,
+      "roundWins": [],
+      "totalScore": {
+        "teamA": 0,
+        "teamB": 0
+      },
+      "firstHalf": {
+        "teamA": 0,
+        "teamB": 0
+      },
+      "secondHalf": {
+        "teamA": 0,
+        "teamB": 0
+      },
+      "side": "T"
+    }
+  ],
   "status": "Soon",
   "time": "12:00",
   "matchType": "bo3",
