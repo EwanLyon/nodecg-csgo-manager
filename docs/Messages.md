@@ -4,6 +4,17 @@ _[Link to NodeCG documentation for reference.](https://www.nodecg.dev/docs/class
 
 There are many messages used for interal communication between dashboard and extensions. These are not meant to be used in external uses and will remain undocumented.
 
+Game
+
+- [newPhase:...](#newPhase)
+- [newBomb:...](#newBomb)
+- [gameOver](#gameOver)
+
+HLAE
+
+- [hlae:playerDeath](#hlae:playerDeath)
+- [hlae:weaponFire](#hlae:weaponFire)
+
 ## Usage
 
 Example code
@@ -16,7 +27,7 @@ nodecg.listenFor('message-name', 'nodecg-csgo-manager', (data) => {
 
 ## Game
 
-## newPhase:phase
+## newPhase
 
 When the round is in a new phase this will transmit the output as `newPhase:` + the phase name.
 _No data is sent with this message_
@@ -33,7 +44,7 @@ _No data is sent with this message_
 - 'newPhase:timeout_ct'
 - 'newPhase:warmup'
 
-## newBomb:state
+## newBomb
 
 When the bomb is in a new state this will transmit the output as `newBomb:` + the state name.
 _No data is sent with this message_
