@@ -207,10 +207,7 @@ server.on('close', () => {
 	nodecg.log.info('Server closed');
 });
 
-// setInterval(() => {
-// 	serverRateRep.value = numOfMessages;
-// 	numOfMessages = 0;
-// }, 1000);
+server.listen(nodecg.bundleConfig.port, nodecg.config.host);
 
 // Map data here as it is as I want to minimise the time it take for the data to be processed
 function mapData(allPlayerData: CSGOAllplayer[], observingId?: string) {
