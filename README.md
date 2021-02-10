@@ -68,7 +68,8 @@ To get a local copy up and running follow these simple steps.
 
 ### Installation
 
-Download from [releases](https://github.com/EwanLyon/nodecg-csgo-manager/releases).
+1. Download from [releases](https://github.com/EwanLyon/nodecg-csgo-manager/releases).
+2. Extract to the nodecg bundles folder so that the file structure is `nodecg/bundles/nodecg-csgo-manager/...`
 
 #### Building
 
@@ -109,7 +110,8 @@ Download from [releases](https://github.com/EwanLyon/nodecg-csgo-manager/release
 
 Bundles using NodeCG-CSGO-Manager:
 
-* [Basic-CSGO-Graphics](https://github.com/EwanLyon/basic-csgo-graphics)
+* [Basic-CSGO-HUD Template!](https://github.com/EwanLyon/basic-csgo-hud)
+* [Angles-CSGO-HUD](https://github.com/EwanLyon/angles-csgo-hud)
 * [Clubwho-CSGO-Graphics](https://github.com/EwanLyon/clubwho-csgo-graphics)
 
 [Basic documentation](./docs/)
