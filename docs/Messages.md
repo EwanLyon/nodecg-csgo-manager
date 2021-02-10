@@ -1,3 +1,8 @@
+Messages
+========
+
+
+
 # API Documentation: Messages
 
 _[Link to NodeCG documentation for reference.](https://www.nodecg.dev/docs/classes/listenFor)_
@@ -30,6 +35,7 @@ nodecg.listenFor('message-name', 'nodecg-csgo-manager', (data) => {
 ## newPhase
 
 When the round is in a new phase this will transmit the output as `newPhase:` + the phase name.
+
 _No data is sent with this message_
 
 ### Possible messages
@@ -47,6 +53,7 @@ _No data is sent with this message_
 ## newBomb
 
 When the bomb is in a new state this will transmit the output as `newBomb:` + the state name.
+
 _No data is sent with this message_
 
 ### Possible messages
@@ -125,7 +132,7 @@ Message sent everytime a player is killed. Used for killfeeds.
 
 ## hlae:weaponFire
 
-Used to show weapon fire on the mini map. Remember to not show if the weapon is a knife.
+Used to show weapon fire on the mini map. Remember to not show if the weapon is a knife or grenade.
 
 ```JSON
 {
