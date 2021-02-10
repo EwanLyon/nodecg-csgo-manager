@@ -7,7 +7,7 @@ export interface CSGO {
 	round: Round;
 	player: CSGOPlayer;
 	allplayers: Record<string, CSGOAllplayer>;
-	phaseCountdowns: CSGOPhaseCountdowns;
+	phase_countdowns: CSGOPhaseCountdowns;
 	grenades: CSGOGrenadesAll;
 	bomb: CSGOBomb;
 	previously: Previously;

@@ -13,6 +13,7 @@ async function init(): Promise<void> {
 	require('./map-interp');
 	require('./hlae');
 	require('./extraData');
+	require('./testing');
 }
 
 module.exports = (nodecg: NodeCG): void => {

@@ -229,3 +229,9 @@ function mapData(allPlayerData: CSGOAllplayer[], observingId?: string) {
 
 	return finalMapObj;
 }
+
+nodecg.listenFor('sendTestData', (srcData: CSGO) => {
+	if (srcData) {
+		handleData(JSON.stringify(srcData));
+	}
+});

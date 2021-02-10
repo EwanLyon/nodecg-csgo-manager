@@ -13,6 +13,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 
 import { CSGOAllplayer } from '../../../types/csgo-gsi';
 import { PlayerData } from '../../../types/extra-data';
+import { Asset } from '../../../types/nodecg';
 import { useReplicant } from 'use-nodecg';
 import { flagList } from '../../atoms/flag-list';
 
@@ -85,28 +86,8 @@ interface Props {
 	extraPlayer: PlayerData;
 }
 
-interface Asset {
-	base: string;
-	bundleName: string;
-	category: string;
-	ext: string;
-	name: string;
-	sum: string;
-	url: string;
-}
-
-const DummyAsset: Asset = {
-	base: '',
-	bundleName: 'csgo-layouts',
-	category: '',
-	ext: '',
-	name: '',
-	sum: '',
-	url: '',
-};
-
 export const PlayerBox: React.FC<Props> = (props: Props) => {
-	const [profilePicturesRep] = useReplicant<Asset[]>('assets:playerIcons', [DummyAsset]);
+	const [profilePicturesRep] = useReplicant<Asset[]>('assets:playerIcons', []);
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [localPfp, setLocalPfp] = useState('');
 	const [localCountry, setLocalCountry] = useState('');

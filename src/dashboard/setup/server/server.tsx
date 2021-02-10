@@ -13,7 +13,7 @@ import { ThemeProvider } from '@material-ui/styles';
 // Import { Tooltip, YAxis, AreaChart, Area } from 'recharts';
 
 // Interfaces
-import { bundleStatus as DummyBundle } from '../../../extension/dummyData';
+import { bundleStatus as ExampleBundle } from '../../../extension/example-data';
 import { BundleStatus } from '../../../types/bundle-status';
 import { Button } from '@material-ui/core';
 
@@ -44,7 +44,7 @@ interface ActiveProps {
 // ];
 
 export const Server: React.FunctionComponent = () => {
-	const [bundleStatus] = useReplicant<BundleStatus>('bundleStatus', DummyBundle);
+	const [bundleStatus] = useReplicant<BundleStatus>('bundleStatus', ExampleBundle);
 	const [serverRateRep] = useReplicant<number>('serverRate', 0);
 	const [hlaeActiveRep] = useReplicant<boolean>('hlaeActive', false);
 	const serverBtn = useRef<StyledToggleButton>(null);

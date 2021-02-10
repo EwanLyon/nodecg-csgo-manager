@@ -5,7 +5,7 @@ import { theme } from '../../theme';
 import { useReplicant } from 'use-nodecg';
 
 import { TeamsPreset } from '../../../types/team-preset';
-import { DummyTeamsPreset } from '../../../extension/dummyData';
+import { teamPlayerPreset } from '../../../extension/example-data';
 import { Match, Matches, NewMatch } from '../../../types/matches';
 
 import { Grid, Select, MenuItem, FormControl, InputLabel, TextField, Chip } from '@material-ui/core';
@@ -54,9 +54,8 @@ const getItemStyle = (draggableStyle: DraggingStyle | NotDraggingStyle | undefin
 });
 
 const DashSchedule: React.FC = () => {
-	const [teamPresetsRep] = useReplicant<TeamsPreset>('teamPlayerPreset', DummyTeamsPreset);
+	const [teamPresetsRep] = useReplicant<TeamsPreset>('teamPlayerPreset', teamPlayerPreset);
 	const [matchesRep] = useReplicant<Matches>('matches', []);
-	console.log(matchesRep)
 	const [currentMatchRep] = useReplicant<Match | undefined>('currentMatch', undefined);
 
 	const [teamA, setTeamA] = useState('');

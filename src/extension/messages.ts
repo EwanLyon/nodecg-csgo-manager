@@ -7,8 +7,8 @@ import { CSGO } from '../types/csgo-gsi';
 const gameRep = nodecg.Replicant<CSGO>('gameRep');
 
 gameRep.on('change', (newVal, oldVal) => {
-	if (oldVal?.phaseCountdowns.phase !== newVal.phaseCountdowns.phase) {
-		nodecg.sendMessage(`newPhase:${newVal.phaseCountdowns.phase}`);
+	if (oldVal?.phase_countdowns.phase !== newVal.phase_countdowns.phase) {
+		nodecg.sendMessage(`newPhase:${newVal.phase_countdowns.phase}`);
 	}
 
 	if (oldVal?.bomb.state !== newVal.bomb.state) {

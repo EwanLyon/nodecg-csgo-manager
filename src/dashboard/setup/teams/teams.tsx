@@ -14,7 +14,7 @@ import { Team } from './team';
 import { Map, CSGOAllplayer } from '../../../types/csgo-gsi';
 import { TeamData, PlayerDataAll } from '../../../types/extra-data';
 import { TeamsPreset } from '../../../types/team-preset';
-import * as DummyData from '../../../extension/dummyData';
+import ExampleData from '../../../extension/example-data';
 import { Match } from '../../../types/matches';
 
 const Divider = styled.div`
@@ -24,12 +24,12 @@ const Divider = styled.div`
 `;
 
 export const Teams: React.FunctionComponent = () => {
-	const [matchRep] = useReplicant<Map>('matchStats', DummyData.match);
-	const [teamOneRep] = useReplicant<TeamData>('teamOne', DummyData.TeamData);
-	const [teamTwoRep] = useReplicant<TeamData>('teamTwo', DummyData.TeamData);
-	const [allPlayersRep] = useReplicant<CSGOAllplayer[]>('allPlayers', DummyData.player);
-	const [playerDataRep] = useReplicant<PlayerDataAll>('playerData', DummyData.ExtraData);
-	const [teamPresetsRep] = useReplicant<TeamsPreset>('teamPlayerPreset', DummyData.DummyTeamsPreset);
+	const [matchRep] = useReplicant<Map>('matchStats', ExampleData.match);
+	const [teamOneRep] = useReplicant<TeamData>('teamOne', ExampleData.teamData);
+	const [teamTwoRep] = useReplicant<TeamData>('teamTwo', ExampleData.teamData);
+	const [allPlayersRep] = useReplicant<CSGOAllplayer[]>('allPlayers', ExampleData.player);
+	const [playerDataRep] = useReplicant<PlayerDataAll>('playerData', ExampleData.extraData);
+	const [teamPresetsRep] = useReplicant<TeamsPreset>('teamPlayerPreset', ExampleData.teamPlayerPreset);
 	const [currentMatchRep] = useReplicant<Match | undefined>('currentMatch', undefined);
 	const [swapTeamsRep, setSwapTeamsRep] = useReplicant('swapTeams', false);
 

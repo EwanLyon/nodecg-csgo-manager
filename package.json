@@ -52,6 +52,13 @@
         "workspace": "Setup"
       },
       {
+        "name": "test",
+        "title": "Test",
+        "width": 2,
+        "file": "test.html",
+        "workspace": "Setup"
+      },
+      {
         "name": "currentmatch",
         "title": "Current Match",
         "width": 2,

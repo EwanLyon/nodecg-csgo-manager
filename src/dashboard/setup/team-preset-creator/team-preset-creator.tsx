@@ -22,7 +22,7 @@ import { ThemeProvider } from '@material-ui/styles';
 import { flagList } from '../../atoms/flag-list';
 import { theme } from '../../theme';
 import { TeamsPreset } from '../../../types/team-preset';
-import { DummyTeamsPreset } from '../../../extension/dummyData';
+import { teamPlayerPreset } from '../../../extension/example-data';
 import { FullTeam } from 'hltv/lib/models/FullTeam';
 import { Asset } from '../../../types/nodecg';
 
@@ -46,7 +46,7 @@ const TwemojiMenuItem = styled(Twemoji)`
 export const TeamPresetCreator: React.FC = () => {
 	const [profilePicturesRep] = useReplicant<Asset[]>('assets:playerIcons', []);
 	const [teamImagesRep] = useReplicant<Asset[]>('assets:teamimages', []);
-	const [teamPresetsRep] = useReplicant<TeamsPreset>('teamPlayerPreset', DummyTeamsPreset);
+	const [teamPresetsRep] = useReplicant<TeamsPreset>('teamPlayerPreset', teamPlayerPreset);
 	const [steamId, setSteamId] = useState('');
 	const [localName, setLocalName] = useState('');
 	const [localPfp, setLocalPfp] = useState('');

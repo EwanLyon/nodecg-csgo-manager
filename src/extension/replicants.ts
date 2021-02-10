@@ -6,7 +6,7 @@ import { MapPlayerData } from '../types/map-player';
 import { Match, Matches } from '../types/matches';
 import { BundleStatus } from '../types/bundle-status';
 import { CSGO, CSGOAllplayer, CSGOPlayer, Map, CSGOBomb, CSGOPhaseCountdowns, CSGOGrenadesAll } from '../types/csgo-gsi';
-import * as DummyData from './dummyData';
+import ExampleData from './example-data';
 import { TeamsPreset } from '../types/team-preset';
 import { Tournaments } from '../types/tournament';
 import { GameSettings } from '../types/game-settings';
@@ -18,10 +18,10 @@ const nodecg = nodecgApiContext.get();
 /* Settings */
 
 nodecg.Replicant<BundleStatus>('bundleStatus', {
-	defaultValue: DummyData.bundleStatus
+	defaultValue: ExampleData.bundleStatus
 });
 nodecg.Replicant<GameSettings>('gameSettings', {
-	defaultValue: DummyData.gameSettings
+	defaultValue: ExampleData.gameSettings
 });
 
 /* Extra data */
@@ -59,11 +59,11 @@ nodecg.Replicant<BundleStatus>('bundleStatus', {
 	persistent: false
 });
 nodecg.Replicant<CSGO>('game', {
-	defaultValue: DummyData.game,
+	defaultValue: ExampleData.game,
 	persistent: false
 });
 nodecg.Replicant<Map>('matchStats', {
-	defaultValue: DummyData.match,
+	defaultValue: ExampleData.match,
 	persistent: false
 });
 nodecg.Replicant<CSGOAllplayer[]>('allPlayers', {
@@ -71,27 +71,27 @@ nodecg.Replicant<CSGOAllplayer[]>('allPlayers', {
 	persistent: false
 });
 nodecg.Replicant<CSGOPlayer>('observingPlayer', {
-	defaultValue: DummyData.observingPlayer,
+	defaultValue: ExampleData.observingPlayer,
 	persistent: false
 });
 nodecg.Replicant<CSGOBomb>('bomb', {
-	defaultValue: DummyData.bomb,
+	defaultValue: ExampleData.bomb,
 	persistent: false
 });
 nodecg.Replicant<CSGOPhaseCountdowns>('phase', {
-	defaultValue: DummyData.phase,
+	defaultValue: ExampleData.phase,
 	persistent: false
 });
 nodecg.Replicant<TeamData>('teamOne', {
-	defaultValue: DummyData.TeamData,
+	defaultValue: ExampleData.teamData,
 	persistent: false
 });
 nodecg.Replicant<TeamData>('teamTwo', {
-	defaultValue: DummyData.TeamData,
+	defaultValue: ExampleData.teamData,
 	persistent: false
 });
 nodecg.Replicant<CSGOGrenadesAll>('mapGrenades', {
-	defaultValue: DummyData.DummyGrenadesAll,
+	defaultValue: ExampleData.grenadesAll,
 	persistent: false
 });
 nodecg.Replicant<number>('serverRate', {
