@@ -10,7 +10,6 @@ import { theme } from '../../theme';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { ThemeProvider } from '@material-ui/styles';
-// Import { Tooltip, YAxis, AreaChart, Area } from 'recharts';
 
 // Interfaces
 import { bundleStatus as ExampleBundle } from '../../../extension/example-data';
@@ -29,27 +28,11 @@ interface ActiveProps {
 	active?: boolean;
 }
 
-// Const beginningData = [
-// 	{ rate: 0 },
-// 	{ rate: 0 },
-// 	{ rate: 0 },
-// 	{ rate: 0 },
-// 	{ rate: 0 },
-// 	{ rate: 0 },
-// 	{ rate: 0 },
-// 	{ rate: 0 },
-// 	{ rate: 0 },
-// 	{ rate: 0 },
-// 	{ rate: 0 }
-// ];
-
 export const Server: React.FunctionComponent = () => {
 	const [bundleStatus] = useReplicant<BundleStatus>('bundleStatus', ExampleBundle);
 	const [serverRateRep] = useReplicant<number>('serverRate', 0);
 	const [hlaeActiveRep] = useReplicant<boolean>('hlaeActive', false);
 	const serverBtn = useRef<StyledToggleButton>(null);
-	// Const [serverData, setServerData] = useState(beginningData);
-	// const [serverIter, setServerIter] = useState(0);
 
 	function toggleServer(): void {
 		if (bundleStatus.isServerOn) {
@@ -72,20 +55,6 @@ export const Server: React.FunctionComponent = () => {
 			serverBtn.current.toggleButton(bundleStatus.isServerOn);
 		}
 	}, [bundleStatus]);
-
-	// UseEffect(() => {
-	// 	const interval = setInterval(() => {
-	// 		const oldServerData = serverData;
-	// 		oldServerData.shift();
-	// 		oldServerData.push({ rate: serverRateRep });
-	// 		setServerData(oldServerData);
-	// 		setServerIter(serverIter + 1);
-	// 	}, 1000);
-
-	// 	return (): void => {
-	// 		clearInterval(interval);
-	// 	};
-	// }, [serverData, serverIter, serverRateRep]);
 
 	/* 
 		This button should only be used for dev
@@ -120,17 +89,6 @@ export const Server: React.FunctionComponent = () => {
 				</Grid>
 			</Grid>
 			<Typography>Msg/s {~~serverRateRep}</Typography>
-			{/* <AreaChart width={242} height={100} data={serverData} margin={{ left: -40 }} key={serverIter}>
-				<Area
-					type="monotone"
-					dataKey="rate"
-					stroke="#8884d8"
-					fill="#8884d8"
-					animationDuration={0}
-				/>
-				<Tooltip />
-				<YAxis domain={[0, 60]} />
-			</AreaChart> */}
 			<HlaeActive active={hlaeActiveRep}>
 				HLAE is currently {hlaeActiveRep ? 'active': 'inactive'}
 			</HlaeActive>
