@@ -14,7 +14,7 @@ import { Team } from './team';
 import { Map, CSGOAllplayer } from '../../../types/csgo-gsi';
 import { TeamData, PlayerDataAll } from '../../../types/extra-data';
 import { TeamsPreset } from '../../../types/team-preset';
-import ExampleData from '../../../extension/example-data';
+import * as ExampleData from '../../../extension/example-data';
 import { Match } from '../../../types/matches';
 
 const Divider = styled.div`

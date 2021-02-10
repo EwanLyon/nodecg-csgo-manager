@@ -6,7 +6,7 @@ import { MapPlayerData } from '../types/map-player';
 import { Match, Matches } from '../types/matches';
 import { BundleStatus } from '../types/bundle-status';
 import { CSGO, CSGOAllplayer, CSGOPlayer, Map, CSGOBomb, CSGOPhaseCountdowns, CSGOGrenadesAll } from '../types/csgo-gsi';
-import ExampleData from './example-data';
+import * as ExampleData from './example-data';
 import { TeamsPreset } from '../types/team-preset';
 import { Tournaments } from '../types/tournament';
 import { GameSettings } from '../types/game-settings';

@@ -195,20 +195,20 @@ export const game: CSGO = {
 	}
 }
 
-const ExampleData = {
-	match,
-	player,
-	observingPlayer,
-	bomb,
-	phase,
-	bundleStatus,
-	gameSettings,
-	extraData,
-	teamData,
-	grenades,
-	grenadesAll,
-	teamPlayerPreset,
-	game
-}
+// const ExampleData = {
+// 	match,
+// 	player,
+// 	observingPlayer,
+// 	bomb,
+// 	phase,
+// 	bundleStatus,
+// 	gameSettings,
+// 	extraData,
+// 	teamData,
+// 	grenades,
+// 	grenadesAll,
+// 	teamPlayerPreset,
+// 	game
+// }
 
-export default ExampleData;
+// export default ExampleData;

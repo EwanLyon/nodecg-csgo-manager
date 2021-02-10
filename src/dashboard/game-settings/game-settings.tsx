@@ -48,7 +48,7 @@ export const GameSettings: React.FunctionComponent = () => {
 				bombPlantTime: editedSettings.bombPlantTime,
 				bombTime: editedSettings.bombTime,
 				noKitDefuseTime: editedSettings.noKitDefuseTime,
-				kitDefusedTime: editedSettings.kitDefusedTime
+				kitDefuseTime: editedSettings.kitDefuseTime
 			});
 		}
 
@@ -129,7 +129,7 @@ export const GameSettings: React.FunctionComponent = () => {
 							size="small"
 							variant="filled"
 							id="defuse-time"
-							value={editedSettings.kitDefusedTime}
+							value={editedSettings.kitDefuseTime}
 						/>
 					</Grid>
 				</Grid>
