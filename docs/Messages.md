@@ -1,8 +1,3 @@
-Messages
-========
-
-
-
 # API Documentation: Messages
 
 _[Link to NodeCG documentation for reference.](https://www.nodecg.dev/docs/classes/listenFor)_
@@ -35,7 +30,6 @@ nodecg.listenFor('message-name', 'nodecg-csgo-manager', (data) => {
 ## newPhase
 
 When the round is in a new phase this will transmit the output as `newPhase:` + the phase name.
-
 _No data is sent with this message_
 
 ### Possible messages
@@ -53,7 +47,6 @@ _No data is sent with this message_
 ## newBomb
 
 When the bomb is in a new state this will transmit the output as `newBomb:` + the state name.
-
 _No data is sent with this message_
 
 ### Possible messages
