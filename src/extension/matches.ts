@@ -5,12 +5,14 @@ import _ from 'lodash';
 import { MapInfo, Match, Matches, NewMatch } from '../types/matches';
 import { TeamsPreset } from '../types/team-preset';
 import { CSGO } from '../types/csgo-gsi';
+import { PlayerDeath } from '../types/hlae';
 
 const nodecg = nodecgApiContext.get();
 const currentMatchRep = nodecg.Replicant<Match | undefined>('currentMatch');
 const matchesRep = nodecg.Replicant<Matches>('matches');
 const teamsRep = nodecg.Replicant<TeamsPreset>('teamPlayerPreset');
 const round30Winner = nodecg.Replicant<string>('round30Winner');
+const matchKills = nodecg.Replicant<PlayerDeath[]>('matchKills');
 
 // If no current match set then start at the very beginning, a very good place to start
 if (!currentMatchRep.value) {
@@ -36,6 +38,7 @@ nodecg.listenFor('nextMatch', () => {
 	}
 
 	currentMatchRep.value = _.cloneDeep(matchesRep.value[currentMatchIndex + 1]);
+	matchKills.value = []; // Clear match kills since we are on a new one now
 });
 
 nodecg.listenFor('prevMatch', () => {

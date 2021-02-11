@@ -13,7 +13,6 @@ import { ThemeProvider } from '@material-ui/styles';
 // Interfaces
 import { bundleStatus as ExampleBundle } from '../../../extension/example-data';
 import { BundleStatus } from '../../../types/bundle-status';
-import { Button } from '@material-ui/core';
 
 const HlaeActive = styled.div`
 	width: 100%;
@@ -55,14 +54,6 @@ export const Server: React.FunctionComponent = () => {
 		}
 	}, [bundleStatus]);
 
-	/* 
-		This button should only be used for dev
-		Match kills should be cleared at the end of a match or when a new one is started
-	*/
-	function resetMatchKills() {
-		nodecg.sendMessage('resetMatchKills');
-	}
-
 	return (
 		<ThemeProvider theme={theme}>
 			<StyledToggleButton
@@ -91,9 +82,6 @@ export const Server: React.FunctionComponent = () => {
 			<HlaeActive active={hlaeActiveRep}>
 				HLAE is currently {hlaeActiveRep ? 'active' : 'inactive'}
 			</HlaeActive>
-			<Button onClick={resetMatchKills} variant="contained">
-				Reset Match Kills (Dev)
-			</Button>
 		</ThemeProvider>
 	);
 };
