@@ -96,7 +96,12 @@ export const SingleElimination: React.FC<Props> = (props: Props) => {
 	);
 
 	function changeMatch(id: string, round: number, match: number) {
-		nodecg.sendMessage('setSingleElimMatch', { tournamentId: props.tournamentId, matchId: id, round, match });
+		nodecg.sendMessage('setSingleElimMatch', {
+			tournamentId: props.tournamentId,
+			matchId: id,
+			round,
+			match,
+		});
 	}
 
 	return <SingleEliminationContainer>{allElimMatches}</SingleEliminationContainer>;
@@ -125,12 +130,23 @@ const EliminationConnector: React.FC<ElimConnectorProps> = (props: ElimConnector
 				display: 'flex',
 				height: props.elimHeight / 2 / Math.log2(props.noOfPrevRounds),
 			}}>
-			<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+			<div
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'space-between',
+				}}>
 				<Branch />
 				<Branch />
 			</div>
 			<Trunk style={{ height: '100%' }} />
-			<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 144 }}>
+			<div
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center',
+					gap: 144,
+				}}>
 				<Branch />
 			</div>
 		</div>

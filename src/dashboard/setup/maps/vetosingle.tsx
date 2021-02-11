@@ -15,7 +15,8 @@ const VETOSingleContainer = styled.div`
 	background: #40495f;
 	border-radius: 7px;
 	padding: 10px;
-	box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.2), 0px 3px 3px rgba(0, 0, 0, 0.12), 0px 3px 4px rgba(0, 0, 0, 0.14);
+	box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.2), 0px 3px 3px rgba(0, 0, 0, 0.12),
+		0px 3px 4px rgba(0, 0, 0, 0.14);
 `;
 
 const TeamName = styled(FitText)`
@@ -64,17 +65,32 @@ export const DashVETOSingle: React.FC<Props> = (props: Props) => {
 				<Grid item container justify="space-around">
 					<Chip
 						label={`${props.otherTeamName} pick CT`}
-						onClick={() => nodecg.sendMessage('setVetoSide', { mapName: props.veto.map, side: 'CT' })}
+						onClick={() =>
+							nodecg.sendMessage('setVetoSide', {
+								mapName: props.veto.map,
+								side: 'CT',
+							})
+						}
 						variant={props.veto.side === 'CT' ? 'default' : 'outlined'}
 					/>
 					<Chip
 						label={`${props.otherTeamName} pick T`}
-						onClick={() => nodecg.sendMessage('setVetoSide', { mapName: props.veto.map, side: 'T' })}
+						onClick={() =>
+							nodecg.sendMessage('setVetoSide', {
+								mapName: props.veto.map,
+								side: 'T',
+							})
+						}
 						variant={props.veto.side === 'T' ? 'default' : 'outlined'}
 					/>
 					<Chip
 						label={'Knife'}
-						onClick={() => nodecg.sendMessage('setVetoSide', { mapName: props.veto.map, side: 'Knife' })}
+						onClick={() =>
+							nodecg.sendMessage('setVetoSide', {
+								mapName: props.veto.map,
+								side: 'Knife',
+							})
+						}
 						variant={props.veto.side === 'Knife' ? 'default' : 'outlined'}
 					/>
 				</Grid>
@@ -94,7 +110,9 @@ export const DashVETOSingle: React.FC<Props> = (props: Props) => {
 					<TeamName text={props.veto.teamVeto}></TeamName>
 					<ChosenText>{props.veto.ban ? 'Ban' : 'Pick'}</ChosenText>
 					<MapText>{props.veto.map}</MapText>
-					<RedButtonExtra variant="contained" onClick={removeVeto}>‒</RedButtonExtra>
+					<RedButtonExtra variant="contained" onClick={removeVeto}>
+						‒
+					</RedButtonExtra>
 				</Grid>
 				{sidePicker}
 			</Grid>

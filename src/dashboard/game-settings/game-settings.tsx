@@ -19,23 +19,23 @@ const useStyles = makeStyles(() =>
 	createStyles({
 		typography: {
 			flexGrow: 1,
-			lineHeight: '48px'
+			lineHeight: '48px',
 		},
 		inputNumber: {
 			'&::-webkit-inner-spin-button': {
-				display: '"none"'
+				display: '"none"',
 			},
 			'&::-webkit-outer-spin-button': {
-				display: '"none"'
-			}
-		}
-	})
+				display: '"none"',
+			},
+		},
+	}),
 );
 
 export const GameSettings: React.FunctionComponent = () => {
 	const [gameSettings, setGameSettings] = useReplicant<IGameSettings>(
 		'gameSettings',
-		{} as IGameSettings
+		{} as IGameSettings,
 	);
 	const lockButton = useRef<StyledToggleButton>(null);
 	const [textFieldDisabled, setTextFieldDisabled] = useState(true);
@@ -48,7 +48,7 @@ export const GameSettings: React.FunctionComponent = () => {
 				bombPlantTime: editedSettings.bombPlantTime,
 				bombTime: editedSettings.bombTime,
 				noKitDefuseTime: editedSettings.noKitDefuseTime,
-				kitDefuseTime: editedSettings.kitDefuseTime
+				kitDefuseTime: editedSettings.kitDefuseTime,
 			});
 		}
 
@@ -71,9 +71,8 @@ export const GameSettings: React.FunctionComponent = () => {
 				style={{
 					display: 'flex',
 					flexDirection: 'column',
-					justifyContent: 'center'
-				}}
-			>
+					justifyContent: 'center',
+				}}>
 				<Grid container spacing={1}>
 					<Grid item xs={8}>
 						<Typography className={classes.typography}>Plant Time</Typography>

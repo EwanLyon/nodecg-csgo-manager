@@ -13,8 +13,9 @@ const wss = new Websocket.Server({ port: 31337 });
 const hlaeActiveRep = nodecg.Replicant<boolean>('hlaeActive');
 const matchKillsRep = nodecg.Replicant<PlayerDeath[]>('matchKills');
 const mapRep = nodecg.Replicant<Map>('matchStats');
+const gameEventUnserializer = new GameEventUnserializer(basicEnrichments);
 
-wss.on('error', error => {
+wss.on('error', (error) => {
 	nodecg.log.error('HLAE Websocket error: ' + error);
 	hlaeActiveRep.value = false;
 });
@@ -25,109 +26,113 @@ wss.on('close', () => {
 });
 
 wss.on('connection', (ws) => {
-	const gameEventUnserializer = new GameEventUnserializer(basicEnrichments);
-
 	ws.on('message', (data) => {
-		if (data instanceof Buffer) {
-			const bufferReader = new BufferReader(Buffer.from(data));
-
-			try {
-				while (!bufferReader.eof()) {
-					const cmd = bufferReader.readCString();
-					// console.log(cmd);
-
-					switch (cmd) {
-						case 'hello':
-							{
-								const version = bufferReader.readUInt32LE();
-								// console.log('version = ' + version);
-								if (2 != version) throw "Error: version mismatch";
-
-								ws.send(new Uint8Array(Buffer.from('transBegin\0', 'utf8')), { binary: true });
-
-								ws.send(new Uint8Array(Buffer.from('exec\0mirv_pgl events enrich clientTime 1\0', 'utf8')), { binary: true });
-
-								for (const eventName in basicEnrichments) {
-									for (const keyName in basicEnrichments[eventName]) {
-										const arrEnrich = basicEnrichments[eventName][keyName].enrichments;
-
-										for (let i = 0; i < arrEnrich.length; ++i) {
-											ws.send(new Uint8Array(Buffer.from(`exec\0mirv_pgl events enrich eventProperty "${arrEnrich[i]}" "${eventName}" "${keyName}"\0`, 'utf8')), { binary: true });
-										}
-									}
-								}
-
-								ws.send(new Uint8Array(Buffer.from('exec\0mirv_pgl events enabled 1\0', 'utf8')), { binary: true });
-
-								ws.send(new Uint8Array(Buffer.from('exec\0mirv_pgl events useCache 1\0', 'utf8')), { binary: true });
-
-								ws.send(new Uint8Array(Buffer.from('transEnd\0', 'utf8')), { binary: true });
-
-								hlaeActiveRep.value = true;
-								nodecg.log.info('HLAE Websocket open');
-							}
-							break;
-						case 'dataStart':
-							break;
-						case 'dataStop':
-							break;
-						case 'levelInit':
-							{
-								const map = bufferReader.readCString();
-								console.log('map = ' + map);
-							}
-							break;
-						case 'levelShutdown':
-							break;
-						case 'cam':
-							{
-								const time = bufferReader.readFloatLE();
-								console.log('time = ' + time);
-								const xPosition = bufferReader.readFloatLE();
-								console.log('xPosition = ' + xPosition);
-								const yPosition = bufferReader.readFloatLE();
-								console.log('yPosition = ' + yPosition);
-								const zPosition = bufferReader.readFloatLE();
-								console.log('zPosition = ' + zPosition);
-								const xRotation = bufferReader.readFloatLE();
-								console.log('xRotation = ' + xRotation);
-								const yRotation = bufferReader.readFloatLE();
-								console.log('yRotation = ' + yRotation);
-								const zRotation = bufferReader.readFloatLE();
-								console.log('zRotation = ' + zRotation);
-								const fov = bufferReader.readFloatLE();
-								console.log('fov = ' + fov);
-							}
-							break;
-						case 'gameEvent':
-							{
-								const gameEvent = gameEventUnserializer.unserialize(bufferReader);
-								gameEventHandler(gameEvent);
-								// console.log(JSON.stringify(gameEvent));
-							}
-							break;
-						default:
-							throw "Error: unknown message";
-					}
-				}
-			}
-			catch (err) {
-				console.log(`Error: ${err.toString()} at ${bufferReader.index}.`);
-			}
-		}
+		onMessage(ws, data);
 	});
 });
 
-function gameEventHandler(rawGameEvent: any) {
+function onMessage(ws: Websocket, data: Websocket.Data) {
+	if (data instanceof Buffer) {
+		const bufferReader = new BufferReader(Buffer.from(data));
+
+		try {
+			while (!bufferReader.eof()) {
+				const cmd = bufferReader.readCString();
+				// Console.log(cmd);
+
+				switch (cmd) {
+					case 'hello':
+						startUp(ws, bufferReader);
+						break;
+					case 'dataStart':
+						break;
+					case 'dataStop':
+						break;
+					case 'levelInit':
+						break;
+					case 'levelShutdown':
+						break;
+					case 'cam':
+						break;
+					case 'gameEvent':
+						{
+							const gameEvent = gameEventUnserializer.unserialize(bufferReader);
+							gameEventHandler(gameEvent);
+							// Console.log(JSON.stringify(gameEvent));
+						}
+
+						break;
+					default:
+						throw new Error('unknown message');
+				}
+			}
+		} catch (err) {
+			nodecg.log.warn(`Error: ${err.toString()} at ${bufferReader.index}.`);
+		}
+	}
+}
+
+function startUp(ws: Websocket, bufferReader: BufferReader) {
+	const version = bufferReader.readUInt32LE();
+	if (version !== 2) throw new Error('version mismatch');
+
+	ws.send(new Uint8Array(Buffer.from('transBegin\0', 'utf8')), {
+		binary: true,
+	});
+
+	ws.send(new Uint8Array(Buffer.from('exec\0mirv_pgl events enrich clientTime 1\0', 'utf8')), {
+		binary: true,
+	});
+
+	for (const eventName in basicEnrichments) {
+		if (!Object.prototype.hasOwnProperty.call(basicEnrichments, eventName)) continue;
+
+		for (const keyName in basicEnrichments[eventName]) {
+			if (!Object.prototype.hasOwnProperty.call(basicEnrichments[eventName], keyName))
+				continue;
+
+			const arrEnrich = basicEnrichments[eventName][keyName].enrichments;
+
+			for (let i = 0; i < arrEnrich.length; ++i) {
+				ws.send(
+					new Uint8Array(
+						Buffer.from(
+							`exec\0mirv_pgl events enrich eventProperty "${arrEnrich[i]}" "${eventName}" "${keyName}"\0`,
+							'utf8',
+						),
+					),
+					{ binary: true },
+				);
+			}
+		}
+	}
+
+	ws.send(new Uint8Array(Buffer.from('exec\0mirv_pgl events enabled 1\0', 'utf8')), {
+		binary: true,
+	});
+
+	ws.send(new Uint8Array(Buffer.from('exec\0mirv_pgl events useCache 1\0', 'utf8')), {
+		binary: true,
+	});
+
+	ws.send(new Uint8Array(Buffer.from('transEnd\0', 'utf8')), {
+		binary: true,
+	});
+
+	hlaeActiveRep.value = true;
+	nodecg.log.info('HLAE Websocket open');
+}
+
+function gameEventHandler(rawGameEvent: unknown) {
 	const gameEvent = JSON.parse(JSON.stringify(rawGameEvent));
 	gameEvent.round = mapRep.value.round;
 
 	switch (gameEvent.name as string) {
-		case "player_death":
+		case 'player_death':
 			nodecg.sendMessage('hlae:playerDeath', gameEvent);
 			matchKillsRep.value.push(gameEvent);
 			break;
-		case "weapon_fire":
+		case 'weapon_fire':
 			nodecg.sendMessage('hlae:weaponFire', gameEvent);
 			break;
 		default:

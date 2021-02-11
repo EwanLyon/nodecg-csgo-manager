@@ -6,7 +6,6 @@ import { theme } from '../../theme';
 
 import { Grid, Select, Chip, FormControl, InputLabel, MenuItem } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
-// import { Schedule } from '../types/schedule';
 import {
 	DragDropContext,
 	Droppable,
@@ -47,7 +46,7 @@ const SelectNoMaxHeight = styled(Select)`
 
 const mapNames = ['Dust2', 'Inferno', 'Mirage', 'Nuke', 'Overpass', 'Train', 'Vertigo'];
 
-const reorder = (list: any[], startIndex: number, endIndex: number) => {
+const reorder = (list: unknown[], startIndex: number, endIndex: number) => {
 	const result = Array.from(list);
 	const [removed] = result.splice(startIndex, 1);
 	result.splice(endIndex, 0, removed);
@@ -55,7 +54,9 @@ const reorder = (list: any[], startIndex: number, endIndex: number) => {
 	return result;
 };
 
-const getItemStyle = (draggableStyle: DraggingStyle | NotDraggingStyle | undefined): React.CSSProperties => ({
+const getItemStyle = (
+	draggableStyle: DraggingStyle | NotDraggingStyle | undefined,
+): React.CSSProperties => ({
 	// Some basic styles to make the items look a bit nicer
 	userSelect: 'none',
 	margin: '0 10px 6px 10px',
@@ -98,7 +99,9 @@ const DashVeto: React.FC = () => {
 	function AddMap(): void {
 		if (!currentMatchRep) return;
 		setTeamSelected(
-			teamSelected === currentMatchRep.teamA.name ? currentMatchRep.teamB.name : currentMatchRep.teamA.name,
+			teamSelected === currentMatchRep.teamA.name
+				? currentMatchRep.teamB.name
+				: currentMatchRep.teamA.name,
 		);
 
 		const newMapData: MapInfo = {
@@ -135,7 +138,9 @@ const DashVeto: React.FC = () => {
 								labelId="teamVeto"
 								value={teamSelected}
 								onChange={(e): void => setTeamSelected(e.target.value as string)}>
-								<MenuItem key={currentMatchRep.teamA.name} value={currentMatchRep.teamA.name}>
+								<MenuItem
+									key={currentMatchRep.teamA.name}
+									value={currentMatchRep.teamA.name}>
 									<img
 										style={{
 											height: 20,
@@ -147,7 +152,9 @@ const DashVeto: React.FC = () => {
 									/>
 									{currentMatchRep.teamA.name}
 								</MenuItem>
-								<MenuItem key={currentMatchRep.teamB.name} value={currentMatchRep.teamB.name}>
+								<MenuItem
+									key={currentMatchRep.teamB.name}
+									value={currentMatchRep.teamB.name}>
 									<img
 										style={{
 											height: 20,
@@ -165,7 +172,12 @@ const DashVeto: React.FC = () => {
 							</SelectNoMaxHeight>
 						</FormControl>
 					</Grid>
-					<Grid item container direction="column" justify="center" style={{ width: 'fit-content' }}>
+					<Grid
+						item
+						container
+						direction="column"
+						justify="center"
+						style={{ width: 'fit-content' }}>
 						<SpacedChip
 							label="Pick"
 							onClick={() => setVetoType('Pick')}
@@ -188,7 +200,11 @@ const DashVeto: React.FC = () => {
 							</Select>
 						</FormControl>
 					</Grid>
-					<GreenButtonExtra variant="contained" fullWidth onClick={AddMap} disabled={!canAddMap}>
+					<GreenButtonExtra
+						variant="contained"
+						fullWidth
+						onClick={AddMap}
+						disabled={!canAddMap}>
 						+
 					</GreenButtonExtra>
 				</Grid>
@@ -196,20 +212,29 @@ const DashVeto: React.FC = () => {
 				<DragDropContext onDragEnd={onDragEnd}>
 					<Droppable droppableId="schedule">
 						{(provided) => (
-							<div ref={provided.innerRef} {...provided.droppableProps} style={{ width: '100%' }}>
+							<div
+								ref={provided.innerRef}
+								{...provided.droppableProps}
+								style={{ width: '100%' }}>
 								{currentMatchRep.maps.map((map, index) => {
 									return (
-										<Draggable key={map.map} draggableId={map.map} index={index}>
+										<Draggable
+											key={map.map}
+											draggableId={map.map}
+											index={index}>
 											{(provided) => (
 												<div
 													ref={provided.innerRef}
 													{...provided.draggableProps}
-													style={getItemStyle(provided.draggableProps.style)}>
+													style={getItemStyle(
+														provided.draggableProps.style,
+													)}>
 													<DashVETOSingle
 														veto={map}
 														handleProps={provided.dragHandleProps}
 														otherTeamName={
-															map.teamVeto === currentMatchRep.teamA.name
+															map.teamVeto ===
+															currentMatchRep.teamA.name
 																? currentMatchRep.teamB.name
 																: currentMatchRep.teamA.name
 														}

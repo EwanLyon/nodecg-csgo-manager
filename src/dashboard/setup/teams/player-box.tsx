@@ -1,8 +1,18 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-//@ts-ignore
+/* eslint-disable-next-line */
+// @ts-ignore
 import Twemoji from 'react-twemoji';
-import { Grid, Button, MenuItem, FormControl, InputLabel, Select, TextField, IconButton } from '@material-ui/core';
+import {
+	Grid,
+	Button,
+	MenuItem,
+	FormControl,
+	InputLabel,
+	Select,
+	TextField,
+	IconButton,
+} from '@material-ui/core';
 import Edit from '@material-ui/icons/Edit';
 
 // Dialog
@@ -96,7 +106,10 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 	const profilePicsMap = profilePicturesRep.map((pfp) => {
 		return (
 			<MenuItem key={pfp.base} value={pfp.url}>
-				<img style={{ height: 50, width: 'auto', objectFit: 'scale-down', marginRight: 10 }} src={pfp.url} />
+				<img
+					style={{ height: 50, width: 'auto', objectFit: 'scale-down', marginRight: 10 }}
+					src={pfp.url}
+				/>
 				{pfp.name}
 			</MenuItem>
 		);
@@ -117,7 +130,10 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 
 	const flagListMap = flagList.map((flag, index) => {
 		return (
-			<MenuItem key={index} value={flag.code} style={{ display: 'flex', alignItems: 'center' }}>
+			<MenuItem
+				key={index}
+				value={flag.code}
+				style={{ display: 'flex', alignItems: 'center' }}>
 				<TwemojiMenuItem>{flag.code}</TwemojiMenuItem> {flag.name}
 			</MenuItem>
 		);
@@ -155,7 +171,9 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 
 	return (
 		<Container container alignItems="center">
-			<PlayerImage src={props.extraPlayer?.image || '../shared/media/MissingProfileImage.png'} />
+			<PlayerImage
+				src={props.extraPlayer?.image || '../shared/media/MissingProfileImage.png'}
+			/>
 			<DataBox container direction="column" justify="space-around" item xs>
 				<Grid item>
 					<ObservationSlot>{props.player.observer_slot}</ObservationSlot>

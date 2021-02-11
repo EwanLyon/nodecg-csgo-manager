@@ -57,16 +57,16 @@ const LargePlayerDeath: PlayerDeath = {
 		...ExamplePlayerDeath.keys,
 		assister: {
 			...ExamplePlayerDeath.keys.assister,
-			value: 0
+			value: 0,
 		},
 		weapon: 'awp',
 		headshot: true,
 		penetrated: 1,
 		noscope: true,
 		thrusmoke: true,
-		attackerblind: true
-	}
-}
+		attackerblind: true,
+	},
+};
 
 const ButtonContainer = styled.div`
 	display: flex;

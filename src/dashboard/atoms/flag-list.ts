@@ -2,1026 +2,1026 @@
 export const flagList = [
 	{
 		name: 'Afghanistan',
-		code: '🇦🇫'
+		code: '🇦🇫',
 	},
 	{
 		name: 'Åland Islands',
-		code: '🇦🇽'
+		code: '🇦🇽',
 	},
 	{
 		name: 'Albania',
-		code: '🇦🇱'
+		code: '🇦🇱',
 	},
 	{
 		name: 'Algeria',
-		code: '🇩🇿'
+		code: '🇩🇿',
 	},
 	{
 		name: 'American Samoa',
-		code: '🇦🇸'
+		code: '🇦🇸',
 	},
 	{
 		name: 'Andorra',
-		code: '🇦🇩'
+		code: '🇦🇩',
 	},
 	{
 		name: 'Angola',
-		code: '🇦🇴'
+		code: '🇦🇴',
 	},
 	{
 		name: 'Anguilla',
-		code: '🇦🇮'
+		code: '🇦🇮',
 	},
 	{
 		name: 'Antarctica',
-		code: '🇦🇶'
+		code: '🇦🇶',
 	},
 	{
 		name: 'Antigua and Barbuda',
-		code: '🇦🇬'
+		code: '🇦🇬',
 	},
 	{
 		name: 'Argentina',
-		code: '🇦🇷'
+		code: '🇦🇷',
 	},
 	{
 		name: 'Armenia',
-		code: '🇦🇲'
+		code: '🇦🇲',
 	},
 	{
 		name: 'Aruba',
-		code: '🇦🇼'
+		code: '🇦🇼',
 	},
 	{
 		name: 'Australia',
-		code: '🇦🇺'
+		code: '🇦🇺',
 	},
 	{
 		name: 'Austria',
-		code: '🇦🇹'
+		code: '🇦🇹',
 	},
 	{
 		name: 'Azerbaijan',
-		code: '🇦🇿'
+		code: '🇦🇿',
 	},
 	{
 		name: 'Bahamas',
-		code: '🇧🇸'
+		code: '🇧🇸',
 	},
 	{
 		name: 'Bahrain',
-		code: '🇧🇭'
+		code: '🇧🇭',
 	},
 	{
 		name: 'Bangladesh',
-		code: '🇧🇩'
+		code: '🇧🇩',
 	},
 	{
 		name: 'Barbados',
-		code: '🇧🇧'
+		code: '🇧🇧',
 	},
 	{
 		name: 'Belarus',
-		code: '🇧🇾'
+		code: '🇧🇾',
 	},
 	{
 		name: 'Belgium',
-		code: '🇧🇪'
+		code: '🇧🇪',
 	},
 	{
 		name: 'Belize',
-		code: '🇧🇿'
+		code: '🇧🇿',
 	},
 	{
 		name: 'Benin',
-		code: '🇧🇯'
+		code: '🇧🇯',
 	},
 	{
 		name: 'Bermuda',
-		code: '🇧🇲'
+		code: '🇧🇲',
 	},
 	{
 		name: 'Bhutan',
-		code: '🇧🇹'
+		code: '🇧🇹',
 	},
 	{
 		name: 'Bolivia',
-		code: '🇧🇴'
+		code: '🇧🇴',
 	},
 	{
 		name: 'Bosnia and Herzegovina',
-		code: '🇧🇦'
+		code: '🇧🇦',
 	},
 	{
 		name: 'Botswana',
-		code: '🇧🇼'
+		code: '🇧🇼',
 	},
 	{
 		name: 'Bouvet Island',
-		code: '🇧🇻'
+		code: '🇧🇻',
 	},
 	{
 		name: 'Brazil',
-		code: '🇧🇷'
+		code: '🇧🇷',
 	},
 	{
 		name: 'British Indian Ocean Territory',
-		code: '🇮🇴'
+		code: '🇮🇴',
 	},
 	{
 		name: 'Brunei',
-		code: '🇧🇳'
+		code: '🇧🇳',
 	},
 	{
 		name: 'Bulgaria',
-		code: '🇧🇬'
+		code: '🇧🇬',
 	},
 	{
 		name: 'Burkina Faso',
-		code: '🇧🇫'
+		code: '🇧🇫',
 	},
 	{
 		name: 'Burundi',
-		code: '🇧🇮'
+		code: '🇧🇮',
 	},
 	{
 		name: 'Cambodia',
-		code: '🇰🇭'
+		code: '🇰🇭',
 	},
 	{
 		name: 'Cameroon',
-		code: '🇨🇲'
+		code: '🇨🇲',
 	},
 	{
 		name: 'Canada',
-		code: '🇨🇦'
+		code: '🇨🇦',
 	},
 	{
 		name: 'Cape Verde',
-		code: '🇨🇻'
+		code: '🇨🇻',
 	},
 	{
 		name: 'Caribbean Netherlands',
-		code: '🇧🇶'
+		code: '🇧🇶',
 	},
 	{
 		name: 'Cayman Islands',
-		code: '🇰🇾'
+		code: '🇰🇾',
 	},
 	{
 		name: 'Central African Republic',
-		code: '🇨🇫'
+		code: '🇨🇫',
 	},
 	{
 		name: 'Chad',
-		code: '🇹🇩'
+		code: '🇹🇩',
 	},
 	{
 		name: 'Chile',
-		code: '🇨🇱'
+		code: '🇨🇱',
 	},
 	{
 		name: 'China',
-		code: '🇨🇳'
+		code: '🇨🇳',
 	},
 	{
 		name: 'Christmas Island',
-		code: '🇨🇽'
+		code: '🇨🇽',
 	},
 	{
 		name: 'Cocos (Keeling) Islands',
-		code: '🇨🇨'
+		code: '🇨🇨',
 	},
 	{
 		name: 'Colombia',
-		code: '🇨🇴'
+		code: '🇨🇴',
 	},
 	{
 		name: 'Comoros',
-		code: '🇰🇲'
+		code: '🇰🇲',
 	},
 	{
 		name: 'Congo',
-		code: '🇨🇬'
+		code: '🇨🇬',
 	},
 	{
 		name: 'Congo, Democratic Republic',
-		code: '🇨🇩'
+		code: '🇨🇩',
 	},
 	{
 		name: 'Cook Islands',
-		code: '🇨🇰'
+		code: '🇨🇰',
 	},
 	{
 		name: 'Costa Rica',
-		code: '🇨🇷'
+		code: '🇨🇷',
 	},
 	{
 		name: 'Croatia',
-		code: '🇭🇷'
+		code: '🇭🇷',
 	},
 	{
 		name: 'Cuba',
-		code: '🇨🇺'
+		code: '🇨🇺',
 	},
 	{
 		name: 'Curaçao',
-		code: '🇨🇼'
+		code: '🇨🇼',
 	},
 	{
 		name: 'Cyprus',
-		code: '🇨🇾'
+		code: '🇨🇾',
 	},
 	{
 		name: 'Czech Republic',
-		code: '🇨🇿'
+		code: '🇨🇿',
 	},
 	{
 		name: 'Denmark',
-		code: '🇩🇰'
+		code: '🇩🇰',
 	},
 	{
 		name: 'Djibouti',
-		code: '🇩🇯'
+		code: '🇩🇯',
 	},
 	{
 		name: 'Dominica',
-		code: '🇩🇲'
+		code: '🇩🇲',
 	},
 	{
 		name: 'Dominican Republic',
-		code: '🇩🇴'
+		code: '🇩🇴',
 	},
 	{
 		name: 'Ecuador',
-		code: '🇪🇨'
+		code: '🇪🇨',
 	},
 	{
 		name: 'Egypt',
-		code: '🇪🇬'
+		code: '🇪🇬',
 	},
 	{
 		name: 'El Salvador',
-		code: '🇸🇻'
+		code: '🇸🇻',
 	},
 	{
 		name: 'Equatorial Guinea',
-		code: '🇬🇶'
+		code: '🇬🇶',
 	},
 	{
 		name: 'Eritrea',
-		code: '🇪🇷'
+		code: '🇪🇷',
 	},
 	{
 		name: 'Estonia',
-		code: '🇪🇪'
+		code: '🇪🇪',
 	},
 	{
 		name: 'Eswatini',
-		code: '🇸🇿'
+		code: '🇸🇿',
 	},
 	{
 		name: 'Ethiopia',
-		code: '🇪🇹'
+		code: '🇪🇹',
 	},
 	{
 		name: 'European Union',
-		code: '🇪🇺'
+		code: '🇪🇺',
 	},
 	{
 		name: 'Falkland Islands',
-		code: '🇫🇰'
+		code: '🇫🇰',
 	},
 	{
 		name: 'Faroe Islands',
-		code: '🇫🇴'
+		code: '🇫🇴',
 	},
 	{
 		name: 'Fiji',
-		code: '🇫🇯'
+		code: '🇫🇯',
 	},
 	{
 		name: 'Finland',
-		code: '🇫🇮'
+		code: '🇫🇮',
 	},
 	{
 		name: 'France',
-		code: '🇫🇷'
+		code: '🇫🇷',
 	},
 	{
 		name: 'French Guiana',
-		code: '🇬🇫'
+		code: '🇬🇫',
 	},
 	{
 		name: 'French Polynesia',
-		code: '🇵🇫'
+		code: '🇵🇫',
 	},
 	{
 		name: 'French Southern Territories',
-		code: '🇹🇫'
+		code: '🇹🇫',
 	},
 	{
 		name: 'Gabon',
-		code: '🇬🇦'
+		code: '🇬🇦',
 	},
 	{
 		name: 'Gambia',
-		code: '🇬🇲'
+		code: '🇬🇲',
 	},
 	{
 		name: 'Georgia',
-		code: '🇬🇪'
+		code: '🇬🇪',
 	},
 	{
 		name: 'Germany',
-		code: '🇩🇪'
+		code: '🇩🇪',
 	},
 	{
 		name: 'Ghana',
-		code: '🇬🇭'
+		code: '🇬🇭',
 	},
 	{
 		name: 'Gibraltar',
-		code: '🇬🇮'
+		code: '🇬🇮',
 	},
 	{
 		name: 'Greece',
-		code: '🇬🇷'
+		code: '🇬🇷',
 	},
 	{
 		name: 'Greenland',
-		code: '🇬🇱'
+		code: '🇬🇱',
 	},
 	{
 		name: 'Grenada',
-		code: '🇬🇩'
+		code: '🇬🇩',
 	},
 	{
 		name: 'Guadeloupe',
-		code: '🇬🇵'
+		code: '🇬🇵',
 	},
 	{
 		name: 'Guam',
-		code: '🇬🇺'
+		code: '🇬🇺',
 	},
 	{
 		name: 'Guatemala',
-		code: '🇬🇹'
+		code: '🇬🇹',
 	},
 	{
 		name: 'Guernsey',
-		code: '🇬🇬'
+		code: '🇬🇬',
 	},
 	{
 		name: 'Guinea',
-		code: '🇬🇳'
+		code: '🇬🇳',
 	},
 	{
 		name: 'Guinea-Bissau',
-		code: '🇬🇼'
+		code: '🇬🇼',
 	},
 	{
 		name: 'Guyana',
-		code: '🇬🇾'
+		code: '🇬🇾',
 	},
 	{
 		name: 'Haiti',
-		code: '🇭🇹'
+		code: '🇭🇹',
 	},
 	{
 		name: 'Heard Island',
-		code: '🇭🇲'
+		code: '🇭🇲',
 	},
 	{
 		name: 'Honduras',
-		code: '🇭🇳'
+		code: '🇭🇳',
 	},
 	{
 		name: 'Hong Kong',
-		code: '🇭🇰'
+		code: '🇭🇰',
 	},
 	{
 		name: 'Hungary',
-		code: '🇭🇺'
+		code: '🇭🇺',
 	},
 	{
 		name: 'Iceland',
-		code: '🇮🇸'
+		code: '🇮🇸',
 	},
 	{
 		name: 'India',
-		code: '🇮🇳'
+		code: '🇮🇳',
 	},
 	{
 		name: 'Indonesia',
-		code: '🇮🇩'
+		code: '🇮🇩',
 	},
 	{
 		name: 'Iran',
-		code: '🇮🇷'
+		code: '🇮🇷',
 	},
 	{
 		name: 'Iraq',
-		code: '🇮🇶'
+		code: '🇮🇶',
 	},
 	{
 		name: 'Ireland',
-		code: '🇮🇪'
+		code: '🇮🇪',
 	},
 	{
 		name: 'Isle of Man',
-		code: '🇮🇲'
+		code: '🇮🇲',
 	},
 	{
 		name: 'Israel',
-		code: '🇮🇱'
+		code: '🇮🇱',
 	},
 	{
 		name: 'Italy',
-		code: '🇮🇹'
+		code: '🇮🇹',
 	},
 	{
 		name: 'Ivory Coast',
-		code: '🇨🇮'
+		code: '🇨🇮',
 	},
 	{
 		name: 'Jamaica',
-		code: '🇯🇲'
+		code: '🇯🇲',
 	},
 	{
 		name: 'Japan',
-		code: '🇯🇵'
+		code: '🇯🇵',
 	},
 	{
 		name: 'Jersey',
-		code: '🇯🇪'
+		code: '🇯🇪',
 	},
 	{
 		name: 'Jordan',
-		code: '🇯🇴'
+		code: '🇯🇴',
 	},
 	{
 		name: 'Kazakhstan',
-		code: '🇰🇿'
+		code: '🇰🇿',
 	},
 	{
 		name: 'Kenya',
-		code: '🇰🇪'
+		code: '🇰🇪',
 	},
 	{
 		name: 'Kiribati',
-		code: '🇰🇮'
+		code: '🇰🇮',
 	},
 	{
 		name: 'Kosovo',
-		code: '🇽🇰'
+		code: '🇽🇰',
 	},
 	{
 		name: 'Kuwait',
-		code: '🇰🇼'
+		code: '🇰🇼',
 	},
 	{
 		name: 'Kyrgyzstan',
-		code: '🇰🇬'
+		code: '🇰🇬',
 	},
 	{
 		name: 'Laos',
-		code: '🇱🇦'
+		code: '🇱🇦',
 	},
 	{
 		name: 'Latvia',
-		code: '🇱🇻'
+		code: '🇱🇻',
 	},
 	{
 		name: 'Lebanon',
-		code: '🇱🇧'
+		code: '🇱🇧',
 	},
 	{
 		name: 'Lesotho',
-		code: '🇱🇸'
+		code: '🇱🇸',
 	},
 	{
 		name: 'Liberia',
-		code: '🇱🇷'
+		code: '🇱🇷',
 	},
 	{
 		name: 'Libya',
-		code: '🇱🇾'
+		code: '🇱🇾',
 	},
 	{
 		name: 'Liechtenstein',
-		code: '🇱🇮'
+		code: '🇱🇮',
 	},
 	{
 		name: 'Lithuania',
-		code: '🇱🇹'
+		code: '🇱🇹',
 	},
 	{
 		name: 'Luxembourg',
-		code: '🇱🇺'
+		code: '🇱🇺',
 	},
 	{
 		name: 'Macau',
-		code: '🇲🇴'
+		code: '🇲🇴',
 	},
 	{
 		name: 'Madagascar',
-		code: '🇲🇬'
+		code: '🇲🇬',
 	},
 	{
 		name: 'Malawi',
-		code: '🇲🇼'
+		code: '🇲🇼',
 	},
 	{
 		name: 'Malaysia',
-		code: '🇲🇾'
+		code: '🇲🇾',
 	},
 	{
 		name: 'Maldives',
-		code: '🇲🇻'
+		code: '🇲🇻',
 	},
 	{
 		name: 'Mali',
-		code: '🇲🇱'
+		code: '🇲🇱',
 	},
 	{
 		name: 'Malta',
-		code: '🇲🇹'
+		code: '🇲🇹',
 	},
 	{
 		name: 'Marshall Islands',
-		code: '🇲🇭'
+		code: '🇲🇭',
 	},
 	{
 		name: 'Martinique',
-		code: '🇲🇶'
+		code: '🇲🇶',
 	},
 	{
 		name: 'Mauritania',
-		code: '🇲🇷'
+		code: '🇲🇷',
 	},
 	{
 		name: 'Mauritius',
-		code: '🇲🇺'
+		code: '🇲🇺',
 	},
 	{
 		name: 'Mayotte',
-		code: '🇾🇹'
+		code: '🇾🇹',
 	},
 	{
 		name: 'Mexico',
-		code: '🇲🇽'
+		code: '🇲🇽',
 	},
 	{
 		name: 'Micronesia',
-		code: '🇫🇲'
+		code: '🇫🇲',
 	},
 	{
 		name: 'Moldova',
-		code: '🇲🇩'
+		code: '🇲🇩',
 	},
 	{
 		name: 'Monaco',
-		code: '🇲🇨'
+		code: '🇲🇨',
 	},
 	{
 		name: 'Mongolia',
-		code: '🇲🇳'
+		code: '🇲🇳',
 	},
 	{
 		name: 'Montenegro',
-		code: '🇲🇪'
+		code: '🇲🇪',
 	},
 	{
 		name: 'Montserrat',
-		code: '🇲🇸'
+		code: '🇲🇸',
 	},
 	{
 		name: 'Morocco',
-		code: '🇲🇦'
+		code: '🇲🇦',
 	},
 	{
 		name: 'Mozambique',
-		code: '🇲🇿'
+		code: '🇲🇿',
 	},
 	{
 		name: 'Myanmar',
-		code: '🇲🇲'
+		code: '🇲🇲',
 	},
 	{
 		name: 'Namibia',
-		code: '🇳🇦'
+		code: '🇳🇦',
 	},
 	{
 		name: 'Nauru',
-		code: '🇳🇷'
+		code: '🇳🇷',
 	},
 	{
 		name: 'Nepal',
-		code: '🇳🇵'
+		code: '🇳🇵',
 	},
 	{
 		name: 'Netherlands',
-		code: '🇳🇱'
+		code: '🇳🇱',
 	},
 	{
 		name: 'New Caledonia',
-		code: '🇳🇨'
+		code: '🇳🇨',
 	},
 	{
 		name: 'New Zealand',
-		code: '🇳🇿'
+		code: '🇳🇿',
 	},
 	{
 		name: 'Nicaragua',
-		code: '🇳🇮'
+		code: '🇳🇮',
 	},
 	{
 		name: 'Niger',
-		code: '🇳🇪'
+		code: '🇳🇪',
 	},
 	{
 		name: 'Nigeria',
-		code: '🇳🇬'
+		code: '🇳🇬',
 	},
 	{
 		name: 'Niue',
-		code: '🇳🇺'
+		code: '🇳🇺',
 	},
 	{
 		name: 'Norfolk Island',
-		code: '🇳🇫'
+		code: '🇳🇫',
 	},
 	{
 		name: 'North Korea',
-		code: '🇰🇵'
+		code: '🇰🇵',
 	},
 	{
 		name: 'North Macedonia',
-		code: '🇲🇰'
+		code: '🇲🇰',
 	},
 	{
 		name: 'Northern Mariana Islands',
-		code: '🇲🇵'
+		code: '🇲🇵',
 	},
 	{
 		name: 'Norway',
-		code: '🇳🇴'
+		code: '🇳🇴',
 	},
 	{
 		name: 'Oman',
-		code: '🇴🇲'
+		code: '🇴🇲',
 	},
 	{
 		name: 'Pakistan',
-		code: '🇵🇰'
+		code: '🇵🇰',
 	},
 	{
 		name: 'Palau',
-		code: '🇵🇼'
+		code: '🇵🇼',
 	},
 	{
 		name: 'Palestine',
-		code: '🇵🇸'
+		code: '🇵🇸',
 	},
 	{
 		name: 'Panama',
-		code: '🇵🇦'
+		code: '🇵🇦',
 	},
 	{
 		name: 'Papua New Guinea',
-		code: '🇵🇬'
+		code: '🇵🇬',
 	},
 	{
 		name: 'Paraguay',
-		code: '🇵🇾'
+		code: '🇵🇾',
 	},
 	{
 		name: 'Peru',
-		code: '🇵🇪'
+		code: '🇵🇪',
 	},
 	{
 		name: 'Philippines',
-		code: '🇵🇭'
+		code: '🇵🇭',
 	},
 	{
 		name: 'Pitcairn',
-		code: '🇵🇳'
+		code: '🇵🇳',
 	},
 	{
 		name: 'Poland',
-		code: '🇵🇱'
+		code: '🇵🇱',
 	},
 	{
 		name: 'Portugal',
-		code: '🇵🇹'
+		code: '🇵🇹',
 	},
 	{
 		name: 'Puerto Rico',
-		code: '🇵🇷'
+		code: '🇵🇷',
 	},
 	{
 		name: 'Qatar',
-		code: '🇶🇦'
+		code: '🇶🇦',
 	},
 	{
 		name: 'Réunion',
-		code: '🇷🇪'
+		code: '🇷🇪',
 	},
 	{
 		name: 'Romania',
-		code: '🇷🇴'
+		code: '🇷🇴',
 	},
 	{
 		name: 'Russia',
-		code: '🇷🇺'
+		code: '🇷🇺',
 	},
 	{
 		name: 'Rwanda',
-		code: '🇷🇼'
+		code: '🇷🇼',
 	},
 	{
 		name: 'Saint Barthélemy',
-		code: '🇧🇱'
+		code: '🇧🇱',
 	},
 	{
 		name: 'Saint Helena',
-		code: '🇸🇭'
+		code: '🇸🇭',
 	},
 	{
 		name: 'Saint Kitts and Nevis',
-		code: '🇰🇳'
+		code: '🇰🇳',
 	},
 	{
 		name: 'Saint Lucia',
-		code: '🇱🇨'
+		code: '🇱🇨',
 	},
 	{
 		name: 'Saint Martin',
-		code: '🇲🇫'
+		code: '🇲🇫',
 	},
 	{
 		name: 'Saint Pierre and Miquelon',
-		code: '🇵🇲'
+		code: '🇵🇲',
 	},
 	{
 		name: 'Saint Vincent',
-		code: '🇻🇨'
+		code: '🇻🇨',
 	},
 	{
 		name: 'Samoa',
-		code: '🇼🇸'
+		code: '🇼🇸',
 	},
 	{
 		name: 'San Marino',
-		code: '🇸🇲'
+		code: '🇸🇲',
 	},
 	{
 		name: 'Sao Tome and Principe',
-		code: '🇸🇹'
+		code: '🇸🇹',
 	},
 	{
 		name: 'Saudi Arabia',
-		code: '🇸🇦'
+		code: '🇸🇦',
 	},
 	{
 		name: 'Senegal',
-		code: '🇸🇳'
+		code: '🇸🇳',
 	},
 	{
 		name: 'Serbia',
-		code: '🇷🇸'
+		code: '🇷🇸',
 	},
 	{
 		name: 'Seychelles',
-		code: '🇸🇨'
+		code: '🇸🇨',
 	},
 	{
 		name: 'Sierra Leone',
-		code: '🇸🇱'
+		code: '🇸🇱',
 	},
 	{
 		name: 'Singapore',
-		code: '🇸🇬'
+		code: '🇸🇬',
 	},
 	{
 		name: 'Sint Maarten',
-		code: '🇸🇽'
+		code: '🇸🇽',
 	},
 	{
 		name: 'Slovakia',
-		code: '🇸🇰'
+		code: '🇸🇰',
 	},
 	{
 		name: 'Slovenia',
-		code: '🇸🇮'
+		code: '🇸🇮',
 	},
 	{
 		name: 'Solomon Islands',
-		code: '🇸🇧'
+		code: '🇸🇧',
 	},
 	{
 		name: 'Somalia',
-		code: '🇸🇴'
+		code: '🇸🇴',
 	},
 	{
 		name: 'South Africa',
-		code: '🇿🇦'
+		code: '🇿🇦',
 	},
 	{
 		name: 'South Georgia',
-		code: '🇬🇸'
+		code: '🇬🇸',
 	},
 	{
 		name: 'South Korea',
-		code: '🇰🇷'
+		code: '🇰🇷',
 	},
 	{
 		name: 'South Sudan',
-		code: '🇸🇸'
+		code: '🇸🇸',
 	},
 	{
 		name: 'Spain',
-		code: '🇪🇸'
+		code: '🇪🇸',
 	},
 	{
 		name: 'Catalonia',
-		code: '🏴󠁥󠁳󠁣󠁴󠁿'
+		code: '🏴󠁥󠁳󠁣󠁴󠁿',
 	},
 	{
 		name: 'Sri Lanka',
-		code: '🇱🇰'
+		code: '🇱🇰',
 	},
 	{
 		name: 'Sudan',
-		code: '🇸🇩'
+		code: '🇸🇩',
 	},
 	{
 		name: 'Suriname',
-		code: '🇸🇷'
+		code: '🇸🇷',
 	},
 	{
 		name: 'Svalbard and Jan Mayen',
-		code: '🇸🇯'
+		code: '🇸🇯',
 	},
 	{
 		name: 'Sweden',
-		code: '🇸🇪'
+		code: '🇸🇪',
 	},
 	{
 		name: 'Switzerland',
-		code: '🇨🇭'
+		code: '🇨🇭',
 	},
 	{
 		name: 'Syrian Arab Republic',
-		code: '🇸🇾'
+		code: '🇸🇾',
 	},
 	{
 		name: 'Taiwan',
-		code: '🇹🇼'
+		code: '🇹🇼',
 	},
 	{
 		name: 'Tajikistan',
-		code: '🇹🇯'
+		code: '🇹🇯',
 	},
 	{
 		name: 'Tanzania',
-		code: '🇹🇿'
+		code: '🇹🇿',
 	},
 	{
 		name: 'Thailand',
-		code: '🇹🇭'
+		code: '🇹🇭',
 	},
 	{
 		name: 'Timor-Leste',
-		code: '🇹🇱'
+		code: '🇹🇱',
 	},
 	{
 		name: 'Togo',
-		code: '🇹🇬'
+		code: '🇹🇬',
 	},
 	{
 		name: 'Tokelau',
-		code: '🇹🇰'
+		code: '🇹🇰',
 	},
 	{
 		name: 'Tonga',
-		code: '🇹🇴'
+		code: '🇹🇴',
 	},
 	{
 		name: 'Trinidad and Tobago',
-		code: '🇹🇹'
+		code: '🇹🇹',
 	},
 	{
 		name: 'Tunisia',
-		code: '🇹🇳'
+		code: '🇹🇳',
 	},
 	{
 		name: 'Turkey',
-		code: '🇹🇷'
+		code: '🇹🇷',
 	},
 	{
 		name: 'Turkmenistan',
-		code: '🇹🇲'
+		code: '🇹🇲',
 	},
 	{
 		name: 'Turks and Caicos Islands',
-		code: '🇹🇨'
+		code: '🇹🇨',
 	},
 	{
 		name: 'Tuvalu',
-		code: '🇹🇻'
+		code: '🇹🇻',
 	},
 	{
 		name: 'U.S. Minor Outlying Islands',
-		code: '🇺🇲'
+		code: '🇺🇲',
 	},
 	{
 		name: 'Uganda',
-		code: '🇺🇬'
+		code: '🇺🇬',
 	},
 	{
 		name: 'Ukraine',
-		code: '🇺🇦'
+		code: '🇺🇦',
 	},
 	{
 		name: 'United Arab Emirates',
-		code: '🇦🇪'
+		code: '🇦🇪',
 	},
 	{
 		name: 'United Kingdom',
-		code: '🇬🇧'
+		code: '🇬🇧',
 	},
 	{
 		name: 'England',
-		code: '🏴󠁧󠁢󠁥󠁮󠁧󠁿'
+		code: '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
 	},
 	{
 		name: 'Northern Ireland',
-		code: '🏴󠁧󠁢󠁮󠁩󠁲󠁿'
+		code: '🏴󠁧󠁢󠁮󠁩󠁲󠁿',
 	},
 	{
 		name: 'Scotland',
-		code: '🏴󠁧󠁢󠁳󠁣󠁴󠁿'
+		code: '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
 	},
 	{
 		name: 'Wales',
-		code: '🏴󠁧󠁢󠁷󠁬󠁳󠁿'
+		code: '🏴󠁧󠁢󠁷󠁬󠁳󠁿',
 	},
 	{
 		name: 'United States',
-		code: '🇺🇸'
+		code: '🇺🇸',
 	},
 	{
 		name: 'Uruguay',
-		code: '🇺🇾'
+		code: '🇺🇾',
 	},
 	{
 		name: 'Uzbekistan',
-		code: '🇺🇿'
+		code: '🇺🇿',
 	},
 	{
 		name: 'Vanuatu',
-		code: '🇻🇺'
+		code: '🇻🇺',
 	},
 	{
 		name: 'Vatican City',
-		code: '🇻🇦'
+		code: '🇻🇦',
 	},
 	{
 		name: 'Venezuela',
-		code: '🇻🇪'
+		code: '🇻🇪',
 	},
 	{
 		name: 'Vietnam',
-		code: '🇻🇳'
+		code: '🇻🇳',
 	},
 	{
 		name: 'Virgin Islands, British',
-		code: '🇻🇬'
+		code: '🇻🇬',
 	},
 	{
 		name: 'Virgin Islands, U.S.',
-		code: '🇻🇮'
+		code: '🇻🇮',
 	},
 	{
 		name: 'Wallis and Futuna',
-		code: '🇼🇫'
+		code: '🇼🇫',
 	},
 	{
 		name: 'Western Sahara',
-		code: '🇪🇭'
+		code: '🇪🇭',
 	},
 	{
 		name: 'Yemen',
-		code: '🇾🇪'
+		code: '🇾🇪',
 	},
 	{
 		name: 'Zambia',
-		code: '🇿🇲'
+		code: '🇿🇲',
 	},
 	{
 		name: 'Zimbabwe',
-		code: '🇿🇼'
-	}
+		code: '🇿🇼',
+	},
 ];

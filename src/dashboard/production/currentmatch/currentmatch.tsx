@@ -71,13 +71,13 @@ const DashCurrentMatch: React.FC = () => {
 	if (!currentMatchRep) {
 		return <NoMapError>No match selected</NoMapError>;
 	}
-	
+
 	// Select correct status chip
 	if (currentMatchRep.status !== currentStatus) {
 		setCurrentStatus(currentMatchRep.status);
 	}
 
-	const currentMatchIndex = matchesRep.findIndex(match => match.id === currentMatchRep.id);
+	const currentMatchIndex = matchesRep.findIndex((match) => match.id === currentMatchRep.id);
 
 	// -1: Error, 0: Start, 1: "Middle", 2: End, 3: Only game
 	let startOrEnd = 1;
@@ -94,7 +94,7 @@ const DashCurrentMatch: React.FC = () => {
 		startOrEnd = 2;
 	}
 
-	const pickedMaps = currentMatchRep.maps.filter(map => !map.ban);
+	const pickedMaps = currentMatchRep.maps.filter((map) => !map.ban);
 
 	// Fill in score inputs
 	for (let i = 0; i < pickedMaps.length; i++) {
@@ -140,7 +140,8 @@ const DashCurrentMatch: React.FC = () => {
 					(document.getElementById(`${i}BOT-Score`) as HTMLInputElement).value = '';
 				}
 
-				(document.getElementById(`${i}-Complete`) as HTMLInputElement).checked = mapScores.complete;
+				(document.getElementById(`${i}-Complete`) as HTMLInputElement).checked =
+					mapScores.complete;
 			} catch (error) {
 				console.log(
 					'This error is from the current matches dashboard.\nIf it is complaining about .value being null then that is ok.\nIf not then that is not ok :). Err => ',
@@ -234,22 +235,38 @@ const DashCurrentMatch: React.FC = () => {
 		<ThemeProvider theme={theme}>
 			<Grid container direction="column" justify="center">
 				<Grid item container justify="space-between" style={{ padding: '0 15px' }}>
-					<Button variant="contained" onClick={PrevMatch} disabled={[-1, 0, 3].includes(startOrEnd)}>
+					<Button
+						variant="contained"
+						onClick={PrevMatch}
+						disabled={[-1, 0, 3].includes(startOrEnd)}>
 						<ChevronLeft /> Prev
 					</Button>
-					<Button variant="contained" onClick={NextMatch} disabled={[-1, 2, 3].includes(startOrEnd)}>
+					<Button
+						variant="contained"
+						onClick={NextMatch}
+						disabled={[-1, 2, 3].includes(startOrEnd)}>
 						Next <ChevronRight />
 					</Button>
 				</Grid>
 				<Divider />
 				<Grid item container alignItems="center" justify="center">
-					<TeamBox name={currentMatchRep?.teamA.name} logo={currentMatchRep?.teamA.logo || ''} />
+					<TeamBox
+						name={currentMatchRep?.teamA.name}
+						logo={currentMatchRep?.teamA.logo || ''}
+					/>
 					<span style={{ margin: '0 10px' }}>VS</span>
-					<TeamBox name={currentMatchRep?.teamB.name} logo={currentMatchRep?.teamB.logo || ''} />
+					<TeamBox
+						name={currentMatchRep?.teamB.name}
+						logo={currentMatchRep?.teamB.logo || ''}
+					/>
 				</Grid>
 
-				<Grid item container justify="center" style={{ margin: '15px 0', padding: '0 8px' }}>
-					{statusTypes.map(status => {
+				<Grid
+					item
+					container
+					justify="center"
+					style={{ margin: '15px 0', padding: '0 8px' }}>
+					{statusTypes.map((status) => {
 						return (
 							<SpacedChip
 								key={status}
@@ -268,7 +285,10 @@ const DashCurrentMatch: React.FC = () => {
 
 					return null;
 				})}
-				<Button onClick={UpdateScore} variant="contained" style={{ margin: '8px 15px', marginBottom: 0 }}>
+				<Button
+					onClick={UpdateScore}
+					variant="contained"
+					style={{ margin: '8px 15px', marginBottom: 0 }}>
 					Update Scores
 				</Button>
 			</Grid>

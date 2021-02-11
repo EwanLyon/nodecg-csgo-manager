@@ -45,14 +45,32 @@ const VerticalDivider = styled.div`
 
 export const DashMapScores: React.FC<Props> = (props: Props) => {
 	const teamATotal =
-		parseInt((document.getElementById(`${props.mapNo}A1-Score`) as HTMLInputElement)?.value || '0', 10) +
-		parseInt((document.getElementById(`${props.mapNo}A2-Score`) as HTMLInputElement)?.value || '0', 10) +
-		parseInt((document.getElementById(`${props.mapNo}AOT-Score`) as HTMLInputElement)?.value || '0', 10);
+		parseInt(
+			(document.getElementById(`${props.mapNo}A1-Score`) as HTMLInputElement)?.value || '0',
+			10,
+		) +
+		parseInt(
+			(document.getElementById(`${props.mapNo}A2-Score`) as HTMLInputElement)?.value || '0',
+			10,
+		) +
+		parseInt(
+			(document.getElementById(`${props.mapNo}AOT-Score`) as HTMLInputElement)?.value || '0',
+			10,
+		);
 
 	const teamBTotal =
-		parseInt((document.getElementById(`${props.mapNo}B1-Score`) as HTMLInputElement)?.value || '0', 10) +
-		parseInt((document.getElementById(`${props.mapNo}B2-Score`) as HTMLInputElement)?.value || '0', 10) +
-		parseInt((document.getElementById(`${props.mapNo}BOT-Score`) as HTMLInputElement)?.value || '0', 10);
+		parseInt(
+			(document.getElementById(`${props.mapNo}B1-Score`) as HTMLInputElement)?.value || '0',
+			10,
+		) +
+		parseInt(
+			(document.getElementById(`${props.mapNo}B2-Score`) as HTMLInputElement)?.value || '0',
+			10,
+		) +
+		parseInt(
+			(document.getElementById(`${props.mapNo}BOT-Score`) as HTMLInputElement)?.value || '0',
+			10,
+		);
 
 	const score = `${teamATotal}-${teamBTotal}`;
 
@@ -60,34 +78,74 @@ export const DashMapScores: React.FC<Props> = (props: Props) => {
 		<ThemeProvider theme={theme}>
 			<AccordionStyled>
 				<AccordionSummary expandIcon={<ExpandMore />} style={{ background: '#516077' }}>
-					<div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
+					<div
+						style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }}>
 						<span>{props.mapName}</span>
 						<span>{score}</span>
 					</div>
 				</AccordionSummary>
 				<ExpansionDetailsStyled>
 					<Grid container justify="center">
-						<Grid item container alignItems="center" justify="space-around" style={{ margin: '5px 0' }}>
+						<Grid
+							item
+							container
+							alignItems="center"
+							justify="space-around"
+							style={{ margin: '5px 0' }}>
 							<SegmentText>
 								1<sup>st</sup> half
 							</SegmentText>
-							<ScoreText type="number" id={`${props.mapNo}A1-Score`} variant="outlined" />
+							<ScoreText
+								type="number"
+								id={`${props.mapNo}A1-Score`}
+								variant="outlined"
+							/>
 							<VerticalDivider />
-							<ScoreText type="number" id={`${props.mapNo}B1-Score`} variant="outlined" />
+							<ScoreText
+								type="number"
+								id={`${props.mapNo}B1-Score`}
+								variant="outlined"
+							/>
 						</Grid>
-						<Grid item container alignItems="center" justify="space-around" style={{ margin: '5px 0' }}>
+						<Grid
+							item
+							container
+							alignItems="center"
+							justify="space-around"
+							style={{ margin: '5px 0' }}>
 							<SegmentText>
 								2<sup>nd</sup> half
 							</SegmentText>
-							<ScoreText type="number" id={`${props.mapNo}A2-Score`} variant="outlined" />
+							<ScoreText
+								type="number"
+								id={`${props.mapNo}A2-Score`}
+								variant="outlined"
+							/>
 							<VerticalDivider />
-							<ScoreText type="number" id={`${props.mapNo}B2-Score`} variant="outlined" />
+							<ScoreText
+								type="number"
+								id={`${props.mapNo}B2-Score`}
+								variant="outlined"
+							/>
 						</Grid>
-						<Grid item container alignItems="center" justify="space-around" style={{ margin: '5px 0' }}>
+						<Grid
+							item
+							container
+							alignItems="center"
+							justify="space-around"
+							style={{ margin: '5px 0' }}>
 							<SegmentText>OT</SegmentText>
-							<ScoreText type="number" id={`${props.mapNo}AOT-Score`} variant="outlined" />
+							<ScoreText
+								type="number"
+								id={`${props.mapNo}AOT-Score`}
+								variant="outlined"
+							/>
 							<VerticalDivider />
-							<ScoreText type="number" id={`${props.mapNo}BOT-Score`} variant="outlined" />
+							<ScoreText
+								type="number"
+								id={`${props.mapNo}BOT-Score`}
+								variant="outlined"
+							/>
 						</Grid>
 						<FormControlLabel
 							control={<Checkbox id={`${props.mapNo}-Complete`} />}

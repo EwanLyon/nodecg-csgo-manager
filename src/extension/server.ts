@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/camelcase */
+/* eslint-disable camelcase */
 import * as nodecgApiContext from './util/nodecg-api-context';
 import http from 'http';
 import _ from 'lodash';
@@ -11,7 +11,7 @@ import {
 	CSGOBomb,
 	CSGOPhaseCountdowns,
 	CSGOGrenadesAll,
-	CSGO
+	CSGO,
 } from '../types/csgo-gsi';
 import { TeamData } from '../types/extra-data';
 import { MapPlayerData } from '../types/map-player';
@@ -32,7 +32,7 @@ const mapPlayersRep = nodecg.Replicant<MapPlayerData[]>('mapPlayers');
 const round30Winner = nodecg.Replicant<string>('round30Winner');
 
 let oldTime = 1;
-let rollingAverage: number[] = [];
+const rollingAverage: number[] = [];
 
 // Returns true if teamOne should be T's
 function currentTeamSide(round: number): boolean {
@@ -49,8 +49,8 @@ function currentTeamSide(round: number): boolean {
 }
 
 function getFrequency(prevTime: number) {
-	let delta = Date.now() - prevTime;
-	let freq = (1 / delta) * 1000;
+	const delta = Date.now() - prevTime;
+	const freq = (1 / delta) * 1000;
 	oldTime = Date.now();
 	return freq;
 }
@@ -62,7 +62,7 @@ function calcFreq() {
 		rollingAverage.shift();
 	}
 
-	serverRateRep.value = rollingAverage.reduce((a, b) => (a + b)) / rollingAverage.length;
+	serverRateRep.value = rollingAverage.reduce((a, b) => a + b) / rollingAverage.length;
 }
 
 let sentFinishedMatch = false;
@@ -73,7 +73,7 @@ function handleData(srcData: string): void {
 
 	// Update match stats
 	if (srcJSON.provider && srcJSON.player.activity !== 'menu') {
-		// serverRateRep.value = getFrequency(oldTime);
+		// ServerRateRep.value = getFrequency(oldTime);
 		calcFreq();
 
 		// Update match once over
@@ -89,21 +89,25 @@ function handleData(srcData: string): void {
 
 		// MATCH STATS
 		// Set team scores so that they dont flip mid way
-		const teamOneData = currentTeamSide(srcJSON.map.round) ? srcJSON.map.team_t : srcJSON.map.team_ct;
-		const teamTwoData = currentTeamSide(srcJSON.map.round) ? srcJSON.map.team_ct : srcJSON.map.team_t;
+		const teamOneData = currentTeamSide(srcJSON.map.round)
+			? srcJSON.map.team_t
+			: srcJSON.map.team_ct;
+		const teamTwoData = currentTeamSide(srcJSON.map.round)
+			? srcJSON.map.team_ct
+			: srcJSON.map.team_t;
 
 		teamOneRep.value = {
 			...teamOneRep.value,
 			score: teamOneData.score,
 			matchesWonThisSeries: teamOneData.matches_won_this_series,
-			consecutiveRoundLosses: teamOneData.consecutive_round_losses
+			consecutiveRoundLosses: teamOneData.consecutive_round_losses,
 		};
 
 		teamTwoRep.value = {
 			...teamTwoRep.value,
 			score: teamTwoData.score,
 			matchesWonThisSeries: teamTwoData.matches_won_this_series,
-			consecutiveRoundLosses: teamTwoData.consecutive_round_losses
+			consecutiveRoundLosses: teamTwoData.consecutive_round_losses,
 		};
 
 		matchStatsRep.value = srcJSON.map;
@@ -118,7 +122,7 @@ function handleData(srcData: string): void {
 				}
 
 				return value as CSGOAllplayer;
-			}
+			},
 		);
 
 		tempPlayersList.sort((a, b) => {
@@ -142,7 +146,11 @@ function handleData(srcData: string): void {
 		// All grenades
 		mapGrenadesRep.value = srcJSON.grenades;
 
-		if (srcJSON.map.round === 30 && srcJSON.round.win_team && round30Winner.value !== srcJSON.round.win_team) {
+		if (
+			srcJSON.map.round === 30 &&
+			srcJSON.round.win_team &&
+			round30Winner.value !== srcJSON.round.win_team
+		) {
 			round30Winner.value = srcJSON.round.win_team;
 		}
 	}
@@ -153,7 +161,7 @@ function handleIncoming(req: http.IncomingMessage, res: http.ServerResponse): vo
 		res.writeHead(200, { 'Content-Type': 'text/html' });
 
 		let body = '';
-		req.on('data', data => {
+		req.on('data', (data) => {
 			body += data;
 		});
 
@@ -213,7 +221,7 @@ server.listen(nodecg.bundleConfig.port, nodecg.config.host);
 function mapData(allPlayerData: CSGOAllplayer[], observingId?: string) {
 	const finalMapObj: MapPlayerData[] = [];
 
-	allPlayerData.forEach(player => {
+	allPlayerData.forEach((player) => {
 		const playerObj: MapPlayerData = {
 			steamId: player.steamId,
 			position: player.position.split(', ').map(Number),

@@ -79,7 +79,7 @@ export const DoubleElimination: React.FC<Props> = (props: Props) => {
 		<AllMatches style={{ height: winnerEliminationHeight }}>
 			{props.data.winnerMatches.map((round, i) => {
 				return (
-					<RoundAndBracket style={{ height: winnerEliminationHeight }}>
+					<RoundAndBracket style={{ height: winnerEliminationHeight }} key={i}>
 						<WinnerRound key={i} style={{ height: winnerEliminationHeight }}>
 							{round.map((matchId, k) => {
 								return (
@@ -97,7 +97,10 @@ export const DoubleElimination: React.FC<Props> = (props: Props) => {
 						{round.length === 1 ? (
 							// Don't display if last round
 							i !== props.data.winnerMatches.length - 1 && (
-								<DoubleElimBranches branchNo={1} elimHeight={winnerEliminationHeight} />
+								<DoubleElimBranches
+									branchNo={1}
+									elimHeight={winnerEliminationHeight}
+								/>
 							)
 						) : (
 							<BranchHolder key={i + 'b'} style={{ height: winnerEliminationHeight }}>
@@ -122,7 +125,7 @@ export const DoubleElimination: React.FC<Props> = (props: Props) => {
 		<AllMatches style={{ height: loserEliminationHeight }}>
 			{props.data.loserMatches.map((round, i) => {
 				return (
-					<RoundAndBracket style={{ height: loserEliminationHeight }}>
+					<RoundAndBracket style={{ height: loserEliminationHeight }} key={i}>
 						<LoserRound key={i} style={{ height: loserEliminationHeight }}>
 							{round.map((matchId, k) => {
 								return (
@@ -138,10 +141,15 @@ export const DoubleElimination: React.FC<Props> = (props: Props) => {
 							})}
 						</LoserRound>
 						{round.length === props.data.loserMatches[i + 1]?.length ? (
-							<DoubleElimBranches branchNo={round.length} elimHeight={loserEliminationHeight} />
+							<DoubleElimBranches
+								branchNo={round.length}
+								elimHeight={loserEliminationHeight}
+							/>
 						) : (
 							i !== props.data.loserMatches.length - 1 && (
-								<BranchHolder key={i + 'b'} style={{ height: loserEliminationHeight }}>
+								<BranchHolder
+									key={i + 'b'}
+									style={{ height: loserEliminationHeight }}>
 									{_.times(round.length / 2, (j) => {
 										return (
 											<EliminationConnector
@@ -213,12 +221,23 @@ const EliminationConnector: React.FC<ElimConnectorProps> = (props: ElimConnector
 				display: 'flex',
 				height: props.elimHeight / 2 / Math.log2(props.noOfPrevRounds),
 			}}>
-			<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+			<div
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'space-between',
+				}}>
 				<Branch />
 				<Branch />
 			</div>
 			<Trunk style={{ height: '100%' }} />
-			<div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: 144 }}>
+			<div
+				style={{
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'center',
+					gap: 144,
+				}}>
 				<Branch />
 			</div>
 		</div>

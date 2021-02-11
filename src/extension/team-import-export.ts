@@ -39,24 +39,28 @@ nodecg.listenFor('exportTeams', () => {
 		hour: '2-digit',
 		day: '2-digit',
 		month: '2-digit',
-		year: '2-digit'
+		year: '2-digit',
 	});
 	date = date.replace(/[/,:]/g, '');
 	date = date.replace(/ /g, '_');
-	fs.writeFile(`./assets/csgo-layouts/teamPreset/${date}.json`, JSON.stringify(mainPreset), err => {
-		if (err) {
-			nodecg.log.error('Failed writing team presets: ' + err.message);
-		} else {
-			nodecg.log.info('TeamPresets file written');
-		}
-	});
+	fs.writeFile(
+		`./assets/csgo-layouts/teamPreset/${date}.json`,
+		JSON.stringify(mainPreset),
+		(err) => {
+			if (err) {
+				nodecg.log.error('Failed writing team presets: ' + err.message);
+			} else {
+				nodecg.log.info('TeamPresets file written');
+			}
+		},
+	);
 });
 
 function updateTeamPreset(newVal: Asset[]): void {
 	nodecg.log.info('Updating team presets');
 	const newTeamPresets: TeamsPreset = { teams: {}, players: {} };
 
-	newVal.forEach(teamsFile => {
+	newVal.forEach((teamsFile) => {
 		fs.readFile(`./${teamsFile.url}`, 'utf-8', (err, jsonString) => {
 			if (err) {
 				nodecg.log.error('Failed reading: ' + teamsFile.url + ' ' + err.message);
@@ -85,7 +89,7 @@ function updateTeamPreset(newVal: Asset[]): void {
 	teamPresetsRep.value = newTeamPresets;
 }
 
-teamPresetAssetsRep.on('change', newVal => {
+teamPresetAssetsRep.on('change', (newVal) => {
 	updateTeamPreset(newVal);
 });
 
@@ -95,7 +99,7 @@ function pushNewPlayerData(player: TeamsPreset['players'][0]): void {
 		adr: 0,
 		country: player.country,
 		image: player.profilePicture,
-		name: player.realName
+		name: player.realName,
 	};
 }
 
@@ -109,7 +113,7 @@ nodecg.listenFor('newTeam', (data: { name: string; alias: string; logo?: string 
 	const teamObj: Team = {
 		alias: data.alias,
 		name: data.name,
-		logo: data.logo
+		logo: data.logo,
 	};
 	// Clear undefined props
 	_.pickBy(teamObj, _.identity);
@@ -127,7 +131,7 @@ nodecg.listenFor(
 			steamId: data.steamId,
 			realName: data.name,
 			country: data.country,
-			profilePicture: data.pfp
+			profilePicture: data.pfp,
 		};
 		// Clear undefined props
 		_.pickBy(playerObj, _.identity);
@@ -135,11 +139,11 @@ nodecg.listenFor(
 		teamPresetsRep.value.players[playerObj.steamId] = playerObj;
 
 		nodecg.sendMessage('newTeamPlayerResponse');
-	}
+	},
 );
 
 nodecg.listenFor('getHLTVTeam', (id: number) => {
-	HLTV.getTeam({ id }).then(res => {
+	HLTV.getTeam({ id }).then((res) => {
 		nodecg.sendMessage('hltvTeamReturn', res);
 	});
-})
+});

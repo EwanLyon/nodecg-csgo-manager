@@ -74,10 +74,10 @@ const TeamBox: React.FC<TeamBoxProps> = (props: TeamBoxProps) => {
 export const SingleMatch: React.FC<Props> = (props: Props) => {
 	if (!props.match.teamA || !props.match.teamB) {
 		// Game somehow exists that doesnt have a team associated with it
-		RemoveGame();
+		removeGame();
 	}
 
-	function RemoveGame() {
+	function removeGame() {
 		nodecg.sendMessage('removeMatch', props.match.id);
 	}
 
@@ -90,10 +90,16 @@ export const SingleMatch: React.FC<Props> = (props: Props) => {
 				<TeamBox team={props.match.teamB} />
 			</TeamsContainer>
 			<span style={{ margin: '0 10px', fontSize: 32 }}>{props.match.time}</span>
-			<span style={{ margin: '0 10px', fontSize: 23, color: '#bbb', textTransform: 'capitalize' }}>
+			<span
+				style={{
+					margin: '0 10px',
+					fontSize: 23,
+					color: '#bbb',
+					textTransform: 'capitalize',
+				}}>
 				{props.match.matchType}
 			</span>
-			<RedButtonExtra variant="contained" size="small" onClick={RemoveGame}>
+			<RedButtonExtra variant="contained" size="small" onClick={removeGame}>
 				‒
 			</RedButtonExtra>
 		</SingleMatchContainer>

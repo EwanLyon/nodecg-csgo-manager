@@ -10,7 +10,14 @@ import {
 	DoubleElimination as IDoubleElimination,
 } from '../../types/tournament';
 
-import { Button, FormControl, InputLabel, MenuItem, Select, ThemeProvider } from '@material-ui/core';
+import {
+	Button,
+	FormControl,
+	InputLabel,
+	MenuItem,
+	Select,
+	ThemeProvider,
+} from '@material-ui/core';
 import { CreateTournament } from './create-tournament';
 import { SingleElimination } from './single-elimination';
 import { DoubleElimination } from './double-elimination';
@@ -36,10 +43,11 @@ const Fixture: React.FC = () => {
 		if (currentTournamentRep) {
 			setSelectedTournament(currentTournamentRep);
 		} else {
-			const mostRecentTournament = Object.keys(tournamentsRep)[Object.keys(tournamentsRep).length - 1];
+			const mostRecentTournament = Object.keys(tournamentsRep)[
+				Object.keys(tournamentsRep).length - 1
+			];
 			setSelectedTournament(mostRecentTournament);
 		}
-
 	}, [tournamentsRep, currentTournamentRep]);
 
 	function handleCreateOpen() {
@@ -120,7 +128,10 @@ const Fixture: React.FC = () => {
 				<Button variant="contained" onClick={handleCreateOpen}>
 					New Tournament
 				</Button>
-				<Button variant="contained" onClick={handleEditOpen} disabled={!tournamentsRep[selectedTournament]}>
+				<Button
+					variant="contained"
+					onClick={handleEditOpen}
+					disabled={!tournamentsRep[selectedTournament]}>
 					Edit Tournament
 				</Button>
 				<Button

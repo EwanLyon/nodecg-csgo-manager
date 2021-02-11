@@ -58,15 +58,18 @@ export const CreateTournament: React.FC<Props> = (props: Props) => {
 			name: tournamentName,
 			logo: selectedLogo,
 			fixtureType: selectedFixture,
-			size: parseInt(fixtureTeams)
-		}
+			size: parseInt(fixtureTeams, 10),
+		};
 
 		nodecg.sendMessage('newTournament', newTournament);
 		props.onClose();
 	}
 
 	return (
-		<WiderDialog onClose={props.onClose} aria-labelledby="create-tournament-dialog" open={props.open}>
+		<WiderDialog
+			onClose={props.onClose}
+			aria-labelledby="create-tournament-dialog"
+			open={props.open}>
 			<DialogTitle id="create-tournament-dialog" style={{ minWidth: '25%' }}>
 				Create Tournament
 			</DialogTitle>
@@ -133,7 +136,11 @@ export const CreateTournament: React.FC<Props> = (props: Props) => {
 			</DialogContent>
 			<DialogActions>
 				<Button onClick={props.onClose}>Cancel</Button>
-				<Button onClick={createTournament} disabled={tournamentName === '' || selectedFixture === '' || fixtureTeams === ''}>
+				<Button
+					onClick={createTournament}
+					disabled={
+						tournamentName === '' || selectedFixture === '' || fixtureTeams === ''
+					}>
 					Create Tournament
 				</Button>
 			</DialogActions>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
@@ -31,24 +31,26 @@ const WiderDialog = styled(Dialog)`
 `;
 
 export const EditTournament: React.FC<Props> = (props: Props) => {
-	if (!props.tournament) {
-		return <></>;
-	}
-
 	const [tournamentLogosRep] = useReplicant<Asset[]>('assets:tournamentLogos', []);
-	const [tournamentName, setTournamentName] = useState(props.tournament.name);
-	const [selectedLogo, setSelectedLogo] = useState(props.tournament.logo);
-	const [selectedFixture, setSelectedFixture] = useState(props.tournament.fixture.type as string);
+	const [tournamentName, setTournamentName] = useState(props?.tournament?.name);
+	const [selectedLogo, setSelectedLogo] = useState(props?.tournament?.logo);
+	const [selectedFixture, setSelectedFixture] = useState(
+		props?.tournament?.fixture.type as string,
+	);
+	const [fixtureTeams, setFixtureTeams] = useState('2');
 
 	// Figure out what to fill in for size
-	let fixtureSize = 2;
-	if (props.tournament.fixture.type === 'single-elimination') {
-		fixtureSize = props.tournament.fixture.matches[0].length * 2;
-	} else if (props.tournament.fixture.type === 'double-elimination') {
-		fixtureSize = props.tournament.fixture.winnerMatches[0].length * 2;
-	}
+	useEffect(() => {
+		if (!props.tournament) return;
 
-	const [fixtureTeams, setFixtureTeams] = useState(fixtureSize.toString());
+		if (props.tournament.fixture.type === 'single-elimination') {
+			setFixtureTeams((props.tournament.fixture.matches[0].length * 2).toString());
+		} else if (props.tournament.fixture.type === 'double-elimination') {
+			setFixtureTeams((props.tournament.fixture.winnerMatches[0].length * 2).toString());
+		}
+	}, [props.tournament]);
+
+	if (!props.tournament) return <></>;
 
 	const tournamentLogos = tournamentLogosRep.map((logo) => {
 		return (
@@ -72,11 +74,11 @@ export const EditTournament: React.FC<Props> = (props: Props) => {
 
 		const editedTournament: TournamentEdit = {
 			id: props.tournament.id,
-			name: tournamentName,
-			logo: selectedLogo,
+			name: tournamentName || '',
+			logo: selectedLogo || '',
 			fixtureType: selectedFixture,
-			size: parseInt(fixtureTeams)
-		}
+			size: parseInt(fixtureTeams, 10),
+		};
 
 		nodecg.sendMessage('editTournament', editedTournament);
 		props.onClose();
@@ -88,7 +90,10 @@ export const EditTournament: React.FC<Props> = (props: Props) => {
 	}
 
 	return (
-		<WiderDialog onClose={props.onClose} aria-labelledby="create-tournament-dialog" open={props.open}>
+		<WiderDialog
+			onClose={props.onClose}
+			aria-labelledby="create-tournament-dialog"
+			open={props.open}>
 			<DialogTitle id="create-tournament-dialog" style={{ minWidth: '25%' }}>
 				Create Tournament
 			</DialogTitle>
@@ -153,13 +158,17 @@ export const EditTournament: React.FC<Props> = (props: Props) => {
 					</Select>
 				</FormControl>
 			</DialogContent>
-			<DialogActions style={{justifyContent: 'space-between'}}>
+			<DialogActions style={{ justifyContent: 'space-between' }}>
 				<Button onClick={deleteTournament}>Delete</Button>
 				<div>
-				<Button onClick={props.onClose}>Cancel</Button>
-				<Button onClick={editTournament} disabled={tournamentName === '' || selectedFixture === '' || fixtureTeams === ''}>
-					Apply
-				</Button>
+					<Button onClick={props.onClose}>Cancel</Button>
+					<Button
+						onClick={editTournament}
+						disabled={
+							tournamentName === '' || selectedFixture === '' || fixtureTeams === ''
+						}>
+						Apply
+					</Button>
 				</div>
 			</DialogActions>
 		</WiderDialog>

@@ -9,21 +9,21 @@ const ToggleButtonStyled = withStyles({
 		color: '#fff',
 		backgroundColor: '#43A047',
 		'&:hover': {
-			backgroundColor: emphasize('#43A047')
+			backgroundColor: emphasize('#43A047'),
 		},
 		'&$selected': {
 			backgroundColor: '#E53935',
 			'&:hover': {
-				backgroundColor: emphasize('#E53935')
-			}
-		}
+				backgroundColor: emphasize('#E53935'),
+			},
+		},
 	},
 	selected: {
 		backgroundColor: '#E53935',
 		'&:hover': {
-			backgroundColor: emphasize('#E53935')
-		}
-	}
+			backgroundColor: emphasize('#E53935'),
+		},
+	},
 })(ToggleButton);
 
 interface Props extends Omit<ButtonBaseProps, 'ref'> {
@@ -44,7 +44,7 @@ export class StyledToggleButton extends React.Component<Props, State> {
 		super(props);
 		this.state = {
 			selected: false,
-			text: this.props.initialText
+			text: this.props.initialText,
 		};
 
 		this.toggleButton = this.toggleButton.bind(this);
@@ -54,7 +54,7 @@ export class StyledToggleButton extends React.Component<Props, State> {
 		if (typeof setSelected === 'boolean') {
 			this.setState({
 				selected: setSelected,
-				text: setSelected ? this.props.toggleText : this.props.initialText
+				text: setSelected ? this.props.toggleText : this.props.initialText,
 			});
 		} else {
 			this.setState({
@@ -62,7 +62,7 @@ export class StyledToggleButton extends React.Component<Props, State> {
 				text:
 					this.state.text === this.props.initialText
 						? this.props.toggleText
-						: this.props.initialText
+						: this.props.initialText,
 			});
 		}
 	}
@@ -80,11 +80,10 @@ export class StyledToggleButton extends React.Component<Props, State> {
 						text:
 							this.state.text === this.props.initialText
 								? this.props.toggleText
-								: this.props.initialText
+								: this.props.initialText,
 					});
 				}}
-				onClick={this.props.onClick}
-			>
+				onClick={this.props.onClick}>
 				{this.state.text}
 			</ToggleButtonStyled>
 		);

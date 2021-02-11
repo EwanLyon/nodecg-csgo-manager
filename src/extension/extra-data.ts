@@ -21,7 +21,7 @@ const currentMatchRep = nodecg.Replicant<string>('currentMatch');
 const matchScoresRep = nodecg.Replicant<Matches>('matches');
 
 function getCurrentMatch() {
-	return matchScoresRep.value.find(match => match.id === currentMatchRep.value);
+	return matchScoresRep.value.find((match) => match.id === currentMatchRep.value);
 }
 
 // Returns true if teamOne should be T's
@@ -42,7 +42,7 @@ function currentTeamSide(round: number): boolean {
 function refreshTeamPlayers(): void {
 	const teamOneList: string[] = [];
 	const teamTwoList: string[] = [];
-	allPlayersRep.value.forEach(player => {
+	allPlayersRep.value.forEach((player) => {
 		// Check if player exists in extra player data
 		if (!playerDataRep.value[player.steamId]) {
 			// If player didn't exists add them
@@ -54,12 +54,12 @@ function refreshTeamPlayers(): void {
 					adr: 0,
 					country: presetPlayer.country,
 					name: presetPlayer.realName,
-					image: presetPlayer.profilePicture
+					image: presetPlayer.profilePicture,
 				};
 			} else {
 				playerDataRep.value[player.steamId] = {
 					totalDamage: 0,
-					adr: 0
+					adr: 0,
 				};
 			}
 		}
@@ -84,23 +84,24 @@ function refreshTeamPlayers(): void {
 }
 
 let changed = false;
-allPlayersRep.on('change', newVal => {
+allPlayersRep.on('change', (newVal) => {
 	// PLAYER ADR
 	// Check if round has finished
 	if (!changed && phaseRep.value.phase === 'over') {
 		const curRound = matchRep.value.round <= 0 ? 1 : matchRep.value.round; // So we don't divide by 0
-		newVal.forEach(player => {
+		newVal.forEach((player) => {
 			// Check if player exists
 			if (playerDataRep.value[player.steamId] === undefined) {
 				// If player didn't exists add them
 				playerDataRep.value[player.steamId] = {
 					totalDamage: player.state.round_totaldmg,
-					adr: player.state.round_totaldmg / curRound
+					adr: player.state.round_totaldmg / curRound,
 				};
 			} else {
 				// Add round damage to total damage
 				playerDataRep.value[player.steamId].totalDamage += player.state.round_totaldmg;
-				playerDataRep.value[player.steamId].adr = playerDataRep.value[player.steamId].totalDamage / curRound;
+				playerDataRep.value[player.steamId].adr =
+					playerDataRep.value[player.steamId].totalDamage / curRound;
 			}
 		});
 
@@ -123,13 +124,13 @@ allPlayersRep.on('change', newVal => {
 	}
 
 	// TEAM ECONOMY
-	const playersOne = newVal.filter(player => {
+	const playersOne = newVal.filter((player) => {
 		if (teamOneRep.value.players.includes(player.steamId)) return player;
 
 		return undefined;
 	});
 
-	const playersTwo = newVal.filter(player => {
+	const playersTwo = newVal.filter((player) => {
 		if (teamTwoRep.value.players.includes(player.steamId)) return player;
 
 		return undefined;
@@ -137,23 +138,23 @@ allPlayersRep.on('change', newVal => {
 
 	// Equipment Value
 	let oneEquipTotal = 0;
-	playersOne.forEach(player => {
+	playersOne.forEach((player) => {
 		oneEquipTotal += player.state.equip_value;
 	});
 
 	let twoEquipTotal = 0;
-	playersTwo.forEach(player => {
+	playersTwo.forEach((player) => {
 		twoEquipTotal += player.state.equip_value;
 	});
 
 	// Total Money
 	let oneTotalMoney = 0;
-	playersOne.forEach(player => {
+	playersOne.forEach((player) => {
 		oneTotalMoney += player.state.money;
 	});
 
 	let twoTotalMoney = 0;
-	playersTwo.forEach(player => {
+	playersTwo.forEach((player) => {
 		twoTotalMoney += player.state.money;
 	});
 
@@ -204,7 +205,7 @@ nodecg.listenFor('updatePlayerName', (data: { id: string; name: string }) => {
 // MAP DATA
 nodecg.listenFor('addMap', (data: MapInfo) => {
 	const currentMatch = getCurrentMatch();
-	if (currentMatch?.maps.find(map => map.map === data.map)) {
+	if (currentMatch?.maps.find((map) => map.map === data.map)) {
 		nodecg.log.warn(`${data.map} has already been added`);
 		return;
 	}
@@ -212,15 +213,15 @@ nodecg.listenFor('addMap', (data: MapInfo) => {
 	currentMatch?.maps.push(data);
 });
 
-nodecg.listenFor('removeMap', mapName => {
+nodecg.listenFor('removeMap', (mapName) => {
 	const currentMatch = getCurrentMatch();
-	const mapIndex = currentMatch?.maps.findIndex(map => map.map === mapName) || -1;
+	const mapIndex = currentMatch?.maps.findIndex((map) => map.map === mapName) || -1;
 	if (mapIndex > -1) {
 		currentMatch?.maps.splice(mapIndex, 1);
 	}
 });
 
-nodecg.listenFor('reorderMaps', newOrder => {
+nodecg.listenFor('reorderMaps', (newOrder) => {
 	const currentMatch = getCurrentMatch();
 	if (currentMatch) currentMatch.maps = newOrder;
 });
@@ -239,10 +240,13 @@ function getAllPlayersProfilePictures(overwrite = false) {
 
 	const steamIds = Object.keys(playerData);
 
-	SteamAPI.getProfilePictures(steamIds).then(pfps => {
+	SteamAPI.getProfilePictures(steamIds).then((pfps) => {
 		pfps.forEach((pfp) => {
 			// Default question mark PFP
-			if (pfp.pfp !== 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg') {
+			if (
+				pfp.pfp !==
+				'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg'
+			) {
 				// Overwrite all player profile pictures else just do ones that dont have one
 				if (overwrite) {
 					playerData[pfp.id].image = pfp.pfp;
@@ -261,10 +265,13 @@ function getAllProfileData(overwrite = false) {
 
 	const steamIds = Object.keys(playerData);
 
-	SteamAPI.getProfileData(steamIds).then(pfps => {
+	SteamAPI.getProfileData(steamIds).then((pfps) => {
 		pfps.forEach((profileData) => {
 			// Default question mark PFP
-			if (profileData.pfp !== 'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg') {
+			if (
+				profileData.pfp !==
+				'https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/fe/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg'
+			) {
 				// Overwrite all player profile pictures else just do ones that dont have one
 				if (overwrite) {
 					playerData[profileData.steamid].image = profileData.pfp;
@@ -274,7 +281,9 @@ function getAllProfileData(overwrite = false) {
 			}
 
 			playerData[profileData.steamid].name = profileData.realname;
-			playerData[profileData.steamid].country = Array.from(profileData.country || '').map(letterToLetterEmoji).join('');
+			playerData[profileData.steamid].country = Array.from(profileData.country || '')
+				.map(letterToLetterEmoji)
+				.join('');
 		});
 	});
 
@@ -287,12 +296,12 @@ function sumGrenades(players: CSGOAllplayer[]): TeamData['grenades'] {
 		flash: 0,
 		smoke: 0,
 		fire: 0,
-		decoy: 0
-	}
+		decoy: 0,
+	};
 
-	players.forEach(player => {
+	players.forEach((player) => {
 		const weaponObj = Object.values(player.weapons);
-		weaponObj.forEach(weapon => {
+		weaponObj.forEach((weapon) => {
 			switch (weapon.name) {
 				case 'weapon_hegrenade':
 					nades.he++;

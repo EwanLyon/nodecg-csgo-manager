@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { useEffect, useRef } from 'react';
 import { render } from 'react-dom';
 import styled from 'styled-components';
@@ -21,7 +20,7 @@ const HlaeActive = styled.div`
 	padding: 16px 0;
 	text-align: center;
 	text-transform: uppercase;
-	color: ${(props: ActiveProps) => props.active ? '#44a047' : '#e53835'};
+	color: ${(props: ActiveProps) => (props.active ? '#44a047' : '#e53835')};
 `;
 
 interface ActiveProps {
@@ -90,9 +89,11 @@ export const Server: React.FunctionComponent = () => {
 			</Grid>
 			<Typography>Msg/s {~~serverRateRep}</Typography>
 			<HlaeActive active={hlaeActiveRep}>
-				HLAE is currently {hlaeActiveRep ? 'active': 'inactive'}
+				HLAE is currently {hlaeActiveRep ? 'active' : 'inactive'}
 			</HlaeActive>
-			<Button onClick={resetMatchKills} variant="contained">Reset Match Kills (Dev)</Button>
+			<Button onClick={resetMatchKills} variant="contained">
+				Reset Match Kills (Dev)
+			</Button>
 		</ThemeProvider>
 	);
 };

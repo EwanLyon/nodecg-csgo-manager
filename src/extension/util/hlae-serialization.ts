@@ -1,13 +1,14 @@
+/* eslint-disable camelcase */
 /* 
 	Original code from: https://github.com/advancedfx/advancedfx/blob/main/misc/mirv_pgl_test/server.js
 	Refactored to use JS Classes rather than prototypes and converted to typescript
 */
-import bigInt from "big-integer";
+import bigInt from 'big-integer';
 
 function findDelim(buffer: Buffer, idx: number) {
-	var delim = -1;
-	for (var i = idx; i < buffer.length; ++i) {
-		if (0 == buffer[i]) {
+	let delim = -1;
+	for (let i = idx; i < buffer.length; ++i) {
+		if (buffer[i] === 0) {
 			delim = i;
 			break;
 		}
@@ -25,73 +26,72 @@ export class BufferReader {
 		this.index = 0;
 	}
 
-	readBigUInt64LE() {
-
-		const lo = this.readUInt32LE()
+	readBigUInt64LE(): bigInt.BigInteger {
+		const lo = this.readUInt32LE();
 		const hi = this.readUInt32LE();
 
 		return bigInt(lo).or(bigInt(hi).shiftLeft(32));
-	};
+	}
 
-	readUInt32LE() {
-		var result = this.buffer.readUInt32LE(this.index);
+	readUInt32LE(): number {
+		const result = this.buffer.readUInt32LE(this.index);
 		this.index += 4;
 
 		return result;
-	};
+	}
 
-	readInt32LE() {
-		var result = this.buffer.readInt32LE(this.index);
+	readInt32LE(): number {
+		const result = this.buffer.readInt32LE(this.index);
 		this.index += 4;
 
 		return result;
-	};
+	}
 
-	readInt16LE() {
-		var result = this.buffer.readInt16LE(this.index);
+	readInt16LE(): number {
+		const result = this.buffer.readInt16LE(this.index);
 		this.index += 2;
 
 		return result;
-	};
+	}
 
-	readInt8() {
-		var result = this.buffer.readInt8(this.index);
+	readInt8(): number {
+		const result = this.buffer.readInt8(this.index);
 		this.index += 1;
 
 		return result;
-	};
+	}
 
-	readUInt8() {
-		var result = this.buffer.readUInt8(this.index);
+	readUInt8(): number {
+		const result = this.buffer.readUInt8(this.index);
 		this.index += 1;
 
 		return result;
-	};
+	}
 
-	readBoolean() {
-		return 0 != this.readUInt8();
-	};
+	readBoolean(): boolean {
+		return this.readUInt8() !== 0;
+	}
 
-	readFloatLE() {
-		var result = this.buffer.readFloatLE(this.index);
+	readFloatLE(): number {
+		const result = this.buffer.readFloatLE(this.index);
 		this.index += 4;
 
 		return result;
-	};
+	}
 
-	readCString() {
-		var delim = findDelim(this.buffer, this.index);
+	readCString(): string {
+		const delim = findDelim(this.buffer, this.index);
 		if (this.index <= delim) {
-			var result = this.buffer.toString('utf8', this.index, delim);
+			const result = this.buffer.toString('utf8', this.index, delim);
 			this.index = delim + 1;
 
 			return result;
 		}
 
-		throw "BufferReader.prototype.readCString";
+		throw new Error('BufferReader.prototype.readCString');
 	}
 
-	eof() {
+	eof(): boolean {
 		return this.index >= this.buffer.length;
 	}
 }
@@ -99,14 +99,24 @@ export class BufferReader {
 interface GameEvent {
 	name: string;
 	clientTime: number;
-	keys: Record<string, { name: string, type: number }>;
+	keys: Record<
+		string,
+		{
+			name: string;
+			type: string | number | boolean | bigInt.BigInteger | UserEnrichment | EntityEnrichment;
+		}
+	>;
 }
 
 class GameEventDescription {
 	eventId: number;
 	eventName: string;
-	keys: { name: string, type: number }[] = [];
-	enrichments: Record<string, any> = {};
+	keys: {
+		name: string;
+		type: string | number | boolean | bigInt.BigInteger | UserEnrichment | EntityEnrichment;
+	}[] = [];
+
+	enrichments: encrichmentTypes = {};
 
 	constructor(bufferReader: BufferReader) {
 		this.eventId = bufferReader.readInt32LE();
@@ -118,7 +128,7 @@ class GameEventDescription {
 
 			this.keys.push({
 				name: keyName,
-				type: keyType
+				type: keyType,
 			});
 		}
 	}
@@ -129,7 +139,7 @@ class GameEventDescription {
 		const result: GameEvent = {
 			name: this.eventName,
 			clientTime: clientTime,
-			keys: {}
+			keys: {},
 		};
 
 		for (let i = 0; i < this.keys.length; ++i) {
@@ -162,29 +172,43 @@ class GameEventDescription {
 					keyValue = bufferReader.readBigUInt64LE();
 					break;
 				default:
-					throw "GameEventDescription.prototype.unserialize";
+					throw new Error('GameEventDescription.prototype.unserialize');
 			}
 
-			if (this.enrichments[keyName]) {
-				keyValue = this.enrichments[keyName].unserialize(bufferReader, keyValue);
+			if (this.enrichments[keyName] && typeof keyValue === 'number') {
+				// Want to get rid of this any here
+				keyValue = (this.enrichments[keyName] as any).unserialize(bufferReader, keyValue);
 			}
 
-			result.keys[key.name] = keyValue;
+			result.keys[i] = { name: key.name, type: keyValue };
 		}
 
 		return result;
 	}
 }
 
+interface UserEnrichment {
+	value: number;
+	xuid: string;
+	eyeOrigin: number[];
+	eyeAngles: number[];
+}
+
 export class UseridEnrichment {
 	enrichments = ['useridWithSteamId', 'useridWithEyePosition', 'useridWithEyeAngles'];
 
-	constructor() { }
-
-	unserialize(bufferReader: BufferReader, keyValue: number) {
+	unserialize(bufferReader: BufferReader, keyValue: number): UserEnrichment {
 		const xuid = bufferReader.readBigUInt64LE().toString();
-		const eyeOrigin = [bufferReader.readFloatLE(), bufferReader.readFloatLE(), bufferReader.readFloatLE()];
-		const eyeAngles = [bufferReader.readFloatLE(), bufferReader.readFloatLE(), bufferReader.readFloatLE()];
+		const eyeOrigin = [
+			bufferReader.readFloatLE(),
+			bufferReader.readFloatLE(),
+			bufferReader.readFloatLE(),
+		];
+		const eyeAngles = [
+			bufferReader.readFloatLE(),
+			bufferReader.readFloatLE(),
+			bufferReader.readFloatLE(),
+		];
 
 		return {
 			value: keyValue,
@@ -195,14 +219,26 @@ export class UseridEnrichment {
 	}
 }
 
+interface EntityEnrichment {
+	value: number;
+	origin: number[];
+	angles: number[];
+}
+
 export class EntitynumEnrichment {
 	enrichments = ['entnumWithOrigin', 'entnumWithAngles'];
 
-	constructor() { }
-
-	unserialize(bufferReader: BufferReader, keyValue: number) {
-		var origin = [bufferReader.readFloatLE(), bufferReader.readFloatLE(), bufferReader.readFloatLE()];
-		var angles = [bufferReader.readFloatLE(), bufferReader.readFloatLE(), bufferReader.readFloatLE()];
+	unserialize(bufferReader: BufferReader, keyValue: number): EntityEnrichment {
+		const origin = [
+			bufferReader.readFloatLE(),
+			bufferReader.readFloatLE(),
+			bufferReader.readFloatLE(),
+		];
+		const angles = [
+			bufferReader.readFloatLE(),
+			bufferReader.readFloatLE(),
+			bufferReader.readFloatLE(),
+		];
 
 		return {
 			value: keyValue,
@@ -213,29 +249,29 @@ export class EntitynumEnrichment {
 }
 
 export class GameEventUnserializer {
-	enrichments: Record<string, any>;
-	knownEvents: Record<string, any> = {};	// id -> description
+	enrichments: encrichmentTypes;
+	knownEvents: Record<number, GameEventDescription> = {}; // Id -> description
 
-	constructor(enrichments: Record<string, any>) {
+	constructor(enrichments: encrichmentTypes) {
 		this.enrichments = enrichments;
 	}
 
-	unserialize(bufferReader: BufferReader) {
+	unserialize(bufferReader: BufferReader): GameEvent {
 		const eventId = bufferReader.readInt32LE();
 		let gameEvent;
 
-		if (0 === eventId) {
+		if (eventId === 0) {
 			gameEvent = new GameEventDescription(bufferReader);
 			this.knownEvents[gameEvent.eventId] = gameEvent;
 
 			if (this.enrichments[gameEvent.eventName]) {
-				gameEvent.enrichments = this.enrichments[gameEvent.eventName];
+				(gameEvent.enrichments as any) = this.enrichments[gameEvent.eventName];
 			}
 		} else {
-			gameEvent = this.knownEvents[eventId]
-		};
+			gameEvent = this.knownEvents[eventId];
+		}
 
-		if (undefined === gameEvent) throw "GameEventUnserializer.prototype.unserialize";
+		if (undefined === gameEvent) throw new Error('GameEventUnserializer.prototype.unserialize');
 
 		return gameEvent.unserialize(bufferReader);
 	}
@@ -246,283 +282,283 @@ const entitynumEnrichment = new EntitynumEnrichment();
 
 interface encrichmentTypes {
 	[key: string]: {
-		[key: string]: UseridEnrichment | EntitynumEnrichment
-	}
+		[key: string]: UseridEnrichment | EntitynumEnrichment;
+	};
 }
 
 // ( see https://wiki.alliedmods.net/Counter-Strike:_Global_Offensive_Events )
 export const allEnrichments: encrichmentTypes = {
-	'player_death': {
-		'userid': useridEnrichment,
-		'attacker': useridEnrichment,
-		'assister': useridEnrichment,
+	player_death: {
+		userid: useridEnrichment,
+		attacker: useridEnrichment,
+		assister: useridEnrichment,
 	},
-	'other_death': {
-		'attacker': useridEnrichment,
+	other_death: {
+		attacker: useridEnrichment,
 	},
-	'player_hurt': {
-		'userid': useridEnrichment,
-		'attacker': useridEnrichment,
+	player_hurt: {
+		userid: useridEnrichment,
+		attacker: useridEnrichment,
 	},
-	'item_purchase': {
-		'userid': useridEnrichment,
+	item_purchase: {
+		userid: useridEnrichment,
 	},
-	'bomb_beginplant': {
-		'userid': useridEnrichment,
+	bomb_beginplant: {
+		userid: useridEnrichment,
 	},
-	'bomb_abortplant': {
-		'userid': useridEnrichment,
+	bomb_abortplant: {
+		userid: useridEnrichment,
 	},
-	'bomb_planted': {
-		'userid': useridEnrichment,
+	bomb_planted: {
+		userid: useridEnrichment,
 	},
-	'bomb_defused': {
-		'userid': useridEnrichment,
+	bomb_defused: {
+		userid: useridEnrichment,
 	},
-	'bomb_exploded': {
-		'userid': useridEnrichment,
+	bomb_exploded: {
+		userid: useridEnrichment,
 	},
-	'bomb_pickup': {
-		'userid': useridEnrichment,
+	bomb_pickup: {
+		userid: useridEnrichment,
 	},
-	'bomb_dropped': {
-		'userid': useridEnrichment,
-		'entindex': entitynumEnrichment,
+	bomb_dropped: {
+		userid: useridEnrichment,
+		entindex: entitynumEnrichment,
 	},
-	'defuser_dropped': {
-		'entityid': entitynumEnrichment,
+	defuser_dropped: {
+		entityid: entitynumEnrichment,
 	},
-	'defuser_pickup': {
-		'entityid': entitynumEnrichment,
-		'userid': useridEnrichment,
+	defuser_pickup: {
+		entityid: entitynumEnrichment,
+		userid: useridEnrichment,
 	},
-	'bomb_begindefuse': {
-		'userid': useridEnrichment,
+	bomb_begindefuse: {
+		userid: useridEnrichment,
 	},
-	'bomb_abortdefuse': {
-		'userid': useridEnrichment,
+	bomb_abortdefuse: {
+		userid: useridEnrichment,
 	},
-	'hostage_follows': {
-		'userid': useridEnrichment,
-		'hostage': entitynumEnrichment,
+	hostage_follows: {
+		userid: useridEnrichment,
+		hostage: entitynumEnrichment,
 	},
-	'hostage_hurt': {
-		'userid': useridEnrichment,
-		'hostage': entitynumEnrichment,
+	hostage_hurt: {
+		userid: useridEnrichment,
+		hostage: entitynumEnrichment,
 	},
-	'hostage_killed': {
-		'userid': useridEnrichment,
-		'hostage': entitynumEnrichment,
+	hostage_killed: {
+		userid: useridEnrichment,
+		hostage: entitynumEnrichment,
 	},
-	'hostage_rescued': {
-		'userid': useridEnrichment,
-		'hostage': entitynumEnrichment,
+	hostage_rescued: {
+		userid: useridEnrichment,
+		hostage: entitynumEnrichment,
 	},
-	'hostage_stops_following': {
-		'userid': useridEnrichment,
-		'hostage': entitynumEnrichment,
+	hostage_stops_following: {
+		userid: useridEnrichment,
+		hostage: entitynumEnrichment,
 	},
-	'hostage_call_for_help': {
-		'hostage': entitynumEnrichment,
+	hostage_call_for_help: {
+		hostage: entitynumEnrichment,
 	},
-	'vip_escaped': {
-		'userid': useridEnrichment,
+	vip_escaped: {
+		userid: useridEnrichment,
 	},
-	'player_radio': {
-		'userid': useridEnrichment,
+	player_radio: {
+		userid: useridEnrichment,
 	},
-	'bomb_beep': {
-		'entindex': entitynumEnrichment,
+	bomb_beep: {
+		entindex: entitynumEnrichment,
 	},
-	'weapon_fire': {
-		'userid': useridEnrichment,
+	weapon_fire: {
+		userid: useridEnrichment,
 	},
-	'weapon_fire_on_empty': {
-		'userid': useridEnrichment,
+	weapon_fire_on_empty: {
+		userid: useridEnrichment,
 	},
-	'grenade_thrown': {
-		'userid': useridEnrichment,
+	grenade_thrown: {
+		userid: useridEnrichment,
 	},
-	'weapon_outofammo': {
-		'userid': useridEnrichment,
+	weapon_outofammo: {
+		userid: useridEnrichment,
 	},
-	'weapon_reload': {
-		'userid': useridEnrichment,
+	weapon_reload: {
+		userid: useridEnrichment,
 	},
-	'weapon_zoom': {
-		'userid': useridEnrichment,
+	weapon_zoom: {
+		userid: useridEnrichment,
 	},
-	'silencer_detach': {
-		'userid': useridEnrichment,
+	silencer_detach: {
+		userid: useridEnrichment,
 	},
-	'inspect_weapon': {
-		'userid': useridEnrichment,
+	inspect_weapon: {
+		userid: useridEnrichment,
 	},
-	'weapon_zoom_rifle': {
-		'userid': useridEnrichment,
+	weapon_zoom_rifle: {
+		userid: useridEnrichment,
 	},
-	'player_spawned': {
-		'userid': useridEnrichment,
+	player_spawned: {
+		userid: useridEnrichment,
 	},
-	'item_pickup': {
-		'userid': useridEnrichment,
+	item_pickup: {
+		userid: useridEnrichment,
 	},
-	'item_pickup_failed': {
-		'userid': useridEnrichment,
+	item_pickup_failed: {
+		userid: useridEnrichment,
 	},
-	'item_remove': {
-		'userid': useridEnrichment,
+	item_remove: {
+		userid: useridEnrichment,
 	},
-	'ammo_pickup': {
-		'userid': useridEnrichment,
-		'index': entitynumEnrichment,
+	ammo_pickup: {
+		userid: useridEnrichment,
+		index: entitynumEnrichment,
 	},
-	'item_equip': {
-		'userid': useridEnrichment,
+	item_equip: {
+		userid: useridEnrichment,
 	},
-	'enter_buyzone': {
-		'userid': useridEnrichment,
+	enter_buyzone: {
+		userid: useridEnrichment,
 	},
-	'exit_buyzone': {
-		'userid': useridEnrichment,
+	exit_buyzone: {
+		userid: useridEnrichment,
 	},
-	'enter_bombzone': {
-		'userid': useridEnrichment,
+	enter_bombzone: {
+		userid: useridEnrichment,
 	},
-	'exit_bombzone': {
-		'userid': useridEnrichment,
+	exit_bombzone: {
+		userid: useridEnrichment,
 	},
-	'enter_rescue_zone': {
-		'userid': useridEnrichment,
+	enter_rescue_zone: {
+		userid: useridEnrichment,
 	},
-	'exit_rescue_zone': {
-		'userid': useridEnrichment,
+	exit_rescue_zone: {
+		userid: useridEnrichment,
 	},
-	'silencer_off': {
-		'userid': useridEnrichment,
+	silencer_off: {
+		userid: useridEnrichment,
 	},
-	'silencer_on': {
-		'userid': useridEnrichment,
+	silencer_on: {
+		userid: useridEnrichment,
 	},
-	'buymenu_open': {
-		'userid': useridEnrichment,
+	buymenu_open: {
+		userid: useridEnrichment,
 	},
-	'buymenu_close': {
-		'userid': useridEnrichment,
+	buymenu_close: {
+		userid: useridEnrichment,
 	},
-	'round_end': {
-		'winner': useridEnrichment,
+	round_end: {
+		winner: useridEnrichment,
 	},
-	'grenade_bounce': {
-		'userid': useridEnrichment,
+	grenade_bounce: {
+		userid: useridEnrichment,
 	},
-	'hegrenade_detonate': {
-		'userid': useridEnrichment,
+	hegrenade_detonate: {
+		userid: useridEnrichment,
 	},
-	'flashbang_detonate': {
-		'userid': useridEnrichment,
+	flashbang_detonate: {
+		userid: useridEnrichment,
 	},
-	'smokegrenade_detonate': {
-		'userid': useridEnrichment,
+	smokegrenade_detonate: {
+		userid: useridEnrichment,
 	},
-	'smokegrenade_expired': {
-		'userid': useridEnrichment,
+	smokegrenade_expired: {
+		userid: useridEnrichment,
 	},
-	'molotov_detonate': {
-		'userid': useridEnrichment,
+	molotov_detonate: {
+		userid: useridEnrichment,
 	},
-	'decoy_detonate': {
-		'userid': useridEnrichment,
+	decoy_detonate: {
+		userid: useridEnrichment,
 	},
-	'decoy_started': {
-		'userid': useridEnrichment,
+	decoy_started: {
+		userid: useridEnrichment,
 	},
-	'tagrenade_detonate': {
-		'userid': useridEnrichment,
+	tagrenade_detonate: {
+		userid: useridEnrichment,
 	},
-	'decoy_firing': {
-		'userid': useridEnrichment,
+	decoy_firing: {
+		userid: useridEnrichment,
 	},
-	'bullet_impact': {
-		'userid': useridEnrichment,
+	bullet_impact: {
+		userid: useridEnrichment,
 	},
-	'player_footstep': {
-		'userid': useridEnrichment,
+	player_footstep: {
+		userid: useridEnrichment,
 	},
-	'player_jump': {
-		'userid': useridEnrichment,
+	player_jump: {
+		userid: useridEnrichment,
 	},
-	'player_blind': {
-		'userid': useridEnrichment,
-		'entityid': entitynumEnrichment,
+	player_blind: {
+		userid: useridEnrichment,
+		entityid: entitynumEnrichment,
 	},
-	'player_falldamage': {
-		'userid': useridEnrichment,
+	player_falldamage: {
+		userid: useridEnrichment,
 	},
-	'door_moving': {
-		'entityid': entitynumEnrichment,
-		'userid': useridEnrichment,
+	door_moving: {
+		entityid: entitynumEnrichment,
+		userid: useridEnrichment,
 	},
-	'spec_target_updated': {
-		'userid': useridEnrichment,
+	spec_target_updated: {
+		userid: useridEnrichment,
 	},
-	'player_avenged_teammate': {
-		'avenger_id': useridEnrichment,
-		'avenged_player_id': useridEnrichment,
+	player_avenged_teammate: {
+		avenger_id: useridEnrichment,
+		avenged_player_id: useridEnrichment,
 	},
-	'round_mvp': {
-		'userid': useridEnrichment,
+	round_mvp: {
+		userid: useridEnrichment,
 	},
-	'player_decal': {
-		'userid': useridEnrichment,
+	player_decal: {
+		userid: useridEnrichment,
 	},
 
 	// ... left out the gg / gungame stuff, feel free to add it ...
 
-	'player_reset_vote': {
-		'userid': useridEnrichment,
+	player_reset_vote: {
+		userid: useridEnrichment,
 	},
-	'start_vote': {
-		'userid': useridEnrichment,
+	start_vote: {
+		userid: useridEnrichment,
 	},
-	'player_given_c4': {
-		'userid': useridEnrichment,
+	player_given_c4: {
+		userid: useridEnrichment,
 	},
-	'player_become_ghost': {
-		'userid': useridEnrichment,
+	player_become_ghost: {
+		userid: useridEnrichment,
 	},
 
 	// ... left out the tr stuff, feel free to add it ...
 
-	'jointeam_failed': {
-		'userid': useridEnrichment,
+	jointeam_failed: {
+		userid: useridEnrichment,
 	},
-	'teamchange_pending': {
-		'userid': useridEnrichment,
+	teamchange_pending: {
+		userid: useridEnrichment,
 	},
-	'ammo_refill': {
-		'userid': useridEnrichment,
+	ammo_refill: {
+		userid: useridEnrichment,
 	},
 
 	// ... left out the dangerzone stuff, feel free to add it ...
 
 	// others:
 
-	'weaponhud_selection': {
-		'userid': useridEnrichment,
+	weaponhud_selection: {
+		userid: useridEnrichment,
 	},
 };
 
 export const basicEnrichments: encrichmentTypes = {
-	'player_death': {
-		'userid': useridEnrichment,
-		'attacker': useridEnrichment,
-		'assister': useridEnrichment,
+	player_death: {
+		userid: useridEnrichment,
+		attacker: useridEnrichment,
+		assister: useridEnrichment,
 	},
-	'other_death': {
-		'attacker': useridEnrichment,
+	other_death: {
+		attacker: useridEnrichment,
 	},
-	'weapon_fire': {
-		'userid': useridEnrichment,
+	weapon_fire: {
+		userid: useridEnrichment,
 	},
-}
+};

@@ -1,6 +1,4 @@
-// Custom
-
-// Premade
+/* eslint-disable camelcase */
 export interface CSGO {
 	provider: Provider;
 	map: Map;
@@ -82,7 +80,7 @@ export interface CSGOOutputGrenade {
 	lifetime: string;
 	type: string;
 	effecttime?: string;
-	flames?:  Record<string, string>;
+	flames?: Record<string, string>;
 }
 
 export interface CSGOGrenadesAll {

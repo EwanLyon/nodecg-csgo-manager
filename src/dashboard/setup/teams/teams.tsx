@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import React, { useEffect } from 'react';
 import { render } from 'react-dom';
 import { useReplicant } from 'use-nodecg';
@@ -14,7 +13,7 @@ import { Team } from './team';
 import { Map, CSGOAllplayer } from '../../../types/csgo-gsi';
 import { TeamData, PlayerDataAll } from '../../../types/extra-data';
 import { TeamsPreset } from '../../../types/team-preset';
-import * as ExampleData from '../../../extension/example-data';
+import ExampleData from '../../../extension/example-data';
 import { Match } from '../../../types/matches';
 
 const Divider = styled.div`
@@ -29,7 +28,10 @@ export const Teams: React.FunctionComponent = () => {
 	const [teamTwoRep] = useReplicant<TeamData>('teamTwo', ExampleData.teamData);
 	const [allPlayersRep] = useReplicant<CSGOAllplayer[]>('allPlayers', ExampleData.player);
 	const [playerDataRep] = useReplicant<PlayerDataAll>('playerData', ExampleData.extraData);
-	const [teamPresetsRep] = useReplicant<TeamsPreset>('teamPlayerPreset', ExampleData.teamPlayerPreset);
+	const [teamPresetsRep] = useReplicant<TeamsPreset>(
+		'teamPlayerPreset',
+		ExampleData.teamPlayerPreset,
+	);
 	const [currentMatchRep] = useReplicant<Match | undefined>('currentMatch', undefined);
 	const [swapTeamsRep, setSwapTeamsRep] = useReplicant('swapTeams', false);
 
@@ -57,20 +59,35 @@ export const Teams: React.FunctionComponent = () => {
 
 	return (
 		<ThemeProvider theme={theme}>
-			<Grid container direction="column" justify="center" alignItems="center" style={{ fontSize: 20 }}>
+			<Grid
+				container
+				direction="column"
+				justify="center"
+				alignItems="center"
+				style={{ fontSize: 20 }}>
 				<Grid item>
 					<span style={{ fontWeight: 'lighter' }}>Round </span>
 					<span>{matchRep.round}</span>
 				</Grid>
-				<Grid item container direction={swapTeamsRep ? 'row-reverse' : 'row'} justify="center">
+				<Grid
+					item
+					container
+					direction={swapTeamsRep ? 'row-reverse' : 'row'}
+					justify="center">
 					<span>{teamOneRep.score}</span>
 					<span style={{ margin: '0 15px' }}>:</span>
 					<span>{teamTwoRep.score}</span>
 				</Grid>
-				<Button variant="contained" style={{ marginTop: 10 }} onClick={() => setSwapTeamsRep(!swapTeamsRep)}>
+				<Button
+					variant="contained"
+					style={{ marginTop: 10 }}
+					onClick={() => setSwapTeamsRep(!swapTeamsRep)}>
 					Swap visual sides
 				</Button>
-				<Button variant="contained" style={{ marginTop: 10 }} onClick={() => nodecg.sendMessage('switchTeamAandB')}>
+				<Button
+					variant="contained"
+					style={{ marginTop: 10 }}
+					onClick={() => nodecg.sendMessage('switchTeamAandB')}>
 					Swap Team Name
 				</Button>
 				<Button
@@ -80,7 +97,12 @@ export const Teams: React.FunctionComponent = () => {
 					Download steam profiles
 				</Button>
 			</Grid>
-			<Grid container spacing={0} direction={swapTeamsRep ? 'row-reverse' : 'row'} justify="space-evenly" style={{ padding: '15px 0' }}>
+			<Grid
+				container
+				spacing={0}
+				direction={swapTeamsRep ? 'row-reverse' : 'row'}
+				justify="space-evenly"
+				style={{ padding: '15px 0' }}>
 				<Team team={currentMatchRep?.teamA} players={teamOnePlayers} />
 				<Divider />
 				<Team team={currentMatchRep?.teamB} players={teamTwoPlayers} />

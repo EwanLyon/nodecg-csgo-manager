@@ -40,7 +40,13 @@ export const Team: React.FC<Props> = (props: Props) => {
 	const [playerDataRep] = useReplicant<PlayerDataAll>('playerData', {});
 
 	const teamPlayers = props.players.map((player) => {
-		return <PlayerBox extraPlayer={playerDataRep[player.steamId]} player={player} key={player.steamId} />;
+		return (
+			<PlayerBox
+				extraPlayer={playerDataRep[player.steamId]}
+				player={player}
+				key={player.steamId}
+			/>
+		);
 	});
 
 	return (

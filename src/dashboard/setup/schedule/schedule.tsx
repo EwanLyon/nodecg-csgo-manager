@@ -8,7 +8,15 @@ import { TeamsPreset } from '../../../types/team-preset';
 import { teamPlayerPreset } from '../../../extension/example-data';
 import { Match, Matches, NewMatch } from '../../../types/matches';
 
-import { Grid, Select, MenuItem, FormControl, InputLabel, TextField, Chip } from '@material-ui/core';
+import {
+	Grid,
+	Select,
+	MenuItem,
+	FormControl,
+	InputLabel,
+	TextField,
+	Chip,
+} from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import {
 	DragDropContext,
@@ -36,7 +44,7 @@ const SpacedChips = styled(Chip)`
 	margin: 0 2px;
 `;
 
-const reorder = (list: any[], startIndex: number, endIndex: number) => {
+const reorder = (list: unknown[], startIndex: number, endIndex: number) => {
 	const result = Array.from(list);
 	const [removed] = result.splice(startIndex, 1);
 	result.splice(endIndex, 0, removed);
@@ -44,7 +52,9 @@ const reorder = (list: any[], startIndex: number, endIndex: number) => {
 	return result;
 };
 
-const getItemStyle = (draggableStyle: DraggingStyle | NotDraggingStyle | undefined): React.CSSProperties => ({
+const getItemStyle = (
+	draggableStyle: DraggingStyle | NotDraggingStyle | undefined,
+): React.CSSProperties => ({
 	// Some basic styles to make the items look a bit nicer
 	userSelect: 'none',
 	margin: '0 0 6px 0',
@@ -83,7 +93,7 @@ const DashSchedule: React.FC = () => {
 	teamsList.unshift(
 		<MenuItem key={'empty'} value={''}>
 			Empty
-		</MenuItem>
+		</MenuItem>,
 	);
 
 	function AddGame() {
@@ -104,7 +114,12 @@ const DashSchedule: React.FC = () => {
 	return (
 		<ThemeProvider theme={theme}>
 			<Grid container>
-				<Grid item container alignItems="center" justify="space-around" style={{ margin: '0 15px' }}>
+				<Grid
+					item
+					container
+					alignItems="center"
+					justify="space-around"
+					style={{ margin: '0 15px' }}>
 					<Grid item xs={2}>
 						<FormControl variant="filled" fullWidth>
 							<InputLabel id="teamLabelA">Team A</InputLabel>
@@ -153,7 +168,10 @@ const DashSchedule: React.FC = () => {
 						onClick={() => setMatchType('bo5')}
 						variant={matchType === 'bo5' ? 'default' : 'outlined'}
 					/>
-					<GreenButtonExtra variant="contained" onClick={AddGame} disabled={!teamA || !teamB || !time}>
+					<GreenButtonExtra
+						variant="contained"
+						onClick={AddGame}
+						disabled={!teamA || !teamB || !time}>
 						+
 					</GreenButtonExtra>
 				</Grid>
@@ -161,15 +179,23 @@ const DashSchedule: React.FC = () => {
 				<DragDropContext onDragEnd={onDragEnd}>
 					<Droppable droppableId="schedule">
 						{(provided) => (
-							<div ref={provided.innerRef} {...provided.droppableProps} style={{ width: '100%' }}>
+							<div
+								ref={provided.innerRef}
+								{...provided.droppableProps}
+								style={{ width: '100%' }}>
 								{matchesRep.map((match, index) => {
 									return (
-										<Draggable key={match.id} draggableId={match.id} index={index}>
+										<Draggable
+											key={match.id}
+											draggableId={match.id}
+											index={index}>
 											{(provided) => (
 												<div
 													ref={provided.innerRef}
 													{...provided.draggableProps}
-													style={getItemStyle(provided.draggableProps.style)}>
+													style={getItemStyle(
+														provided.draggableProps.style,
+													)}>
 													<SingleMatch
 														handleProps={provided.dragHandleProps}
 														match={match}

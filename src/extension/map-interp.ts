@@ -1,5 +1,4 @@
 import * as nodecgApiContext from './util/nodecg-api-context';
-import _ from 'lodash';
 const nodecg = nodecgApiContext.get();
 
 import { MapPlayerData } from '../types/map-player';
@@ -34,9 +33,11 @@ setInterval(() => {
 			playersSet = playersSet.slice(0, INTERPOLATION_STEPS);
 		}
 
-		// I don't like assigning values on a single line but I shall make an exception
-		let avgX, avgY, avgZ, avgAngleX, avgAngleY: number;
-		avgX = avgY = avgZ = avgAngleX = avgAngleY = 0;
+		let avgX = 0;
+		let avgY = 0;
+		let avgZ = 0;
+		let avgAngleX = 0;
+		let avgAngleY = 0;
 		try {
 			// This is way less code than averaging multiple arrays
 			avgX = playersSet.reduce((a, b) => a + b.position[0], 0) / playersSet.length;
@@ -55,7 +56,7 @@ setInterval(() => {
 			...clonedMapPlayers[i],
 			position: [avgX, avgY, avgZ],
 			rotation: [avgAngleX, avgAngleY, clonedMapPlayers[i].rotation[2]],
-		}
+		};
 	});
 
 	interpMapPlayersRep.value = newInterp;

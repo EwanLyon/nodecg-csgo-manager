@@ -1,6 +1,6 @@
 import * as nodecgApiContext from './util/nodecg-api-context';
 
-// import { testData } from './testing-data/testing';
+// Import { testData } from './testing-data/testing';
 import { CSGO } from '../types/csgo-gsi';
 
 // Testing data
@@ -24,16 +24,16 @@ function calculateUpdateRate(data: CSGO[]): number {
 	let numberOfTimestamps = 0;
 	const allTimes: number[] = [];
 
-	data.forEach(packet => {
-		if (currentTimestamp !== packet.provider.timestamp) {
-			// console.log(`${currentTimestamp}: ${numberOfTimestamps}`);
+	data.forEach((packet) => {
+		if (currentTimestamp === packet.provider.timestamp) {
+			numberOfTimestamps++;
+		} else {
+			// Console.log(`${currentTimestamp}: ${numberOfTimestamps}`);
 			allTimes.push(numberOfTimestamps);
 			currentTimestamp = packet.provider.timestamp;
 			numberOfTimestamps = 1;
-		} else {
-			numberOfTimestamps++;
 		}
-	})
+	});
 
 	return allTimes.reduce((a, b) => a + b, 0) / allTimes.length;
 }
@@ -44,11 +44,11 @@ function runTest(type: string) {
 
 	switch (type) {
 		case 'standard':
-			testingData = TestStandard as unknown as CSGO[];
+			testingData = (TestStandard as unknown) as CSGO[];
 			break;
-	
+
 		default:
-			testingData = TestStandard as unknown as CSGO[];
+			testingData = (TestStandard as unknown) as CSGO[];
 			break;
 	}
 
@@ -65,4 +65,3 @@ function runTest(type: string) {
 		}
 	}, 1000 / dataRate);
 }
-

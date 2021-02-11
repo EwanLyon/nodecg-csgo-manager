@@ -1,7 +1,7 @@
-/* eslint-disable no-undef */
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-// @ts-ignore
+/* eslint-disable-next-line */
+// @ts-ignore 
 import Twemoji from 'react-twemoji';
 import { render } from 'react-dom';
 import { useListenFor, useReplicant } from 'use-nodecg';
@@ -139,7 +139,10 @@ export const TeamPresetCreator: React.FC = () => {
 	const profilePicsMap = profilePicturesRep.map((pfp) => {
 		return (
 			<MenuItem key={pfp.base} value={pfp.url}>
-				<img style={{ height: 50, width: 'auto', objectFit: 'scale-down', marginRight: 10 }} src={pfp.url} />
+				<img
+					style={{ height: 50, width: 'auto', objectFit: 'scale-down', marginRight: 10 }}
+					src={pfp.url}
+				/>
 				{pfp.name}
 			</MenuItem>
 		);
@@ -148,7 +151,10 @@ export const TeamPresetCreator: React.FC = () => {
 	// Flags
 	const flagListMap = flagList.map((flag, index) => {
 		return (
-			<MenuItem key={index} value={flag.code} style={{ display: 'flex', alignItems: 'center' }}>
+			<MenuItem
+				key={index}
+				value={flag.code}
+				style={{ display: 'flex', alignItems: 'center' }}>
 				<TwemojiMenuItem>{flag.code}</TwemojiMenuItem> {flag.name}
 			</MenuItem>
 		);
@@ -174,7 +180,7 @@ export const TeamPresetCreator: React.FC = () => {
 			setLocalTeamName('');
 			setLocalLogo('');
 		}
-	}, [localTeamPresetAlias, teamPresetsRep.teams]);
+	}, [localTeamPresetAlias, teamPresetsRep.teams, localTeamName]);
 
 	// Fill in player blanks
 	useEffect(() => {
@@ -195,7 +201,11 @@ export const TeamPresetCreator: React.FC = () => {
 	// Updater functions
 	function AddTeam(): void {
 		console.log('Adding team: ' + localTeamName);
-		nodecg.sendMessage('newTeam', { name: localTeamName, alias: localTeamAlias, logo: localLogo });
+		nodecg.sendMessage('newTeam', {
+			name: localTeamName,
+			alias: localTeamAlias,
+			logo: localLogo,
+		});
 
 		setSnackbarMsg(`Added ${localName}`);
 		setLocalTeamAlias('');
@@ -226,7 +236,7 @@ export const TeamPresetCreator: React.FC = () => {
 	}
 
 	function GetHLTVTeam() {
-		nodecg.sendMessage('getHLTVTeam', parseInt(localHLTV));
+		nodecg.sendMessage('getHLTVTeam', parseInt(localHLTV, 10));
 		setTeamLoading(true);
 	}
 
@@ -261,7 +271,7 @@ export const TeamPresetCreator: React.FC = () => {
 					<div style={{ position: 'relative', height: '100%' }}>
 						<Button
 							variant="contained"
-							disabled={isNaN(parseInt(localHLTV)) || teamLoading}
+							disabled={isNaN(parseInt(localHLTV, 10)) || teamLoading}
 							onClick={GetHLTVTeam}>
 							Load
 						</Button>
@@ -319,7 +329,11 @@ export const TeamPresetCreator: React.FC = () => {
 					onChange={(e): void => setLocalTeamAlias(e.target.value as string)}
 					fullWidth
 				/>
-				<Button fullWidth onClick={AddTeam} variant="contained" disabled={!localTeamName || !localTeamAlias}>
+				<Button
+					fullWidth
+					onClick={AddTeam}
+					variant="contained"
+					disabled={!localTeamName || !localTeamAlias}>
 					Add Team
 				</Button>
 			</ControlsContainer>
