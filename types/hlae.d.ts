@@ -13,9 +13,9 @@ export interface PlayerDeath {
 }
 
 interface PlayerDeathKeys {
-	userid: Assister;
-	attacker: Assister;
-	assister: Assister;
+	userid: Userid;
+	attacker: Userid;
+	assister: Userid;
 	assistedflash: boolean;
 	weapon: string;
 	weaponItemid: string;
@@ -33,9 +33,22 @@ interface PlayerDeathKeys {
 	distance: number;
 }
 
-interface Assister {
-	value: number;
-	xuid: string;
-	eyeOrigin: number[];
-	eyeAngles: number[];
+export interface WeaponFire {
+    name:       string;
+    clientTime: number;
+    keys:       WeaponFireKeys;
+    round:      number;
+}
+
+export interface WeaponFireKeys {
+    userid:   Userid;
+    weapon:   string;
+    silenced: boolean;
+}
+
+export interface Userid {
+    value:     number;
+    xuid:      string;
+    eyeOrigin: number[];
+    eyeAngles: number[];
 }

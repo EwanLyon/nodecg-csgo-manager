@@ -184,5 +184,6 @@ export interface Provider {
 }
 
 export interface Round {
+	win_team?: string;
 	phase: string;
 }

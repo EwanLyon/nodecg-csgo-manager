@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { HLTV } from 'hltv';
 const nodecg = nodecgApiContext.get();
 
-import { TeamsPreset, Team, Player } from '../../types/team-preset';
+import { TeamsPreset, TeamMeta, Player } from '../../types/team-preset';
 import { PlayerDataAll } from '../../types/extra-data';
 
 interface Asset {
@@ -70,7 +70,7 @@ function updateTeamPreset(newVal: Asset[]): void {
 			try {
 				const teamsJSON = JSON.parse(jsonString);
 				if (teamsJSON.teams) {
-					teamsJSON.teams.forEach((team: Team) => {
+					teamsJSON.teams.forEach((team: TeamMeta) => {
 						newTeamPresets.teams[team.name] = team;
 					});
 				}
@@ -110,7 +110,7 @@ nodecg.listenFor('pushNewPlayerData', (player: TeamsPreset['players'][0]) => {
 
 nodecg.listenFor('newTeam', (data: { name: string; alias: string; logo?: string }) => {
 	nodecg.log.info('Adding ' + data.alias);
-	const teamObj: Team = {
+	const teamObj: TeamMeta = {
 		alias: data.alias,
 		name: data.name,
 		logo: data.logo,

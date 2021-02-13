@@ -1,4 +1,4 @@
-interface Team {
+interface TeamMeta {
 	alias: string;
 	name: string;
 	logo?: string;
@@ -13,6 +13,6 @@ interface Player {
 }
 
 export interface TeamsPreset {
-	teams: Record<string, Team>;
+	teams: Record<string, TeamMeta>;
 	players: Record<string, Player>;
 }

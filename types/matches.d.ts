@@ -1,4 +1,4 @@
-import { Team } from './team-preset';
+import { TeamMeta } from './team-preset';
 
 export type Matches = Match[];
 
@@ -11,8 +11,8 @@ export interface NewMatch {
 }
 
 export interface Match {
-	teamA: Team;
-	teamB: Team;
+	teamA: TeamMeta;
+	teamB: TeamMeta;
 	maps: MapInfo[];
 	status: string;
 	time: string;
