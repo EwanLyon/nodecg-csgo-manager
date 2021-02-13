@@ -2,11 +2,11 @@ import * as nodecgApiContext from './util/nodecg-api-context';
 import * as SteamAPI from './util/steam-api';
 import _ from 'lodash';
 
-import { CSGOAllplayer, CSGOPhaseCountdowns, Map } from '../types/csgo-gsi';
-import { PlayerDataAll, TeamData } from '../types/extra-data';
-import { MapInfo, Matches } from '../types/matches';
+import { CSGOAllplayer, CSGOPhaseCountdowns, Map } from '../../types/csgo-gsi';
+import { PlayerDataAll, TeamData } from '../../types/extra-data';
+import { MapInfo, Matches } from '../../types/matches';
 import { extraData as exampleExtraData } from './example-data';
-import { TeamsPreset } from '../types/team-preset';
+import { TeamsPreset } from '../../types/team-preset';
 
 const nodecg = nodecgApiContext.get();
 

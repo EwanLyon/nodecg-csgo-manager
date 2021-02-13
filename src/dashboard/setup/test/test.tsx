@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import styled from 'styled-components';
 
-import { PlayerDeath } from '../../../types/hlae';
+import { PlayerDeath } from '../../../../types/hlae';
 
 import { theme } from '../../theme';
 import { Button } from '@material-ui/core';

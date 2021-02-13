@@ -1,7 +1,7 @@
 import * as nodecgApiContext from './util/nodecg-api-context';
 
 // Import { testData } from './testing-data/testing';
-import { CSGO } from '../types/csgo-gsi';
+import { CSGO } from '../../types/csgo-gsi';
 
 // Testing data
 import TestStandard from './testing-data/standard.json';

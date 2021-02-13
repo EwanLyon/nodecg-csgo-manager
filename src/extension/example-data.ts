@@ -8,11 +8,11 @@ import {
 	CSGOOutputGrenade,
 	CSGOGrenadesAll,
 	CSGO,
-} from '../types/csgo-gsi';
-import { GameSettings } from '../types/game-settings';
-import { BundleStatus } from '../types/bundle-status';
-import { PlayerDataAll, TeamData as ITeamData } from '../types/extra-data';
-import { TeamsPreset } from '../types/team-preset';
+} from '../../types/csgo-gsi';
+import { GameSettings } from '../../types/game-settings';
+import { BundleStatus } from '../../types/bundle-status';
+import { PlayerDataAll, TeamData as ITeamData } from '../../types/extra-data';
+import { TeamsPreset } from '../../types/team-preset';
 
 export const match: Map = {
 	mode: 'competitive',

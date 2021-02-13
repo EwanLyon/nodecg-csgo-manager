@@ -1,7 +1,7 @@
 import * as nodecgApiContext from './util/nodecg-api-context';
 const nodecg = nodecgApiContext.get();
 
-import { CSGO } from '../types/csgo-gsi';
+import { CSGO } from '../../types/csgo-gsi';
 
 // Sends messages based on game information
 const gameRep = nodecg.Replicant<CSGO>('gameRep');

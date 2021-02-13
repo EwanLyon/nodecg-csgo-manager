@@ -21,10 +21,10 @@ import { ThemeProvider } from '@material-ui/styles';
 
 import { flagList } from '../../atoms/flag-list';
 import { theme } from '../../theme';
-import { TeamsPreset } from '../../../types/team-preset';
+import { TeamsPreset } from '../../../../types/team-preset';
 import { teamPlayerPreset } from '../../../extension/example-data';
 import { FullTeam } from 'hltv/lib/models/FullTeam';
-import { Asset } from '../../../types/nodecg';
+import { Asset } from '../../../../types/nodecg';
 
 const ControlsContainer = styled.div`
 	& > * {

@@ -2,10 +2,10 @@ import * as nodecgApiContext from './util/nodecg-api-context';
 import { v4 as uuid } from 'uuid';
 import _ from 'lodash';
 
-import { MapInfo, Match, Matches, NewMatch } from '../types/matches';
-import { TeamsPreset } from '../types/team-preset';
-import { CSGO } from '../types/csgo-gsi';
-import { PlayerDeath } from '../types/hlae';
+import { MapInfo, Match, Matches, NewMatch } from '../../types/matches';
+import { TeamsPreset } from '../../types/team-preset';
+import { CSGO } from '../../types/csgo-gsi';
+import { PlayerDeath } from '../../types/hlae';
 
 const nodecg = nodecgApiContext.get();
 const currentMatchRep = nodecg.Replicant<Match | undefined>('currentMatch');

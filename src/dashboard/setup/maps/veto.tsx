@@ -14,7 +14,7 @@ import {
 	NotDraggingStyle,
 	DropResult,
 } from 'react-beautiful-dnd';
-import { MapInfo, Match } from '../../../types/matches';
+import { MapInfo, Match } from '../../../../types/matches';
 import { DashVETOSingle } from './vetosingle';
 import { GreenButton } from '../../atoms/styled-ui';
 

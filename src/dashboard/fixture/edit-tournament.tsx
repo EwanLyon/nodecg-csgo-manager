@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
-import { Asset } from '../../types/nodecg';
+import { Asset } from '../../../types/nodecg';
 
 import {
 	Button,
@@ -16,7 +16,7 @@ import {
 	Select,
 	TextField,
 } from '@material-ui/core';
-import { Tournament, TournamentEdit } from '../../types/tournament';
+import { Tournament, TournamentEdit } from '../../../types/tournament';
 
 interface Props {
 	tournament: Tournament | undefined;

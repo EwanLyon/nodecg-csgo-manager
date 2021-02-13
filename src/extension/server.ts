@@ -3,7 +3,7 @@ import * as nodecgApiContext from './util/nodecg-api-context';
 import http from 'http';
 import _ from 'lodash';
 
-import { BundleStatus } from '../types/bundle-status';
+import { BundleStatus } from '../../types/bundle-status';
 import {
 	Map,
 	CSGOAllplayer,
@@ -12,9 +12,9 @@ import {
 	CSGOPhaseCountdowns,
 	CSGOGrenadesAll,
 	CSGO,
-} from '../types/csgo-gsi';
-import { TeamData } from '../types/extra-data';
-import { MapPlayerData } from '../types/map-player';
+} from '../../types/csgo-gsi';
+import { TeamData } from '../../types/extra-data';
+import { MapPlayerData } from '../../types/map-player';
 
 const nodecg = nodecgApiContext.get();
 const bundleStatus = nodecg.Replicant<BundleStatus>('bundleStatus');

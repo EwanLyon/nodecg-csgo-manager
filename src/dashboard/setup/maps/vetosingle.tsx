@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { theme } from '../../theme';
 
-import { MapInfo } from '../../../types/matches';
+import { MapInfo } from '../../../../types/matches';
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd';
 
 import { Chip, Grid } from '@material-ui/core';

@@ -21,9 +21,9 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import { CSGOAllplayer } from '../../../types/csgo-gsi';
-import { PlayerData } from '../../../types/extra-data';
-import { Asset } from '../../../types/nodecg';
+import { CSGOAllplayer } from '../../../../types/csgo-gsi';
+import { PlayerData } from '../../../../types/extra-data';
+import { Asset } from '../../../../types/nodecg';
 import { useReplicant } from 'use-nodecg';
 import { flagList } from '../../atoms/flag-list';
 

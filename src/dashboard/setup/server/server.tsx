@@ -12,7 +12,7 @@ import { ThemeProvider } from '@material-ui/styles';
 
 // Interfaces
 import { bundleStatus as ExampleBundle } from '../../../extension/example-data';
-import { BundleStatus } from '../../../types/bundle-status';
+import { BundleStatus } from '../../../../types/bundle-status';
 
 const HlaeActive = styled.div`
 	width: 100%;

@@ -13,7 +13,7 @@ import { TextField } from '@material-ui/core';
 import { StyledToggleButton } from '../atoms/toggle-button';
 
 // Interfaces
-import { GameSettings as IGameSettings } from '../../types/game-settings';
+import { GameSettings as IGameSettings } from '../../../types/game-settings';
 
 const useStyles = makeStyles(() =>
 	createStyles({

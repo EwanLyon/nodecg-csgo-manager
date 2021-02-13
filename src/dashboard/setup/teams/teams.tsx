@@ -10,11 +10,11 @@ import { ThemeProvider } from '@material-ui/styles';
 import { Team } from './team';
 
 // Interfaces
-import { Map, CSGOAllplayer } from '../../../types/csgo-gsi';
-import { TeamData, PlayerDataAll } from '../../../types/extra-data';
-import { TeamsPreset } from '../../../types/team-preset';
+import { Map, CSGOAllplayer } from '../../../../types/csgo-gsi';
+import { TeamData, PlayerDataAll } from '../../../../types/extra-data';
+import { TeamsPreset } from '../../../../types/team-preset';
 import ExampleData from '../../../extension/example-data';
-import { Match } from '../../../types/matches';
+import { Match } from '../../../../types/matches';
 
 const Divider = styled.div`
 	width: 3px;

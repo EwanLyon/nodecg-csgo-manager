@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 import _ from 'lodash';
 
-import { Matches } from '../../types/matches';
-import { DoubleElimination as IDoubleElimination } from '../../types/tournament';
+import { Matches } from '../../../types/matches';
+import { DoubleElimination as IDoubleElimination } from '../../../types/tournament';
 
 import { FixtureMatch } from './fixture-match';
 

@@ -1,8 +1,8 @@
 import * as nodecgApiContext from './util/nodecg-api-context';
 const nodecg = nodecgApiContext.get();
 
-import { MapPlayerData } from '../types/map-player';
-import { CSGOPhaseCountdowns } from '../types/csgo-gsi';
+import { MapPlayerData } from '../../types/map-player';
+import { CSGOPhaseCountdowns } from '../../types/csgo-gsi';
 
 const interpMapPlayersRep = nodecg.Replicant<Record<string, MapPlayerData>>('interpMapPlayers');
 

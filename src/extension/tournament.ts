@@ -10,7 +10,7 @@ import {
 	SingleElimination,
 	DoubleElimination,
 	TournamentEdit,
-} from '../types/tournament';
+} from '../../types/tournament';
 
 const nodecg = nodecgApiContext.get();
 

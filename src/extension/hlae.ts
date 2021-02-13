@@ -2,8 +2,8 @@ import * as nodecgApiContext from './util/nodecg-api-context';
 const nodecg = nodecgApiContext.get();
 import Websocket from 'ws';
 
-import { PlayerDeath } from '../types/hlae';
-import { Map } from '../types/csgo-gsi';
+import { PlayerDeath } from '../../types/hlae';
+import { Map } from '../../types/csgo-gsi';
 
 import { BufferReader, GameEventUnserializer, basicEnrichments } from './util/hlae-serialization';
 

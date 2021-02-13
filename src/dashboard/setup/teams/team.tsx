@@ -2,12 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 import { useReplicant } from 'use-nodecg';
 
-import { CSGOAllplayer } from '../../../types/csgo-gsi';
-import { Team as ITeam } from '../../../types/team-preset';
+import { CSGOAllplayer } from '../../../../types/csgo-gsi';
+import { Team as ITeam } from '../../../../types/team-preset';
 
 import { Grid } from '@material-ui/core';
 import { PlayerBox } from './player-box';
-import { PlayerDataAll } from '../../../types/extra-data';
+import { PlayerDataAll } from '../../../../types/extra-data';
 
 const TeamContainer = styled.div`
 	width: 324px;

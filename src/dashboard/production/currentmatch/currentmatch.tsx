@@ -4,7 +4,7 @@ import { useReplicant } from 'use-nodecg';
 import styled from 'styled-components';
 import { theme } from '../../theme';
 
-import { MapInfo, Matches, Match, Score } from '../../../types/matches';
+import { MapInfo, Matches, Match, Score } from '../../../../types/matches';
 
 import { ThemeProvider } from '@material-ui/styles';
 import { Grid, Button, Chip } from '@material-ui/core';

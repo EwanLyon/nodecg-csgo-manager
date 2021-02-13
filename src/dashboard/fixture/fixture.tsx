@@ -8,7 +8,7 @@ import {
 	Tournaments,
 	SingleElimination as ISingleElimination,
 	DoubleElimination as IDoubleElimination,
-} from '../../types/tournament';
+} from '../../../types/tournament';
 
 import {
 	Button,

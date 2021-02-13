@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { Match } from '../../../types/matches';
-import { Team } from '../../../types/team-preset';
+import { Match } from '../../../../types/matches';
+import { Team } from '../../../../types/team-preset';
 
 import { GrabHandles } from '../../atoms/grabhandle';
 import { RedButton } from '../../atoms/styled-ui';

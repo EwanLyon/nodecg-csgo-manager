@@ -4,8 +4,8 @@ import _ from 'lodash';
 import { HLTV } from 'hltv';
 const nodecg = nodecgApiContext.get();
 
-import { TeamsPreset, Team, Player } from '../types/team-preset';
-import { PlayerDataAll } from '../types/extra-data';
+import { TeamsPreset, Team, Player } from '../../types/team-preset';
+import { PlayerDataAll } from '../../types/extra-data';
 
 interface Asset {
 	base: string;

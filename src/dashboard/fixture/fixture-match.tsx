@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from 'react';
 import styled from 'styled-components';
 
-import { Match } from '../../types/matches';
+import { Match } from '../../../types/matches';
 
 import { Select, MenuItem } from '@material-ui/core';
 

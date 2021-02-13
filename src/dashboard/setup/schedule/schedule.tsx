@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import { theme } from '../../theme';
 import { useReplicant } from 'use-nodecg';
 
-import { TeamsPreset } from '../../../types/team-preset';
+import { TeamsPreset } from '../../../../types/team-preset';
 import { teamPlayerPreset } from '../../../extension/example-data';
-import { Match, Matches, NewMatch } from '../../../types/matches';
+import { Match, Matches, NewMatch } from '../../../../types/matches';
 
 import {
 	Grid,
