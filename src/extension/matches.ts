@@ -77,7 +77,7 @@ nodecg.listenFor('createNewMatch', (newMatch: NewMatch) => {
 	}
 });
 
-nodecg.listenFor('updateScore', (data: Match['maps']) => {
+nodecg.listenFor('updateScore', (data: MapInfo[]) => {
 	if (!currentMatchRep.value) return;
 
 	const matchIndex = matchesRep.value.findIndex(

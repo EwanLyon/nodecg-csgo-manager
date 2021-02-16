@@ -178,7 +178,8 @@ const DashCurrentMatch: React.FC = () => {
 	}
 
 	function UpdateScore() {
-		const allMaps: Match['maps'] = [];
+		// Wayyy too much processing here
+		const allMaps: MapInfo[] = [];
 		for (let i = 0; i < pickedMaps.length; i++) {
 			const fakeScores: Score = { teamA: 0, teamB: 0 };
 			const singleMap: MapInfo = {
@@ -190,34 +191,32 @@ const DashCurrentMatch: React.FC = () => {
 
 			// Get all inputs
 			const [teamA1, teamB1, teamA2, teamB2, teamAOT, teamBOT] = [
-				parseInt((document.getElementById(`${i}A1-Score`) as HTMLInputElement).value, 10),
-				parseInt((document.getElementById(`${i}B1-Score`) as HTMLInputElement).value, 10),
-				parseInt((document.getElementById(`${i}A2-Score`) as HTMLInputElement).value, 10),
-				parseInt((document.getElementById(`${i}B2-Score`) as HTMLInputElement).value, 10),
-				parseInt((document.getElementById(`${i}AOT-Score`) as HTMLInputElement).value, 10),
-				parseInt((document.getElementById(`${i}BOT-Score`) as HTMLInputElement).value, 10),
+				parseInt((document.getElementById(`${i}A1-Score`) as HTMLInputElement).value, 10) || 0,
+				parseInt((document.getElementById(`${i}B1-Score`) as HTMLInputElement).value, 10) || 0,
+				parseInt((document.getElementById(`${i}A2-Score`) as HTMLInputElement).value, 10) || 0,
+				parseInt((document.getElementById(`${i}B2-Score`) as HTMLInputElement).value, 10) || 0,
+				parseInt((document.getElementById(`${i}AOT-Score`) as HTMLInputElement).value, 10) || 0,
+				parseInt((document.getElementById(`${i}BOT-Score`) as HTMLInputElement).value, 10) || 0,
 			];
 
-			// I think they were being anger at being undefined
-			if (teamA1 >= 0 && teamB1 >= 0) {
-				singleMap.firstHalf = {
-					teamA: teamA1,
-					teamB: teamB1,
-				};
-			}
+			singleMap.firstHalf = {
+				teamA: teamA1,
+				teamB: teamB1,
+			};
 
-			if (teamA2 >= 0 && teamB2 >= 0) {
-				singleMap.secondHalf = {
-					teamA: teamA2,
-					teamB: teamB2,
-				};
-			}
+			singleMap.secondHalf = {
+				teamA: teamA2,
+				teamB: teamB2,
+			};
 
-			if (teamAOT >= 0 && teamBOT >= 0) {
-				singleMap.ot = {
-					teamA: teamAOT,
-					teamB: teamBOT,
-				};
+			singleMap.ot = {
+				teamA: teamAOT,
+				teamB: teamBOT,
+			};
+
+			singleMap.totalScore = {
+				teamA: teamA1 + teamA2 + teamAOT,
+				teamB: teamB1 + teamB2 + teamBOT,
 			}
 
 			allMaps.push(singleMap);
