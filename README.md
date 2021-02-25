@@ -71,13 +71,14 @@ To get a local copy up and running follow these simple steps.
 1. Download from [releases](https://github.com/EwanLyon/nodecg-csgo-manager/releases).
 2. Extract to the nodecg bundles folder so that the file structure is `nodecg/bundles/nodecg-csgo-manager/...`
 
-#### Building
+#### Building for development
 
 1. Clone the repo into the NodeCG bundles folder
 
    ```sh
    cd nodecg/bundles
    git clone https://github.com/EwanLyon/nodecg-csgo-manager.git
+   cd nodecg-csgo-manager
    ```
 
 2. Install NPM packages
