@@ -113,7 +113,7 @@ nodecg.Replicant<MapPlayerData[]>('mapPlayers', {
 
 /* Team data */
 
-nodecg.Replicant<TeamsPreset>('teamPlayerPreset', { defaultValue: { teams: {}, players: {} } });
+nodecg.Replicant<TeamsPreset>('teamPlayerPreset', { defaultValue: { teams: {}, players: {} }, persistent: true });
 
 /* Tournaments */
 

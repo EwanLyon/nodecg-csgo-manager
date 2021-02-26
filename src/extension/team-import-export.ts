@@ -44,7 +44,7 @@ nodecg.listenFor('exportTeams', () => {
 	date = date.replace(/[/,:]/g, '');
 	date = date.replace(/ /g, '_');
 	fs.writeFile(
-		`./assets/csgo-layouts/teamPreset/${date}.json`,
+		`./assets/nodecg-csgo-manager/teamPreset/${date}.json`,
 		JSON.stringify(mainPreset),
 		(err) => {
 			if (err) {
