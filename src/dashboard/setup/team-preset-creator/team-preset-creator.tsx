@@ -263,7 +263,6 @@ export const TeamPresetCreator: React.FC = () => {
 				<SectionTitle>Team</SectionTitle>
 				<div style={{ display: 'flex', alignItems: 'center' }}>
 					<TextField
-						required
 						label="HLTV ID"
 						value={localHLTV}
 						onChange={(e): void => setLocalHLTV(e.target.value as string)}
