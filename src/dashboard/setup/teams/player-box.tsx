@@ -26,14 +26,15 @@ import { PlayerData } from '../../../../types/extra-data';
 import { Asset } from '../../../../types/nodecg';
 import { useReplicant } from 'use-nodecg';
 import { flagList } from '../../atoms/flag-list';
+import { FitText, Text } from '../../atoms/fit-text';
 
 const boxHeight = 90;
 
 const Container = styled(Grid)`
 	width: 100%;
 	margin: 5px 0;
-	box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px, rgba(0, 0, 0, 0.14) 0px 3px 4px 0px,
-		rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
+	box-shadow: rgba(0, 0, 0, 0.2) 0px 3px 3px -2px,
+		rgba(0, 0, 0, 0.14) 0px 3px 4px 0px, rgba(0, 0, 0, 0.12) 0px 1px 8px 0px;
 	border-radius: 4px;
 	overflow: hidden;
 `;
@@ -46,10 +47,19 @@ const DataBox = styled(Grid)`
 `;
 
 const ObservationSlot = styled.span`
-	font-weight: light;
 	font-style: italic;
 	color: #979da8;
 	margin-right: 5px;
+`;
+
+const Username = styled(FitText)`
+	justify-content: flex-start !important;
+	max-width: 200px;
+	display: inline;
+
+	& > ${Text} {
+		transform-origin: left;
+	}
 `;
 
 const SteamID = styled.span`
@@ -97,7 +107,10 @@ interface Props {
 }
 
 export const PlayerBox: React.FC<Props> = (props: Props) => {
-	const [profilePicturesRep] = useReplicant<Asset[]>('assets:playerIcons', []);
+	const [profilePicturesRep] = useReplicant<Asset[]>(
+		'assets:playerIcons',
+		[],
+	);
 	const [dialogOpen, setDialogOpen] = useState(false);
 	const [localPfp, setLocalPfp] = useState('');
 	const [localCountry, setLocalCountry] = useState('');
@@ -107,7 +120,12 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 		return (
 			<MenuItem key={pfp.base} value={pfp.url}>
 				<img
-					style={{ height: 50, width: 'auto', objectFit: 'scale-down', marginRight: 10 }}
+					style={{
+						height: 50,
+						width: 'auto',
+						objectFit: 'scale-down',
+						marginRight: 10,
+					}}
 					src={pfp.url}
 				/>
 				{pfp.name}
@@ -116,11 +134,21 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 	});
 
 	const urlsOfPfps = profilePicturesRep.map((pfp) => pfp.url);
-	if (props.extraPlayer?.image && !urlsOfPfps.includes(props.extraPlayer.image)) {
+	if (
+		props.extraPlayer?.image &&
+		!urlsOfPfps.includes(props.extraPlayer.image)
+	) {
 		profilePicsMap.push(
-			<MenuItem key={props.extraPlayer.image} value={props.extraPlayer.image}>
+			<MenuItem
+				key={props.extraPlayer.image}
+				value={props.extraPlayer.image}>
 				<img
-					style={{ height: 50, width: 'auto', objectFit: 'scale-down', marginRight: 10 }}
+					style={{
+						height: 50,
+						width: 'auto',
+						objectFit: 'scale-down',
+						marginRight: 10,
+					}}
 					src={props.extraPlayer.image}
 				/>
 				<em>External Image</em>
@@ -150,15 +178,24 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 		const playerId = props.player.steamId;
 
 		if (localName !== props.extraPlayer?.name) {
-			nodecg.sendMessage('updatePlayerName', { id: playerId, name: localName });
+			nodecg.sendMessage('updatePlayerName', {
+				id: playerId,
+				name: localName,
+			});
 		}
 
 		if (localPfp !== props.extraPlayer?.image) {
-			nodecg.sendMessage('updatePlayerProfilePicture', { id: playerId, url: localPfp });
+			nodecg.sendMessage('updatePlayerProfilePicture', {
+				id: playerId,
+				url: localPfp,
+			});
 		}
 
 		if (localCountry !== props.extraPlayer?.country) {
-			nodecg.sendMessage('updatePlayerCountry', { id: playerId, country: localCountry });
+			nodecg.sendMessage('updatePlayerCountry', {
+				id: playerId,
+				country: localCountry,
+			});
 		}
 	};
 
@@ -172,15 +209,27 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 	return (
 		<Container container alignItems="center">
 			<PlayerImage
-				src={props.extraPlayer?.image || '../shared/media/MissingProfileImage.png'}
+				src={
+					props.extraPlayer?.image ||
+					'../shared/media/MissingProfileImage.png'
+				}
 			/>
-			<DataBox container direction="column" justify="space-around" item xs>
-				<Grid item>
-					<ObservationSlot>{props.player.observer_slot}</ObservationSlot>
-					<span>{props.player.name}</span>
+			<DataBox
+				container
+				direction="column"
+				justify="space-around"
+				item
+				xs>
+				<Grid item container>
+					<ObservationSlot>
+						{props.player.observer_slot}
+					</ObservationSlot>
+					<Username text={props.player.name} />
 				</Grid>
 				<Grid item container alignItems="center">
-					<TwemojiBox>{props.extraPlayer?.country || 'N/A'}</TwemojiBox>
+					<TwemojiBox>
+						{props.extraPlayer?.country || 'N/A'}
+					</TwemojiBox>
 					<span>{props.extraPlayer?.name || <em>No Name</em>}</span>
 				</Grid>
 				<Grid item>
@@ -193,7 +242,10 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 			</DataBox>
 
 			{/* Profile Settings Dialog */}
-			<Dialog open={dialogOpen} onClose={(): void => setDialogOpen(false)} fullWidth>
+			<Dialog
+				open={dialogOpen}
+				onClose={(): void => setDialogOpen(false)}
+				fullWidth>
 				<DialogTitle>Editing {props.player.name}</DialogTitle>
 				<SpacedDialogContent>
 					<FormControl variant="filled" fullWidth>
@@ -201,7 +253,9 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 						<Select
 							labelId="pfpLabel"
 							value={localPfp || props.extraPlayer?.image}
-							onChange={(e): void => setLocalPfp(e.target.value as string)}>
+							onChange={(e): void =>
+								setLocalPfp(e.target.value as string)
+							}>
 							{profilePicsMap}
 						</Select>
 					</FormControl>
@@ -211,7 +265,9 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 						<Select
 							labelId="countryLabel"
 							value={localCountry}
-							onChange={(e): void => setLocalCountry(e.target.value as string)}>
+							onChange={(e): void =>
+								setLocalCountry(e.target.value as string)
+							}>
 							{flagListMap}
 						</Select>
 					</FormControl>
@@ -219,7 +275,9 @@ export const PlayerBox: React.FC<Props> = (props: Props) => {
 					<TextField
 						label="Name"
 						value={localName}
-						onChange={(e): void => setLocalName(e.target.value as string)}
+						onChange={(e): void =>
+							setLocalName(e.target.value as string)
+						}
 					/>
 				</SpacedDialogContent>
 				<DialogActions>
