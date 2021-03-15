@@ -70,13 +70,13 @@ function updateTeamPreset(newVal: Asset[]): void {
 			try {
 				const teamsJSON = JSON.parse(jsonString);
 				if (teamsJSON.teams) {
-					teamsJSON.teams.forEach((team: TeamMeta) => {
+					Object.values<TeamMeta>(teamsJSON.teams).forEach((team: TeamMeta) => {
 						newTeamPresets.teams[team.name] = team;
 					});
 				}
 
 				if (teamsJSON.players) {
-					teamsJSON.players.forEach((player: Player) => {
+					Object.values<Player>(teamsJSON.players).forEach((player: Player) => {
 						newTeamPresets.players[player.steamId] = player;
 					});
 				}
