@@ -216,6 +216,7 @@ server.on('close', () => {
 });
 
 server.listen(nodecg.bundleConfig.port, nodecg.config.host);
+bundleStatus.value.isServerOn = true;
 
 // Map data here as it is as I want to minimise the time it take for the data to be processed
 function mapData(allPlayerData: CSGOAllplayer[], observingId?: string) {
