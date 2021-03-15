@@ -45,13 +45,9 @@ export const Server: React.FunctionComponent = () => {
 	}
 
 	useEffect(() => {
-		if (!bundleStatus) {
-			return;
-		}
+		if (!bundleStatus) return;
 
-		if (serverBtn && serverBtn.current) {
-			serverBtn.current.toggleButton(bundleStatus.isServerOn);
-		}
+		if (serverBtn.current) serverBtn.current.toggleButton(bundleStatus.isServerOn);
 	}, [bundleStatus]);
 
 	return (
