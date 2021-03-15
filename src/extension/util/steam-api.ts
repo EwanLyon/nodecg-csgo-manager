@@ -17,6 +17,8 @@ export async function getProfilePicture(steamid: string): Promise<{ id: string; 
 		return json.response.players.map((player: Record<string, unknown>) => {
 			return { id: player.steamid, pfp: player.avatarfull };
 		});
+	} else {
+		nodecg.log.error('No Steam API Key')
 	}
 
 	return [];
@@ -51,6 +53,8 @@ export async function getProfileData(steamids: string[]): Promise<SteamProfileDa
 				realname: player.realname,
 			} as SteamProfileData;
 		});
+	} else {
+		nodecg.log.error('No Steam API Key')
 	}
 
 	return [];
