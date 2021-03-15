@@ -97,7 +97,8 @@ const DashSchedule: React.FC = () => {
 	);
 
 	function AddGame() {
-		nodecg.sendMessage('createNewMatch', { teamA, teamB, time, matchType } as NewMatch);
+		const scheduleTime = time || '';
+		nodecg.sendMessage('createNewMatch', { teamA, teamB, time: scheduleTime, matchType } as NewMatch);
 	}
 
 	function onDragEnd(result: DropResult) {
@@ -145,7 +146,6 @@ const DashSchedule: React.FC = () => {
 					</Grid>
 					<Grid item xs={2}>
 						<TextField
-							required
 							label="Time"
 							value={time}
 							style={{ margin: '0 10px' }}
@@ -171,7 +171,7 @@ const DashSchedule: React.FC = () => {
 					<GreenButtonExtra
 						variant="contained"
 						onClick={AddGame}
-						disabled={!teamA || !teamB || !time}>
+						disabled={!teamA || !teamB}>
 						+
 					</GreenButtonExtra>
 				</Grid>
