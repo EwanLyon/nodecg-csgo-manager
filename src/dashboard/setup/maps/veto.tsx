@@ -38,12 +38,6 @@ const Divider = styled.div`
 	margin: 8px 0;
 `;
 
-const SelectNoMaxHeight = styled(Select)`
-	& .MuiMenu-paper {
-		max-height: 100%;
-	}
-`;
-
 const mapNames = ['Dust2', 'Inferno', 'Mirage', 'Nuke', 'Overpass', 'Train', 'Vertigo'];
 
 const reorder = (list: unknown[], startIndex: number, endIndex: number) => {
@@ -134,7 +128,7 @@ const DashVeto: React.FC = () => {
 					<Grid item xs={4}>
 						<FormControl variant="filled" fullWidth>
 							<InputLabel id="teamVeto">Team</InputLabel>
-							<SelectNoMaxHeight
+							<Select
 								labelId="teamVeto"
 								value={teamSelected}
 								onChange={(e): void => setTeamSelected(e.target.value as string)}>
@@ -169,7 +163,7 @@ const DashVeto: React.FC = () => {
 								<MenuItem key="Server" value="Server">
 									Server
 								</MenuItem>
-							</SelectNoMaxHeight>
+							</Select>
 						</FormControl>
 					</Grid>
 					<Grid
