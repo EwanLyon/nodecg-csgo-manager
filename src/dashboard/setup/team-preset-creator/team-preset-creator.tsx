@@ -175,10 +175,6 @@ export const TeamPresetCreator: React.FC = () => {
 				setLocalTeamName(foundTeamPreset.name);
 				setLocalLogo(foundTeamPreset.logo || '');
 			}
-		} else {
-			setLocalTeamAlias('');
-			setLocalTeamName('');
-			setLocalLogo('');
 		}
 	}, [localTeamPresetAlias, teamPresetsRep.teams, localTeamName]);
 
@@ -295,7 +291,7 @@ export const TeamPresetCreator: React.FC = () => {
 					<Select
 						labelId="teamPresetsLabel"
 						value={localTeamPresetAlias}
-						onChange={(e): void => setLocalTeamPresetAlias(e.target.value as string)}>
+						onChange={(e) => setLocalTeamPresetAlias(e.target.value as string)}>
 						<MenuItem key={-1} value={''}>
 							<em>Create new team</em>
 						</MenuItem>
@@ -306,7 +302,7 @@ export const TeamPresetCreator: React.FC = () => {
 					required
 					label="Name"
 					value={localTeamName}
-					onChange={(e): void => setLocalTeamName(e.target.value as string)}
+					onChange={(e) => setLocalTeamName(e.target.value as string)}
 					fullWidth
 				/>
 				<FormControl variant="filled" fullWidth>
@@ -314,7 +310,7 @@ export const TeamPresetCreator: React.FC = () => {
 					<Select
 						labelId="teamLabel"
 						value={localLogo}
-						onChange={(e): void => setLocalLogo(e.target.value as string)}>
+						onChange={(e) => setLocalLogo(e.target.value as string)}>
 						<MenuItem key={-1} value={''}>
 							<em>No Team Logo</em>
 						</MenuItem>
@@ -325,7 +321,7 @@ export const TeamPresetCreator: React.FC = () => {
 					required
 					label="Alias"
 					value={localTeamAlias}
-					onChange={(e): void => setLocalTeamAlias(e.target.value as string)}
+					onChange={(e) => setLocalTeamAlias(e.target.value as string)}
 					fullWidth
 				/>
 				<Button
@@ -344,7 +340,7 @@ export const TeamPresetCreator: React.FC = () => {
 					<Select
 						labelId="playerPresetsLabel"
 						value={steamId}
-						onChange={(e): void => setSteamId(e.target.value as string)}>
+						onChange={(e) => setSteamId(e.target.value as string)}>
 						<MenuItem key={-1} value={''}>
 							<em>Create new player</em>
 						</MenuItem>
@@ -355,13 +351,13 @@ export const TeamPresetCreator: React.FC = () => {
 					required
 					label="SteamID"
 					value={steamId}
-					onChange={(e): void => setSteamId(e.target.value as string)}
+					onChange={(e) => setSteamId(e.target.value as string)}
 					fullWidth
 				/>
 				<TextField
 					label="Name"
 					value={localName}
-					onChange={(e): void => setLocalName(e.target.value as string)}
+					onChange={(e) => setLocalName(e.target.value as string)}
 					fullWidth
 				/>
 				<FormControl variant="filled" fullWidth>
@@ -369,7 +365,7 @@ export const TeamPresetCreator: React.FC = () => {
 					<Select
 						labelId="pfpLabel"
 						value={localPfp}
-						onChange={(e): void => setLocalPfp(e.target.value as string)}>
+						onChange={(e) => setLocalPfp(e.target.value as string)}>
 						<MenuItem key={-1} value={''}>
 							<em>No Profile Picture</em>
 						</MenuItem>
@@ -381,7 +377,7 @@ export const TeamPresetCreator: React.FC = () => {
 					<Select
 						labelId="countryLabel"
 						value={localCountry}
-						onChange={(e): void => setLocalCountry(e.target.value as string)}>
+						onChange={(e) => setLocalCountry(e.target.value as string)}>
 						{flagListMap}
 					</Select>
 				</FormControl>
