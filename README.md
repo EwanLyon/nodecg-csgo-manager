@@ -9,6 +9,7 @@
   <p align="center">
     <img alt="GitHub" src="https://img.shields.io/github/license/EwanLyon/nodecg-csgo-manager">
     <img alt="GitHub package.json version" src="https://img.shields.io/github/package-json/v/EwanLyon/nodecg-csgo-manager">
+    <img alt="Discord server" src="https://img.shields.io/discord/820887538519769099">
   </p>
 </p>
 
@@ -48,6 +49,8 @@ A way to connect to the CSGO Game State Integration using NodeCG. This bundle no
 This manager is still in its early stages and needs a lot of clean up and more features to properly work in a tournament. However it does currently work for single matches.
 
 If you use this you may see dev messages in the console log as this is pre v1.
+
+[Discord server](https://discord.gg/TuQMDdPAdQ)
 
 ### Built With
 
