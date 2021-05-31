@@ -152,7 +152,7 @@
     "typescript": "^4.1.4",
     "use-nodecg": "^0.4.0",
     "uuid": "^8.3.2",
-    "ws": "^7.4.3"
+    "ws": "^7.4.6"
   },
   "devDependencies": {
     "@types/deep-equal": "^1.0.1",
