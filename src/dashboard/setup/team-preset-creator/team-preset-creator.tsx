@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 /* eslint-disable-next-line */
-// @ts-ignore 
+// @ts-ignore
 import Twemoji from 'react-twemoji';
 import { render } from 'react-dom';
 import { useListenFor, useReplicant } from 'use-nodecg';
@@ -51,6 +51,7 @@ export const TeamPresetCreator: React.FC = () => {
 	const [localName, setLocalName] = useState('');
 	const [localPfp, setLocalPfp] = useState('');
 	const [localCountry, setLocalCountry] = useState('');
+	const [localCountryTeam, setLocalCountryTeam] = useState('');
 	const [localLogo, setLocalLogo] = useState('');
 	const [localTeamName, setLocalTeamName] = useState('');
 	const [localTeamAlias, setLocalTeamAlias] = useState('');
@@ -174,6 +175,7 @@ export const TeamPresetCreator: React.FC = () => {
 				setLocalTeamAlias(foundTeamPreset.alias);
 				setLocalTeamName(foundTeamPreset.name);
 				setLocalLogo(foundTeamPreset.logo || '');
+				setLocalCountryTeam(foundTeamPreset.country || '');
 			}
 		}
 	}, [localTeamPresetAlias, teamPresetsRep.teams, localTeamName]);
@@ -201,6 +203,7 @@ export const TeamPresetCreator: React.FC = () => {
 			name: localTeamName,
 			alias: localTeamAlias,
 			logo: localLogo,
+			country: localCountryTeam
 		});
 
 		setSnackbarMsg(`Added ${localName}`);
@@ -208,6 +211,7 @@ export const TeamPresetCreator: React.FC = () => {
 		setLocalTeamPresetAlias('');
 		setLocalTeamName('');
 		setLocalLogo('');
+		setLocalCountryTeam('');
 	}
 
 	function AddPlayer(): void {
@@ -315,6 +319,15 @@ export const TeamPresetCreator: React.FC = () => {
 							<em>No Team Logo</em>
 						</MenuItem>
 						{teamLogoList}
+					</Select>
+				</FormControl>
+				<FormControl variant="filled" fullWidth>
+					<InputLabel id="countryTeamLabel">Country</InputLabel>
+					<Select
+						labelId="countryTeamLabel"
+						value={localCountryTeam}
+						onChange={(e) => setLocalCountryTeam(e.target.value as string)}>
+						{flagListMap}
 					</Select>
 				</FormControl>
 				<TextField

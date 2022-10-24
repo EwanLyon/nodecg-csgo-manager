@@ -108,12 +108,13 @@ nodecg.listenFor('pushNewPlayerData', (player: TeamsPreset['players'][0]) => {
 	pushNewPlayerData(player);
 });
 
-nodecg.listenFor('newTeam', (data: { name: string; alias: string; logo?: string }) => {
+nodecg.listenFor('newTeam', (data: { name: string; alias: string; logo?: string; country?: string }) => {
 	nodecg.log.info('Adding ' + data.alias);
 	const teamObj: TeamMeta = {
 		alias: data.alias,
 		name: data.name,
 		logo: data.logo,
+		country: data.country,
 	};
 	// Clear undefined props
 	_.pickBy(teamObj, _.identity);

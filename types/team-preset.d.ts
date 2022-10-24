@@ -2,6 +2,7 @@ interface TeamMeta {
 	alias: string;
 	name: string;
 	logo?: string;
+	country?: string;
 }
 
 interface Player {
