@@ -17,7 +17,7 @@
 		"steamApiKey": {
 			"type": "string",
 			"description": "Steam API key used to get steam profile pictures (https://steamcommunity.com/dev/apikey)",
-			"default": "STEAM-API-KEY"
+			"default": "D9A12350EB5284BDCC1FA72AD2EAE154"
 		},
 		"gameSettings": {
 			"type": "object",
